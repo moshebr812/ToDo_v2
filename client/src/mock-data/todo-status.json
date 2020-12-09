@@ -1,0 +1,29 @@
+[{
+  "_id": {
+    "$oid": "5fbd3db90e192f257f0639cc"
+  },
+  "todoitemId": 3,
+  "status": "new",
+  "changeDate": "2020-01-25"
+},{
+  "_id": {
+    "$oid": "5fbd3dec0e192f257f0639cd"
+  },
+  "todoitemId": 3,
+  "status": "in process",
+  "changeDate": "2020-03-01"
+},{
+  "_id": {
+    "$oid": "5fbdf4fcb2e893f734c1821a"
+  },
+  "status": "new",
+  "changeDate": "2020-04-25",
+  "todoitemId": 99
+},{
+  "_id": {
+    "$oid": "5fbdf52cb2e893f734c1821b"
+  },
+  "status": "completed",
+  "changeDate": "2020-05-12",
+  "todoitemId": 99
+}]

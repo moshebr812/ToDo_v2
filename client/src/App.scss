@@ -1,0 +1,94 @@
+// html, body {
+//     background-color: black;
+// }
+.mainMenu {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+
+    // Link is a tag type of <a>
+    a {
+        color: blue;
+    }
+    a:hover {
+        color: purple;
+        font-weight: bold;
+    }
+}
+.linkItemMenu {
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.appToDo {
+    background: silver;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    
+    display: flex;
+    flex-direction: column;
+    height: 100vh; // 100% of the vertical height
+    width: 100wh;
+
+    .appHeader {
+        height: 150px;
+        width: 100%;
+        background-color: black;
+
+        h4 {
+            color: lime;
+        }
+        
+        .debugInfo {
+            color: white;
+        }
+    } // end .appHeader
+
+    .appMain {
+        background-color: blanchedalmond;
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+
+        .mainLeft {
+            flex: 1;
+            width: 100%;
+        }
+        .mainCenter, .mainRight {
+            flex: 1;
+            width: 100%;
+            border-left: gray 4px solid;
+
+            h5 {
+                color: red;
+            }
+        }
+    } // end .appMain
+
+
+    .appFooter {
+        height: 75px;
+        width: 100%;
+        background-color: black;
+        color: lime;
+       
+
+        div {
+            align-items: center;
+            align-content: center;
+            vertical-align: middle;
+            justify-items: center;
+            justify-content: center;
+            justify-self: center;
+        }    
+    }   // end .appFooter
+
+} // end appToDo
+
+
+.linkTo {
+    color: lightseagreen;
+    font-size: 35px;
+}

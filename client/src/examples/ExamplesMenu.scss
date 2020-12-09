@@ -1,0 +1,21 @@
+.examplesMenu {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    background-color: grey;
+    border: 3px dotted yellow;
+    width: 100vw;
+    height: 100vh;
+
+    h3 {
+        color: lime;
+        padding-left: 80px;
+        padding-right: 20px;
+        margin-right: 20px;
+    }
+
+    .exampleLink {
+        color: whitesmoke;
+        font-weight: bold;
+    }
+}

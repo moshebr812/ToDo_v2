@@ -1,0 +1,87 @@
+.mainMenu {
+    background-color: lightyellow;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.linkItemMenu {
+    margin-left: 20px;
+    padding-left: 20px;
+    color: blue;
+}
+
+.appToDo {
+    background: silver;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    
+    display: flex;
+    flex-direction: column;
+    height: 100vh; // 100% of the vertical height
+    width: 100wh;
+
+    .appHeader {
+        height: 150px;
+        width: 100%;
+        background-color: black;
+
+        h4 {
+            color: lime;
+        }
+        
+        .debugInfo {
+            color: white;
+        }
+    } // end .appHeader
+
+    .appMain {
+        background-color: blanchedalmond;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+
+        .mainLeft {
+            flex: 2;
+            width: 100%;
+            overflow: auto;
+        }
+        .mainCenter, .mainRight {
+            flex: 3;
+            width: 100%;
+            border-left: gray 4px solid;
+
+            h5 {
+                color: red;
+            }
+        }
+    } // end .appMain
+
+
+    .appFooter {
+        display: flex;
+        height: 75px;
+        width: 100%;
+        background-color: black;
+        color: lime;
+       
+
+        div {
+            align-items: center;
+            align-content: center;
+            vertical-align: middle;
+            justify-items: center;
+            justify-content: center;
+            justify-self: center;
+        }    
+    }   // end .appFooter
+
+} // end appToDo
+
+
+.linkTo {
+    color: lightseagreen;
+    font-size: 35px;
+}

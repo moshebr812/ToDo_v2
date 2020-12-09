@@ -1,0 +1,104 @@
+$big-width: 375px;
+// $big-width: 100px;
+
+$semi-width: ($big-width)/2;
+$label-default-width: 85px;
+$input-default-width: 140px;
+$div-height-single-line: 45px;
+
+.additionalInfo, .todoEditForm {
+    h4 {
+        color: blue;
+        background-color: blanchedalmond;
+    }
+}
+
+.todoEditForm {
+    background-color: lightseagreen;
+    // border: solid 2px green;
+    align-items: left;
+
+    fieldset {
+        border-color: white;
+        // ...
+        align-items: left;
+        align-content: left;
+        justify-content: left;
+        justify-items: left;
+
+        .todoEditFormDivLine {
+            display: flex;
+            // set minimum hieght
+            min-height: $div-height-single-line;
+            // border: 3px solid yellow;
+
+            // align vertical
+            align-items: center;
+
+            // horizotal align 
+            justify-content: flex-start;    
+            // padding-left: 20px;
+            padding-right: 20px;;    
+ 
+        } // end fieldset
+
+        label {
+            display: inline-block;
+            height: 25px;
+            width: $label-default-width;
+            margin-left: 10px;
+            // border: 1px solid red;
+            text-align: left;
+        }
+        .labelBlock {
+            display:block;
+        }
+
+        input, select {
+            padding-left: 5px;
+            width: $input-default-width; 
+            height: 20px;
+            // border: 3px lime dashed;
+        }
+        // until i understand why the same value for input and select behaves differently
+        select {
+            height: 28px;
+            width: ($input-default-width + 20px);
+
+        }
+
+        // ------------- the 3 buttons at the end of the form
+        .btnEditForm {
+            color: blue;
+            width: 70px;
+            height: 30px;
+            border-radius: 10px;
+            margin: 0 5px 0 5px;
+
+        }
+
+        .todoEditFormDivLine:last-child {
+            justify-content: center;
+        }
+    } // end .todoEditForm
+
+    legend {
+        text-align: left;
+        color: darkred;
+        font-weight: bold;
+    }
+    
+    .inputSemiWide {
+        width: $semi-width;
+    }
+    .inputWide {
+        width: $big-width;   
+    }
+
+    textarea {
+        // line height within the textarea
+        line-height: 12px;
+        display: block;
+        width: ($big-width + $label-default-width); // 400=wide + 100=label
+    }
+}

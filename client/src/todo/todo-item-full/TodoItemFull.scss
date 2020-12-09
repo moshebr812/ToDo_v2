@@ -1,0 +1,12 @@
+.itemFullInLine { 
+        background: lightgray;
+        // I don't want the border on right as I have the "Main Border"
+        margin: 0;
+        border: 1.5px solid grey;
+
+        label {
+            font-weight: bolder;
+            padding-left: 7px;;
+            padding-right: 5px;
+        }
+}

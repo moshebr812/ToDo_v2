@@ -1,0 +1,63 @@
+$small-button-height: 20px;
+$small-button-width: 35px;
+
+.todoList {
+    border: 2p dotted red;
+    width: 100%;
+    
+    h4 {
+        color: blue;
+        margin: 3px;
+        margin-bottom: 15px;
+    }
+
+    .todoListHeader {
+        color: blue;
+        padding: 0 30px 0 10px;
+    }
+    .btnListHeader {
+        height: 20px;
+        width: 60px;
+        border-radius: 7px;
+        margin-left: 10px;
+        color: blue;
+    }
+
+    .leftAlign {
+        text-align: left;
+    }
+
+    .divListHeader {
+        text-align: left;
+    }
+
+    .labelInHeader {
+        display: inline-block;
+        color: blue;
+        width: 110px;
+        font-weight: bold;
+    }
+
+    // .todoListScrollerContainer {
+        //   overflow: auto;
+    // }
+    
+    // added class name .todoToggleList so the line coloring toggle will NOT APPLY when I press Show Info
+    .todoToggleList:nth-child(odd) {
+        background-color: rgba(173, 221, 230, 0.60);
+    }
+
+    .todoToggleList:nth-child(even) {
+        background-color:skyblue;
+    }
+}
+
+
+// .inlineButton{
+//     color:red;
+//     font-weight: bold;
+//     height: $small-button-height;
+//     width: $small-button-width;
+//     margin-left: 20px;
+// }
+

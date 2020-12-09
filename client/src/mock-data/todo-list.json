@@ -1,0 +1,9 @@
+[ 
+    {"id":1,"title":"take dog for a walk","details":"walk gos 3 times a day","status":"in process","lastChangeDate": "2020-01-25"},
+    {"id":2,"title":"loundry","details":"white, black","status":"not started", "lastChangeDate": "2020-02-22"},
+    {"id":99,"title":"drink coffee","details":"time for a break man","status":"in process"},
+    {"id":3,"title":"bake a cake","details":"kids love it","status":"in process", "lastChangeDate": "2020-11-01"},
+    {"id":4,"title":"say hello","details":"welcome to all","status":"in process"},
+    {"id":75,"title":"shower end of day","details":"SHOWER","status":"done"}
+]
+    

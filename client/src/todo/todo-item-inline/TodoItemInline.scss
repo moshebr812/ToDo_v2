@@ -1,0 +1,67 @@
+$absolute-base-left: 250px; // was 300
+$dddw-column-width: 80px;
+$inline-button-width: 60px;
+$inline-button-left-margin: 12px;
+
+.todoItemInline {
+    height: auto;
+    text-align: left;
+    padding: 5px 0 5px 5px;
+    position: relative;
+}
+
+.InputSelect {
+    display: inline;
+}
+.statusLabel {
+    display: inline;
+    color: red;
+    position: absolute;
+    left: $absolute-base-left;
+    width: $dddw-column-width;
+    border: none;
+    background: none;
+    -webkit-appearance: none;
+}
+
+.priorityLabel {
+    display: inline;
+    color: black;
+    position: absolute;
+    left: ($absolute-base-left + $dddw-column-width);
+    width: $dddw-column-width;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+}
+
+.btnInline {
+    height: 20px;
+    width: $inline-button-width;
+    border-radius: 7px;
+    margin-left: $inline-button-left-margin;
+    color: blue;
+    position: absolute;
+    top: 5px;
+}
+
+.btnEdit {
+    left: ($absolute-base-left + 1.75*$dddw-column-width);// + $inline-button-left-margin) ;
+}
+.btnInfo {
+    left: ($absolute-base-left + $inline-button-width + 1.75*$dddw-column-width);
+}
+
+.btnDelete {
+    left: ($absolute-base-left + (2*$inline-button-width) + 1.75*$dddw-column-width);
+}
+// ===================================================
+.itemFullInLineSectionClosed {
+    display: none;
+}
+
+.itemFullInLineSectionOpened {
+    display: inherit;
+    background: lightgray;
+}
+ // ===================================================   
