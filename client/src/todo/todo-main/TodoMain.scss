@@ -18,10 +18,12 @@
     
     display: flex;
     flex-direction: column;
-    height: 100vh; // 100% of the vertical height
-    width: 100wh;
+    // height: 100vh; // 100% of the vertical height
+    // width: 100vw;
 
     .appHeader {
+        display: inline-block;
+        // display: flex;
         height: 150px;
         width: 100%;
         background-color: black;
@@ -38,10 +40,9 @@
     .appMain {
         background-color: blanchedalmond;
         display: flex;
-        flex: 1;
         flex-direction: row;
-        height: 100%;
-        width: 100%;
+        height: 90%;
+        // width: 100%;
 
         .mainLeft {
             flex: 2;

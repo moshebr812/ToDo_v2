@@ -113,9 +113,6 @@ routerSrv.get ('/:id', async (request, response) => {
 });
 
 
-// routerSrv.get ('/aggregateStatus', async (request, response) => {
-
-
 //post - create
 routerSrv.post ('/', async (request, response, next) => {
     let currDate=(new Date()).toDateString();
