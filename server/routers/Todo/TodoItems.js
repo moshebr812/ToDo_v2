@@ -62,9 +62,8 @@ routerSrv.get ('/', async (request, response) => {
     }
 });
 
-// routerSrv.get ('/api/todoitems/:id', async (request, response) => {
 routerSrv.get ('/:id', async (request, response) => {
-    // const todoitemID = parseInt(request.params.id);
+    
     const todoObjectID = request.params.id;
 
     console.log( `${'-'.repeat(40)}  .get() PATH = '/api/todoitems/:id'     params = ${JSON.stringify(request.params)}    using _id(ObjectID) :id = ${todoObjectID}`);
@@ -90,15 +89,7 @@ routerSrv.get ('/:id', async (request, response) => {
             .find ( {"_id": ObjectID.createFromHexString(todoObjectID)} )
             .exec();
             response.json (data);
-            // ({
-            //     debugInfo,
-            //     "status": {
-            //         "success":      true,
-            //         "numberOfRows": data.length,
-            //     },   
-            //     "data": data,
-            // })
-            
+           
     // } 
     // catch (err) {
     //     response.json ({
@@ -115,7 +106,6 @@ routerSrv.get ('/:id', async (request, response) => {
 
 //post - create
 routerSrv.post ('/', async (request, response, next) => {
-    let currDate=(new Date()).toDateString();
     
     console.log( `${'-'.repeat(40)}  .post() PATH = '/api/todoitems/'     new title = ${JSON.stringify(request.body.title)}`);
     
@@ -126,14 +116,12 @@ routerSrv.post ('/', async (request, response, next) => {
                             "params":   request.params,
                             "mongoose": ".insertMany(data)",
                         };
-    
     const newTodo = request.body;
     
     try {
         let new_id = new ObjectID();
         newTodo['_id'] = new_id;
 
-       
 
         const data = await TodoitemModel
             .insertMany (newTodo)
@@ -145,7 +133,7 @@ routerSrv.post ('/', async (request, response, next) => {
                 "todoId": newTodo._id,                  // 
                 "todoitemId": newTodo.id,       // human debug
                 "status": "NS",  // Not Started
-                "changeDate": getCurrentDate(),
+                "changeDate": newTodo.insertDate,  // populated on client on record todoitem
             }
         // const data2 = "test";
         const data2 = await  TodostatusModel

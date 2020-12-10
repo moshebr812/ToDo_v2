@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 // import from my code
 import './StatusHistoryList.scss';
 import { AppContextTodo } from '../../AppContext';
-
+import { convertDateFormat } from '../../general/input-elements/Dates';
 
 
 async function getStatusHistory(item_id) {
@@ -65,16 +65,16 @@ export function StatusHistoryList (props) {
                     </div>
 
                     {statusHist.map ((element, idx) => {
-                        return <div className="statusHistoryLine"> 
+                        return <div key={idx} className="statusHistoryLine"> 
                             <label type="text" className="idColumn">{idx+1}</label>
-                            <select key={idx} className="statusColumn statusSelect" name="status" disabled id="status" value={element.status}>
+                            <select key="999" className="statusColumn statusSelect" name="status" disabled id="status" value={element.status}>
                                 <option key="1" value="RO">Reopened</option>
                                 <option key="2" value="CMP">Completed</option>
                                 <option key="3" value="IP">In Process</option>
-                                <option key="4" value="NS">Not Started</option>
-                            </select>
-                            {/* <label type="text" className="statusColumn">{element.status}</label> */}
-                            <label type="text" className="changeDateColumn">{element.changeDate.substring(0,10)}</label>
+                                <option key="4" value="NS">Not Started</option>                            </select>
+                            
+                            {/* <label type="text" className="changeDateColumn">{convertDateFormat ((new Date()), 'FULL_1_NO_SEC')}</label> */}
+                            <label type="text" className="changeDateColumn">{element.changeDate.substring(0,10)+" "+element.changeDate.substring(11,16)}</label>
                        </div> 
                     })}
             </div>  

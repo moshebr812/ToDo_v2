@@ -16,20 +16,33 @@
 //                                       Pointer to Parent useForm() register object to included in onSubmit(data)
 // ============== element usage ========================================//
 
-import React from 'react'
+import {useState, useContext} from 'react';
 import './InputSelect.scss';
+import { AppContextTodo } from '../../AppContext';
 
 export function InputSelect (props) {
     
-    // const demoArray = [{value: "A", text: "Aaa"},{value: "B", text: "Bbb"},{value: "C", text: "Ccc", value: "reopen", text: "Re-Opened"}]
-    
-    // return  <select name={props.name} id={props.id} value={props.defaultValue} ref={props.register_object}
-    //         onChange={(e) => props.testValueChanged(e.target.value)}>
-    //         {demoArray.map ( (element, idx) => {
-    //             return <option key={idx} value={element.value}>{element.text}</option>
-    //         })}
-    // </select>
+    const contextTodo = useContext(AppContextTodo);
 
+    if ( contextTodo.isAddItemOpened) {
+        return  <div>
+            <label>{props.fieldLabel}</label>
+            <select name={props.fieldName} 
+                    id={props.fieldId}
+                    key={props.fieldId}
+                    defaultValue={props.selectedValue}
+                    onChange={props.onChangeSelectField}  
+                    ref={props.register}
+                    disabled={props.disabled}
+                    >
+                    {/* the actual render of the select/option drop down */}
+                    {props.optionsArray.map ( (item, idx) => {
+                        return <option key={idx+1} value={item.value}>{item.text}</option>
+                    })}
+            </select>
+        </div>
+    }
+    
     return  <div>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
@@ -37,8 +50,9 @@ export function InputSelect (props) {
                     // key is not passed, can use same unique value as 
                     key={props.fieldId}
                     // defaultValue={props.selectedValue} 
-                    value={props.selectedValue} 
-                    onChange={props.onChangeSelectField}  ref={props.register}
+                    value={props.selectedValue}
+                    onChange={props.onChangeSelectField}  
+                    ref={props.register}
                     disabled={props.disabled}
                     >
                     

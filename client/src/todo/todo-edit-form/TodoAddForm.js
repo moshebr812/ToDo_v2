@@ -1,6 +1,7 @@
 // read the following per how to apply Validations 
 //  https://react-hook-form.com/api
-
+//  https://react-hook-form.com/api#errors
+//  https://reedbarger.com/how-to-use-react-hook-form-for-dead-simple-forms/
 
 // try this link:
 //  https://medium.com/@everdimension/how-to-handle-forms-with-just-react-ac066c48bd4f
@@ -17,21 +18,40 @@ import { useForm } from 'react-hook-form';
 // Components
 import { InputSelect } from '../../general/input-elements/InputSelect';
 import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
+import { convertDateFormat } from '../../general/input-elements/Dates';
 
-import {Moment} from 'react-moment';
-// import moment from 'moment';
-
-// date_create: moment().format("DD-MM-YYYY hh:mm:ss")
-
-
-async function getTodoItem( ObjectId) {
-    const result = await fetch (`/api/todoitems/${ObjectId}`);
-    const data = await result.json();
-    console.log('from getTodoItem(ObjectId) return data.... = ' + ObjectId, data);
-    // Note it returns an Array of 1 element
-    return data;
+function isFieldNotEmpty  (fieldValue) {
+    // if fieldValue = null / undefined / "" will return false, else will return true
+    // alert (`isFieldEmpty /${fieldValue}/`);
+    if (fieldValue==="" || fieldValue==null || fieldValue==undefined) {
+        return false;
+    } else {
+        return true;
+    }
+    
+    // return fieldValue; // field is not empty 
 }
 
+function compareDates (D1, D2, errObject) {
+    console.log ('errObject', errObject);
+    // alert (`compareDates D1=${D1}  D2=${D2}`);
+    if (  (Date.parse(D2) - Date.parse(D1)) >= 0 ) {
+        // alert ('OK');    
+        return true;
+    } else {
+        // alert ('NOT OK');
+        return false;
+    }
+}
+
+function defaultEndDate () {
+    // get todays time in MS, add 7 Days in MS
+    let NextWeekInMS = Date.now() + 1000 * 60 *60 * 24 * 7;
+    let NextWeekDate = new Date (NextWeekInMS);
+    NextWeekDate = convertDateFormat (NextWeekDate, "SHORT_1");
+    return NextWeekDate;
+    
+}
 function closeForm(contextObject) {
     // close the form and loose changes
     contextObject.setIsAddItemOpened (false);
@@ -86,8 +106,10 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
 export function TodoAddForm (props) {
     
     const contextTodo = useContext(AppContextTodo);
-    const { register, handleSubmit, watch, errors } = useForm();
-
+    const { register, handleSubmit, watch, errors, getValues } = useForm({
+        mode: "onSubmit",
+    });
+    // useForm mode:  onBlur, onChange, onSubmit --> don't use onBlur, because if I did NOT enter on of the fields, onBlur did NOT fire and the submit will occur
 
     //  "register"          used to connect an input object to be part of the form result objects
     //  "handleSubmit"      will validate your inputs before invoking "onSubmit"
@@ -102,6 +124,8 @@ export function TodoAddForm (props) {
         alert (`Client -->> Submitting data of TodoAddForm \n action=${action}`);
         console.log(`Client -->> Submitting data of TodoAddForm \n action=${action}`, data);
 
+        // Add the insert time so we can stamp it in the Status History Table --> I don't hold this field on the Client
+        data['insertDate']=  convertDateFormat ((new Date),"FULL_1_NO_SEC");
         let updateStatus = {};
         try {
             updateStatus = await dbUpdateOneTodo(data, action, contextTodo.todo_IdInEditMode); // contextTodo.todo_IdInEditMode - will be "" when action="ADD"
@@ -153,25 +177,43 @@ export function TodoAddForm (props) {
                     <label>Title</label> 
                     {/* <input name="startDate" id="startDate" type="text" defaultValue={props.item.startDate} ref={register}></input>  */}
                     {/* <input name="title" className="inputWide" id="title" type="text" defaultValue={props.item.title}  */}
-                    <input name="title" className="inputWide" id="title" type="text" placeholder="type your task" defaultValue="" 
-                        ref={register}
+                    <input name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} id="title" type="text" placeholder="type your task" defaultValue={undefined} 
+                        ref={register ({
+                           require: true,
+                           validate: isFieldNotEmpty,
+                           minLength: 5,
+                           maxLength: 30}     
+                        )}
                     ></input> 
+                    {errors.title && errors.title.type==="required" && ( <span className="validationErrMessage"> Title is a required field</span> )}
+                    {errors.title && errors.title.type==="validate" && ( <span className="validationErrMessage"> Title can't be empty</span> )}
+                    {errors.title && (errors.title.type==="minLength" || errors.title.type==="maxLength") && 
+                        ( <span className="validationErrMessage">Title has be between 5 to 30 chars long</span> )}
+
+                    
                     
                 </div>
                 <hr></hr>
 
                 <div className="todoEditFormDivLine">
                     <label>Start Date</label>
-                    <input name="startDate" id="startDate" type="date" defaultValue="2020-12-31" ref={register}></input> 
+                    <input name="startDate" id="startDate" type="date" defaultValue={convertDateFormat((new Date()),'SHORT_1')} ref={register}></input> 
 
-                    <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue="NS" register={register}
+                    <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue="NS" selectedValue="NS" register={register}
                                  id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 
                 <div className="todoEditFormDivLine">
                     <label>End Date</label>
-                    <input name="endDate" id="endDate" type="date" defaultValue="2030-12-31" ref={register}></input> 
-                
+                    <input name="endDate" id="endDate" type="date" defaultValue={defaultEndDate()} className={errors.endDate?"requiredFieldError":""}
+                        ref={register ({
+                            require: true,
+                            validate: () => compareDates ( getValues('startDate'), getValues('endDate'), errors),
+                        })}>
+                    </input> 
+                    <br></br>
+                    {errors.endDate && errors.endDate.type==="validate" && ( <span className="validationErrMessage"> End Date should be equal or bigger than Start Date</span>)}
+
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue="3" register={register}
                                  id="priority" fieldName="priority" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                  </div>
@@ -194,14 +236,22 @@ export function TodoAddForm (props) {
                 <div className="todoEditFormDivLine">
                     {/* read only: for debug */}
                     <label className="">Debug id</label>
-                    <input name="id" type="number" defaultValue="" ref={register}></input>
+                    <input name="id" type="number" defaultValue="" className={errors.id?"requiredFieldError":""}
+                        ref={register( {
+                            require: true,
+                            validate: isFieldNotEmpty,
+                            min: 1
+                        } 
+                         )}></input>
+                         {errors.id && errors.id.type==="required" &&  <span className="validationErrMessage">"id" is a required field</span>}
+                         {errors.title && errors.title.type==="validate" && ( <span className="validationErrMessage"> "id" can't be empty</span> )}
+                         {errors.id && errors.id.type==="min" &&  <span className="validationErrMessage">"id" must be a positive number</span>}
                     <label>Mongodb _id</label>
                     <input className="inputSemiWide" disabled name="_id" type="text" defaultValue="" ref={register}></input>
                 </div>
 
 
                 <div className="todoEditFormDivLine">
-            
                     <button type="submit" className="btnEditForm" title="Save changes and close"
                         // this function must correlate by name to the function in the <form>
                         onClick={ ( () => {handleSubmit(onSubmit)})}
@@ -217,34 +267,3 @@ export function TodoAddForm (props) {
 
     </div>
 }
-
-
-// <label>Status</label> 
-// <select name="status" id="status" defaultValue={props.item.status} ref={register}>
-//     <option value="not started">Not Started</option>
-//     <option value="WIP">Work in Process</option>
-//     <option value="in process">In Process</option>
-//     <option value="done">Completed</option>
-//     <option value="reopen">Re-Opened</option>
-// </select>
-
-{/* <label>Priority</label>
-    <select className="selectInEditForm" name="priority" id="priority" defaultValue={props.item.priority} ref={register}>
-        <option value="Highest">Highest</option>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-        <option value="NTH">Nice to Have</option>
-    </select> */}
-
-
-
-
-    // <label>Complexity</label>
-    // {/* <input id="complexity" type="text" value={props.item.complexity}></input>      */}
-    // <select name="complexity" id="complexity" defaultValue={props.item.complexity} ref={register}>
-    //    <option value=""></option>
-    //    <option value="Tough">Tough</option>
-    //    <option value="Challenging">Challenging</option>
-    //    <option value="Simple">Simple</option>
-    // </select>

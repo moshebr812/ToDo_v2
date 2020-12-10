@@ -17,7 +17,7 @@ export function FunctionComponentParent (props) {
                           {value: "E", text: "Five"}, ];
 
   // fields 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const onChangePriorityHandler = ( (val) => {
     console.log (`from FunctionComponentParent.js \n  onChangePriorityHandler(val). `);

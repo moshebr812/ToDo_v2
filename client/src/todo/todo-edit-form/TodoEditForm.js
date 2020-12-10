@@ -84,10 +84,6 @@ export function TodoEditForm (props) {
             // console.log ('applying splice');
             tempArray.splice(index,1,data);
 
-            // temp workaround till I fing how to pass the properties of disabled fields as well
-
-            // tempArray[index]._id = props.item._id;
-            // tempArray[index].id = props.item.id;
             // console.log(tempArray);
             contextTodo.setTodoList (tempArray);
 
@@ -154,7 +150,7 @@ export function TodoEditForm (props) {
 
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.itemToEdit.status} 
-                                 id="status" fieldName="status" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler} ref={register}></InputSelect>
+                                 id="status" fieldName="status" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 {/* <hr></hr> */}
 
@@ -163,13 +159,13 @@ export function TodoEditForm (props) {
                     <input name="endDate" id="endDate" type="text" disabled={viewOnly} 
                         value={ (contextTodo.itemToEdit.endDate?contextTodo.itemToEdit.endDate:"").substring(0,10)} ref={register}></input> 
 
-                    <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.itemToEdit.priority} ref={register}
+                    <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.itemToEdit.priority} 
                                  id="priority" fieldName="priority" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 {/* <hr></hr> */}
 
                 <div className="todoEditFormDivLine">
-                    <InputSelect fieldLabel="Complexity" optionsArray={complexityOptions} selectedValue={contextTodo.itemToEdit.complexity} register={register}
+                    <InputSelect fieldLabel="Complexity" optionsArray={complexityOptions} selectedValue={contextTodo.itemToEdit.complexity} 
                                  id="complexity" fieldName="complexity" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 <hr></hr>

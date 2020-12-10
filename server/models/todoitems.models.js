@@ -44,7 +44,7 @@ const todoitemSchema = Schema ({
         type: Date,
         required: false,
     },
-    lastChangeDate: String,
+    insertDate: Date,
     required:   false,
 })
 

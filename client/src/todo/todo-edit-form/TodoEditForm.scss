@@ -102,3 +102,11 @@ $div-height-single-line: 45px;
         width: ($big-width + $label-default-width); // 400=wide + 100=label
     }
 }
+
+.requiredFieldError {
+    border: 3px red solid;
+}
+.validationErrMessage {
+    border: 2px red solid;
+    color: yellow;
+}
