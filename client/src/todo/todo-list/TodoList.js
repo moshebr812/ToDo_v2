@@ -14,19 +14,10 @@ async function refreshList(contextObject) {
 
 function openAddForm(contextObject) {
     // If form is opened in View Mode - close it
-    contextObject.setTodo_IdInEditMode ('');
-    contextObject.setTodo_TitleInEditMode ('');
-    contextObject.setItemToEdit({});
-    
     // If form is already opened in Add Mode --> do nothing 
     alert ('Switch to Add Form ');
-    contextObject.setIsAddItemOpened (true);
-
-
-    // 999
     contextObject.setTodoFormMode('ADD');
-    contextObject.setTodo_IdInEditMode ('');
-    contextObject.setItemToEdit({});
+    contextObject.setTodoInFocus({}); // Opening a new item
 }
 
 
@@ -41,7 +32,7 @@ async function getTodoList() {
 
 export function TodoList (props) {
         const now = JSON.stringify ( new Date() ).substring(1,11);
-
+        
         const contextTodo = useContext (AppContextTodo);
 
         useEffect ( () => {
@@ -75,18 +66,14 @@ export function TodoList (props) {
             <strong className="todoListHeader">Total Items: {contextTodo.todoList.length}</strong>
             <button className="btnListHeader" onClick={()=>{openAddForm(contextTodo)}}>Add</button>
             <button className="btnListHeader" onClick={() =>{refreshList(contextTodo)}}>Refersh</button>
-            {/* 999 */}
+            
             <strong> Mode: {contextTodo.todoFormMode}</strong>
             <hr></hr>
             <div className="divListHeader">
-                <label className="labelInHeader">Editing Item:</label> 
-                    {contextTodo.todo_TitleInEditMode} 
-                    {contextTodo.itemToEdit._id ?  "     ( "+contextTodo.itemToEdit._id+" )":""}
-                <br></br>
-                <label className="labelInHeader">View Item:</label> 
-                    {contextTodo.todo_TitleInEditMode} 
-                    {contextTodo.itemToEdit._id ?  "     ( "+contextTodo.itemToEdit._id+" )":""}
-
+                <label className="labelInHeader">Focus on: </label>    
+                    {contextTodo.todoInFocus? 
+                        (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id): "..."}
+                   
             </div> 
             <div className="todoListScrollerContainer">
                 {

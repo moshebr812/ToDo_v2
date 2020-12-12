@@ -16,48 +16,23 @@ import { Welcome } from '../src/general/Welcome';
 import { ExamplesMenu } from '../src/examples/ExamplesMenu';
 
 export function App() {
-  const versionNumber = '0.1.8';
+  const versionNumber = '0.2.1';
 
   let [todoList, setTodoList] = useState ([]);
-  // todoIdInEditMode === '' -> it means none in edit mode. Am working with MongoDB ID
-  // if ()  -> true ->  it means user must 1st save / cancel before he can edit the next
-  let [todo_IdInEditMode, setTodo_IdInEditMode] = useState ('');
-  let [todo_TitleInEditMode, setTodo_TitleInEditMode] = useState ('');
-  let [itemToEdit, setItemToEdit] = useState({});
-  let [isAddItemOpened, setIsAddItemOpened] = useState(false);
-  let [itemInView, setItemInView] = useState({});
   
   let [todoFormMode, setTodoFormMode] = useState ('READ')
-
+  let [todoInFocus, setTodoInFocus] = useState ({})
   const fieldLablePlaceHolder = '###FieldLablePlaceHolder###'; 
-  
-  
+    
   const contextTodo = {
       versionNumber,
       fieldLablePlaceHolder,  // Not yet in use
       //
-      todoList,
-      setTodoList,
-      // while many items can be opened for view via "Info"
-      // only 1 Item at a time can be opened for view mode
-      // Eventually I can remove these 4 and use only "itemToEdit"
-      todo_IdInEditMode,
-      setTodo_IdInEditMode,
-      todo_TitleInEditMode,
-      setTodo_TitleInEditMode,
+      todoList,       setTodoList,
       //
-      itemToEdit,
-      setItemToEdit,
-      //
-      itemInView,
-      setItemInView,
+      todoFormMode,   setTodoFormMode,
       // 
-      isAddItemOpened,
-      setIsAddItemOpened,
-      // 999
-      todoFormMode,
-      setTodoFormMode
-
+      todoInFocus,    setTodoInFocus
    }
 
     return ( <AppContextTodo.Provider value={contextTodo}>

@@ -50,12 +50,9 @@ async function deleteTodo(contextObject, ObjectID, title) {     // Client Hanlde
                 contextObject.setTodoList ( tempArray);
             }
 
-            // If the item in Edit Mode is the Item we delete
-            if (contextObject.todo_IdInEditMode == ObjectID) {
-                console.log ('deleteTodo(). Item in "Edit Mode" = Item we delete. Clearing variables');
-                contextObject.setTodo_IdInEditMode('');
-                contextObject.setTodo_TitleInEditMode('');
-                contextObject.setItemToEdit({});
+            // If deleted item is in Focus: remove the pointer
+            if (contextObject.todoInFocus._id === ObjectID) {
+                contextObject.setTodoInFocus ({});
             }
         } 
 
@@ -70,7 +67,13 @@ export function TodoItemInline (props) {
 
     const contextTodo = useContext (AppContextTodo);
 
-    return <div className="todoItemInline">
+
+        //  +
+    //     (contextTodo.todoInFocus && contextTodo.todoInFocus._id && contextTodo.todoInFocus._id == props.item._id) ?
+    //     " highlightnedLine" : ""}>
+
+    return <div className={ (contextTodo.todoInFocus._id && contextTodo.todoInFocus._id == props.item._id)? "todoItemInline highlightnedLine " : "todoItemInline "}>
+
         <label> {props.idx}) </label>
         {props.item.title}
 
@@ -91,7 +94,6 @@ export function TodoItemInline (props) {
                              {value: 2, text: "Low"}, {value: 1, text: "Lowest"}] ; */}
         
         <select className="priorityLabel" name="priority" id="priority" disabled value={props.item.priority}>
-
             {priorityOptions.map ( (element, idx) => {
                 return <option key={idx} value={element.value}>{element.text}</option>
             })}
@@ -103,19 +105,16 @@ export function TodoItemInline (props) {
             onClick={()=> { 
                         // openEditForm(contextTodo, props.item)}
                         if (contextTodo.todoFormMode !=="READ") {
-                            alert (`Submit or Cancel the form currenly in ${contextTodo.todoFormMode}, \n then proceed`);
+                            alert (`Submit or Cancel the form currenly in ${contextTodo.todoFormMode} mode. \n then proceed`);
                             return 0;
                         }
-                        console.log (`TodoItemInline.js / onClick() props.item._id=${props.item._id}`);
-                        contextTodo.setTodo_IdInEditMode(props.item._id);
-                        contextTodo.setTodo_TitleInEditMode(props.item.title);
+                        console.log (`TodoItemInline.js / Edit.onClick() props.item._id=${props.item._id}`);
 
-                        contextTodo.setItemToEdit (props.item);
-                        // 999
                         contextTodo.setTodoFormMode('READ');
-                        console.log (`TodoItemInline.js / onClick() after setItemToEdit (props.item)`,contextTodo.itemToEdit );
+                        contextTodo.setTodoInFocus (props.item);
+                        console.log (`TodoItemInline.js -> onClick() after setTodoInFocus (props.item)`,contextTodo.todoInFocus );
 
-                    }} title="TBD how to edit inline">
+                    }} title="Edit: to view full details / edit. Info: inline overview. / delete: remove task.">
         Edit</button>
         
         {/* Info Button: opens inline */}
@@ -124,7 +123,6 @@ export function TodoItemInline (props) {
                     setIsOpen(false);
                 } else {
                     setIsOpen(true);
-                    // contextTodo.setTodoIdInFocus(element.id)
                     console.log ('from open ' + props.item.id);
                 }
             }} title="Expand, Collapse, TBD">  

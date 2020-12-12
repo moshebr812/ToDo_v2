@@ -29,26 +29,26 @@ export function StatusHistoryList (props) {
         useEffect ( () => {
             const dummyFunction = async () => {
                 // const result = await fetch('http://localhost:3002/api/todoitems');
-                const data = await getStatusHistory(contextTodo.todo_IdInEditMode);
+                const data = await getStatusHistory(contextTodo.todoInFocus._id);
                 // console.log (`from useEffect. Data from Mongoose ===>>>`, data);
                 setStatusHist (data);
             }    
             dummyFunction();
 
-        }, [contextTodo.todo_IdInEditMode]);
+        }, [contextTodo.todoInFocus._id]);
 
 
-        if (contextTodo.isAddItemOpened) { // screen should be closed as long as " IN Add Mode"
+        if (contextTodo.todoFormMode==="ADD") { // screen should be closed when Mode = "ADD"
             return <div></div>
         }
 
-        if (!contextTodo.todo_IdInEditMode) {
+        if ( !contextTodo.todoInFocus || contextTodo.todoInFocus._id==undefined) {
             return <div className="statusHistoryList">
                 No Item Selected
             </div>
         } else if (statusHist.length<=0) {
             return <div className="statusHistoryList">
-                Loading for task {contextTodo.itemToEdit.title}
+                Loading for task {contextTodo.todoInFocus.title}
             </div>
         }
 

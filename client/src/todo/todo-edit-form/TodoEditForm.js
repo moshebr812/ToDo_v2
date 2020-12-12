@@ -21,13 +21,10 @@ import { useForm } from 'react-hook-form';
 import { InputSelect } from '../../general/input-elements/InputSelect';
 import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
 
-function closeForm(contextObject, funcSetViewOnly) {
-    // close the form and loose changes
-    contextObject.setTodo_IdInEditMode ('');
-    contextObject.setTodo_TitleInEditMode ('');
-    contextObject.setItemToEdit({});
-    //// AT_WORK
-    funcSetViewOnly(true)
+function closeForm(contextObject) {
+   
+    contextObject.setTodoInFocus({});
+
     alert ('closeForm');
 }
 
@@ -55,11 +52,12 @@ export function TodoEditForm (props) {
     });
 
    
-    if (contextTodo.isAddItemOpened) { // screen should be closed as long as " IN Add Mode"
+    if (contextTodo.todoFormMode!=='READ') { // open secren only when in READ mode
         return <div></div>
     }
+    
     // Case we delete an Item that is now opened in "Edit From", the item becomes invalid and we crash
-    if (contextTodo.todo_IdInEditMode==="") { // || !props || !props.item) {
+    if ( !contextTodo.todoInFocus || contextTodo.todoInFocus._id==undefined) {
         return <div className="additionalInfo">
             <h4>Additional Info (TodoEditForm.js)</h4>
             <hr></hr>
@@ -76,14 +74,13 @@ export function TodoEditForm (props) {
         {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
-                <legend>{props.action} Task....:   {contextTodo.todo_TitleInEditMode}</legend>
+                <legend>{props.action} Task....:   {contextTodo.todoInFocus.title}</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
                     {/* list navigation works, but readOnly */}
                     <input name="title" className="inputWide" id="title" type="text" disabled={viewOnly} 
                     // defaultValue = {contextTodo.itemToEdit.title}
-                    value={contextTodo.itemToEdit.title}
-                    // value = {localCopy.title}
+                    value={contextTodo.todoInFocus.title}
                     ref={register}></input> 
                     {/* if I put this I can edit, but the refresh fails */}
                     {/* <input name="title" className="inputWide" id="title" type="text" defaultValue={contextTodo.itemToEdit.title} 
@@ -93,14 +90,14 @@ export function TodoEditForm (props) {
                 <div className="todoEditFormDivLine">
                     <label>Start Date</label>
                     <input name="startDate" id="startDate"  type="string" disabled={viewOnly} 
-                        value={(contextTodo.itemToEdit.startDate?contextTodo.itemToEdit.startDate:"").substring(0,10)}
+                        value={(contextTodo.todoInFocus.startDate?contextTodo.todoInFocus.startDate:"").substring(0,10)}
                         ref={register}></input> 
 
                     {/* <InputSelect fieldLabel="Status" optionsArray={statusOptionsArr} selectedValue={props.item.status} register={register}
                                  id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect> */}
 
 
-                    <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.itemToEdit.status} 
+                    <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
                                  id="status" fieldName="status" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 {/* <hr></hr> */}
@@ -108,15 +105,15 @@ export function TodoEditForm (props) {
                 <div className="todoEditFormDivLine">
                     <label>End Date</label>
                     <input name="endDate" id="endDate" type="text" disabled={viewOnly} 
-                        value={ (contextTodo.itemToEdit.endDate?contextTodo.itemToEdit.endDate:"").substring(0,10)} ref={register}></input> 
+                        value={ (contextTodo.todoInFocus.endDate?contextTodo.todoInFocus.endDate:"").substring(0,10)} ref={register}></input> 
 
-                    <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.itemToEdit.priority} 
+                    <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.todoInFocus.priority} 
                                  id="priority" fieldName="priority" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 {/* <hr></hr> */}
 
                 <div className="todoEditFormDivLine">
-                    <InputSelect fieldLabel="Complexity" optionsArray={complexityOptions} selectedValue={contextTodo.itemToEdit.complexity} 
+                    <InputSelect fieldLabel="Complexity" optionsArray={complexityOptions} selectedValue={contextTodo.todoInFocus.complexity} 
                                  id="complexity" fieldName="complexity" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 <hr></hr>
@@ -124,29 +121,27 @@ export function TodoEditForm (props) {
                 <div className="todoEditFormDivLine">
                     <label className="labelBlock">Details</label>
                     {/* <textarea   name="details" rows="4" className="inputWide" id="details" value={props.item.details}></textarea> */}
-                    <textarea   name="details" rows="4" id="details" disabled={viewOnly} value={contextTodo.itemToEdit.details} ></textarea>
+                    <textarea   name="details" rows="4" id="details" disabled={viewOnly} value={contextTodo.todoInFocus.details} ></textarea>
                 </div>    
                 <hr></hr>
 
                 <div className="todoEditFormDivLine">
                     {/* read only: for debug */}
                     <label className="">Debug id</label>
-                    <input disabled name="id" type="text" disabled={viewOnly} value={contextTodo.itemToEdit.id}></input>
+                    <input disabled name="id" type="text" disabled={viewOnly} value={contextTodo.todoInFocus.id}></input>
                     <label>Mongo _id</label>
-                    <input className="inputSemiWide" disabled name="_id" type="text" value={contextTodo.itemToEdit._id}></input>
+                    <input className="inputSemiWide" disabled name="_id" type="text" value={contextTodo.todoInFocus._id}></input>
                 </div>
 
                 <div className="todoEditFormDivLine">
 
                     <button type="button" className="btnEditForm" title="Close without saving changes"
                         onClick={(()=>{
-                            // 999
-                            // setViewOnly(false)
                             contextTodo.setTodoFormMode ('EDIT')
                         })}
                     >Edit</button>
                     <button type="button" className="btnEditForm" title="Close without saving changes"
-                        onClick={(()=>{closeForm(contextTodo,  setViewOnly)})}
+                        onClick={(()=>{closeForm(contextTodo)})}
                     >Close</button>
                 </div>          
           </fieldset>

@@ -53,8 +53,6 @@ function defaultEndDate () {
 
 function closeForm(contextObject) {
     // close the form and loose changes
-    contextObject.setIsAddItemOpened (false);
-    // 999
     contextObject.setTodoFormMode('READ');
     alert ('closeForm "Add"');
     return 0;
@@ -124,8 +122,9 @@ export function TodoAddForm (props) {
         _id: "",
     }
 
-    let itemAtWork = (contextTodo.todoFormMode ==='EDIT') ? contextTodo.itemToEdit : newItemDefaults;
-    if (contextTodo.todoFormMode ==='EDIT') {
+    let itemAtWork = (contextTodo.todoFormMode ==='EDIT') ? contextTodo.todoInFocus : newItemDefaults;
+    if (contextTodo.todoFormMode ==='EDIT' && itemAtWork.startDate ) {
+        // during the save this code is rendered twice and the if we don't check the field we crash
         itemAtWork.startDate =  itemAtWork.startDate.substring (0, 10);
         itemAtWork.endDate = itemAtWork.endDate.substring (0, 10);
     }
@@ -157,7 +156,7 @@ export function TodoAddForm (props) {
         
         let responseObject = {};
         try {
-            responseObject = await dbUpdateOneTodo(data, action, contextTodo.todo_IdInEditMode); // contextTodo.todo_IdInEditMode - will be "" when action="ADD"
+            responseObject = await dbUpdateOneTodo(data, action, contextTodo.todoInFocus._id); // _id - will be "" when action="ADD"
             console.log ('Client -->> after call "await dbUpdateOneTodo()". return object updateStatus: ' , responseObject);
         } catch (e) {
             console.log (`Client -->> FAILED To ${action} record.`.e);
@@ -185,13 +184,15 @@ export function TodoAddForm (props) {
                 // replace the updated row 
                 tempArray.splice (indexOfUpdated, 1, responseObject.todoItemData);
             }
-
-            alert (`need to merge into List ON UI. findIndex = ${indexOfUpdated}`);
         }
         contextTodo.setTodoList (tempArray);
-        contextTodo.setIsAddItemOpened (false);
-        // 999
+        contextTodo.setTodoInFocus ({})
         contextTodo.setTodoFormMode('READ');
+        
+        
+        console.log (`TodoAddForm.js onSubmit last line. action=${action}`);
+        // when we are in edit mode, we do not close the form, we only change back to mode READ !!!
+
     })
 
     // Example how to watch value of any of the registered input fields
@@ -203,8 +204,6 @@ export function TodoAddForm (props) {
         // console.log (` \n........name=${val.target.name} ......val=${val.target.value}`);
     });
 
-    // 999
-    // if (!contextTodo.isAddItemOpened) { // screen should be closed as long as not in Add Mode
     if (contextTodo.todoFormMode==="READ") {
         return <div></div>
     }

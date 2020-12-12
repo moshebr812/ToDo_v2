@@ -24,7 +24,7 @@ export function InputSelect (props) {
     
     const contextTodo = useContext(AppContextTodo);
 
-    if ( contextTodo.isAddItemOpened) {
+    if ( contextTodo.todoFormMode !="READ" ) {
         return  <div>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
