@@ -27,13 +27,14 @@ export function App() {
   let [isAddItemOpened, setIsAddItemOpened] = useState(false);
   let [itemInView, setItemInView] = useState({});
   
-  
-  const FieldLablePlaceHolder = '###FieldLablePlaceHolder###'; 
+  let [todoFormMode, setTodoFormMode] = useState ('READ')
+
+  const fieldLablePlaceHolder = '###FieldLablePlaceHolder###'; 
   
   
   const contextTodo = {
       versionNumber,
-      FieldLablePlaceHolder,  // Not yet in use
+      fieldLablePlaceHolder,  // Not yet in use
       //
       todoList,
       setTodoList,
@@ -52,7 +53,10 @@ export function App() {
       setItemInView,
       // 
       isAddItemOpened,
-      setIsAddItemOpened
+      setIsAddItemOpened,
+      // 999
+      todoFormMode,
+      setTodoFormMode
 
    }
 

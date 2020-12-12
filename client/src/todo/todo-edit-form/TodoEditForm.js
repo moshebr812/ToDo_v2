@@ -30,29 +30,8 @@ function closeForm(contextObject, funcSetViewOnly) {
     funcSetViewOnly(true)
     alert ('closeForm');
 }
-async function dbUpdateOneTodo (data, ObjectID) {   // Server Call
-    try {
-            console.log ('dbUpdateOneTodo().  New Title:' + data.title + ' / _id:' + ObjectID);
-            console.log(data);
-            const result = await fetch (`/api/todoitems/${ObjectID.toString()}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        },
-                    body: JSON.stringify(data)
-                })
-            const replyContent = await result.json();
-            return replyContent;        
-    } catch (error)     {
-            console.log ('dbUpdateOneTodo(). FAILED fetch (`/api/todoitems/:_id) .PUT \n', error);
-            console.log ('checking access to field SyntaxError', error.SyntaxError)
-            return error;
-    }
-}   // end deleteOntTodo
 
-function onChange(changedElement) {
-    console.log (changedElement.target.name, changedElement.target.value, changedElement.target.current.value);
-}
+
 export function TodoEditForm (props) {
     
     const [viewOnly, setViewOnly] = useState(true);
@@ -65,34 +44,6 @@ export function TodoEditForm (props) {
     //  "handleSubmit"      will validate your inputs before invoking "onSubmit"
     //  "watch"             function to which we pass a registered input field and see its content
     //  Note we MUST use defaultValue and not value to set an init value to a field
-
-    // This is the function called at the form level when we trigger the onSubmit 
-    const onSubmit = ( async (data) => {
-        // data DOES NOT include fields that are "disabled" --> id, _id. so I will need to user props.item.data
-        alert ('Submitting data of EditForm \n return \n\n AT_WORK ....', data);
-
-        data['testValue'] = "I am testing";
-        let updateStatus = await dbUpdateOneTodo(data, contextTodo.itemToEdit._id);
-        console.log ('updateStatus after calling dbUpdateOneTodo()' , updateStatus);
-
-        // update the main array
-        let tempArray = [...contextTodo.todoList];
-        
-        const index = tempArray.findIndex ( element => element._id === contextTodo.itemToEdit._id);
-        if (index >=0) {
-            // replace the relevant item if you found it in the Main Array
-            // console.log ('applying splice');
-            tempArray.splice(index,1,data);
-
-            // console.log(tempArray);
-            contextTodo.setTodoList (tempArray);
-
-            // to close the form
-            contextTodo.setTodo_IdInEditMode ('');
-            contextTodo.setTodo_TitleInEditMode ('');
-            contextTodo.setItemToEdit({});
-        }
-    })
 
     // Example how to watch value of any of the registered input fields
     // console.log('watch("title")', watch("title")); 
@@ -121,7 +72,7 @@ export function TodoEditForm (props) {
 
         {/* UPON SUBMIT -->> handleSubmit will validate the data, if all ok it will call function "onSubmit" and will pass it the data */}
         {/* in data we will see all input fields that were properly regitered */}
-        <form onSubmit={handleSubmit(onSubmit)}>      
+        <form>      
         {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
@@ -186,15 +137,13 @@ export function TodoEditForm (props) {
                 </div>
 
                 <div className="todoEditFormDivLine">
-                    {/* AT_WORK */}
-                    <button type="submit" className="btnEditForm" title="Save changes and close"
-                        // this function must correlate by name to the function in the <form>
-                        onClick={ ( () => {handleSubmit(onSubmit)})}
-                    >Save</button>
-                    {/* AT_WORK */}
+
                     <button type="button" className="btnEditForm" title="Close without saving changes"
                         onClick={(()=>{
-                            setViewOnly(false)})}
+                            // 999
+                            // setViewOnly(false)
+                            contextTodo.setTodoFormMode ('EDIT')
+                        })}
                     >Edit</button>
                     <button type="button" className="btnEditForm" title="Close without saving changes"
                         onClick={(()=>{closeForm(contextTodo,  setViewOnly)})}

@@ -167,7 +167,7 @@ routerSrv.put ('/:id', async (request, response) => {
                         };
     const filter = { "_id":ObjectID.createFromHexString(todoObjectID)};
     const update = request.body;
-    const options ={ new: true } ; // do I see the okd or new values of the updated element
+    const options ={ new: true } ; // do I see the old or new values of the updated element
     
     try {
         const data = await TodoitemModel
@@ -175,10 +175,13 @@ routerSrv.put ('/:id', async (request, response) => {
             .exec();
             response.json ({
                 debugInfo,
-                "data": data,
+                // same element as I set in POST
+                "todoItemData": data,
             });                    
     }  catch (e) {
         console.log(`FAILED ........put('/api/dotoitems/:_id')`,e);
+        // throw new Error("Server -->> FAIL TO ADD todoitem");
+        next(e);
     }
 });
 

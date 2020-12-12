@@ -7,10 +7,7 @@
 //  https://medium.com/@everdimension/how-to-handle-forms-with-just-react-ac066c48bd4f
 // <input type="submit" />
 
-//  PROJECT:    TODO_V1
-//  FILE:       TodoEditForm.js
-import { useContext, useEffect, useState } from 'react';
-// I am using a common scss with the Edit / View form
+import { useContext } from 'react';
 import './TodoEditForm.scss';   
 import { AppContextTodo } from '../../AppContext';
 // import React from 'react';
@@ -22,11 +19,7 @@ import { convertDateFormat } from '../../general/helpers/Dates';
 // This is my Error Message Object
 import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
 
-
-// I want my external functions to have access to contextTodo
-
 function isFieldNotEmpty  (fieldValue) {
-    // if fieldValue = null / undefined / "" will return false, else will return true
     // alert (`isFieldEmpty /${fieldValue}/`);
     if (fieldValue==="" || fieldValue==null || fieldValue==undefined) {
         // I can set the message by returining it rather then returning false
@@ -38,11 +31,10 @@ function isFieldNotEmpty  (fieldValue) {
 
 function compareDates (D1, D2, D1Label, D2Label, errObject) {
     console.log ('errObject', errObject);
-    // alert (`compareDates D1=${D1}  D2=${D2}`);
 
     let isD2Empty = isFieldNotEmpty(D2);
     if ( isD2Empty != true ) {
-        return isD2Empty;
+        return isD2Empty;       // field is mandatory, so don't compare if empty
     }
     if (  (Date.parse(D2) - Date.parse(D1)) >= 0 ) {
         // alert ('OK');    
@@ -54,16 +46,16 @@ function compareDates (D1, D2, D1Label, D2Label, errObject) {
 }
 
 function defaultEndDate () {
-    // get todays time in MS, add 7 Days in MS
-    let NextWeekInMS = Date.now() + 1000 * 60 *60 * 24 * 7;
-    let NextWeekDate = new Date (NextWeekInMS);
-    NextWeekDate = convertDateFormat (NextWeekDate, "SHORT_1");
-    return NextWeekDate;
+    let with5Days_MS = Date.now() + 1000 * 60 *60 * 24 * 7;     // get todays time in MS, add 5 Days in MS
+    let with5Days_Date = new Date (with5Days_MS);
+    return convertDateFormat (with5Days_Date, "SHORT_1");;
 }
 
 function closeForm(contextObject) {
     // close the form and loose changes
     contextObject.setIsAddItemOpened (false);
+    // 999
+    contextObject.setTodoFormMode('READ');
     alert ('closeForm "Add"');
     return 0;
 }
@@ -72,6 +64,7 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
     //  data:       the data from the form submission
     //  action:     support Add = POST & Edit = PUT
     
+    console.log ('PPPPPPPPPPPPPPPPPPP ---- PPPPPPPPPPPP');
     try {
             console.log(`Client -->> dbUpdateOneTodo().  action: ${action}  ObjectID: ${ObjectID}`);
             console.log (`-------->> Title:  ${data.title}`);
@@ -97,7 +90,6 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
                     })
             }   else {
                 console.log ('Client -->> invalid action type');
-                // throw 'invald action type';
             }        
             
             const replyContent = await result.json();
@@ -119,6 +111,25 @@ export function TodoAddForm (props) {
     const { register, handleSubmit, watch, errors, getValues } = useForm({
         mode: "onSubmit",
     });
+
+    const newItemDefaults =  {
+        title: "...",
+        startDate: defaultEndDate(),
+        Status: "RO",
+        endDate: defaultEndDate(),
+        priority: 1,
+        complexity: "S", 
+        details: "",
+        id: -9,
+        _id: "",
+    }
+
+    let itemAtWork = (contextTodo.todoFormMode ==='EDIT') ? contextTodo.itemToEdit : newItemDefaults;
+    if (contextTodo.todoFormMode ==='EDIT') {
+        itemAtWork.startDate =  itemAtWork.startDate.substring (0, 10);
+        itemAtWork.endDate = itemAtWork.endDate.substring (0, 10);
+    }
+
     // useForm mode:  onBlur, onChange, onSubmit --> don't use onBlur, because if I did NOT enter on of the fields, onBlur did NOT fire and the submit will occur
 
     //  "register"          used to connect an input object to be part of the form result objects
@@ -129,33 +140,58 @@ export function TodoAddForm (props) {
     // This is the function called at the form level when we trigger the onSubmit 
     const onSubmit = ( async (data) => {
         // data DOES NOT include fields that are "disabled" --> id, _id. so I will need to user props.item.data
-        let action = contextTodo.isAddItemOpened?"ADD":"EDIT";
         
+        let action = contextTodo.todoFormMode;
+
         alert (`Client -->> Submitting data of TodoAddForm \n action=${action}`);
-        console.log(`Client -->> Submitting data of TodoAddForm \n action=${action}`, data);
+        console.log(`Client -->> Before fix: Submitting data of TodoAddForm \n action=${action}`, data);
 
         // Add the insert time so we can stamp it in the Status History Table --> I don't hold this field on the Client
         data['insertDate']=  convertDateFormat ((new Date),"FULL_1_NO_SEC");
-        let updateStatus = {};
+        if (action=="EDIT") {
+            // need to add _id to the data element as the field is disabled
+            data['_id'] = itemAtWork._id
+        }
+
+        console.log(`Client -->> After  fix: Submitting data of TodoAddForm \n action=${action}`, data);
+        
+        let responseObject = {};
         try {
-            updateStatus = await dbUpdateOneTodo(data, action, contextTodo.todo_IdInEditMode); // contextTodo.todo_IdInEditMode - will be "" when action="ADD"
-            console.log ('Client -->> updateStatus after calling dbUpdateOneTodo()' , updateStatus);
+            responseObject = await dbUpdateOneTodo(data, action, contextTodo.todo_IdInEditMode); // contextTodo.todo_IdInEditMode - will be "" when action="ADD"
+            console.log ('Client -->> after call "await dbUpdateOneTodo()". return object updateStatus: ' , responseObject);
         } catch (e) {
             console.log (`Client -->> FAILED To ${action} record.`.e);
             alert ('Failed to Add Task');
-            return -1;
+            throw new Error (e) ; //return -1;
         }    
 
         
+        // POST --> uses insertMany --> returns data[]
+        // PUT -->  uses findOneAndUpdate --> returns data{}
         // update the main array
         let tempArray = [...contextTodo.todoList];
         // In structure of updateStatus I return 3 elements: 
-                //debugInfo,
+                //debugInfo,               
                 //"todoItemData": data,
                 //"todoStatusData": data2
-        tempArray.unshift (updateStatus.todoItemData[0]);
+        if ( action ==="ADD" ) {
+            tempArray.unshift (responseObject.todoItemData[0]);
+        } else if ( action === "EDIT" ) {
+            let indexOfUpdated = tempArray.findIndex (element => element._id==itemAtWork._id);
+            if (indexOfUpdated<0) {
+                // failed to locate the updated row in the list
+                alert('failed to update listArray after Update');
+            } else {
+                // replace the updated row 
+                tempArray.splice (indexOfUpdated, 1, responseObject.todoItemData);
+            }
+
+            alert (`need to merge into List ON UI. findIndex = ${indexOfUpdated}`);
+        }
         contextTodo.setTodoList (tempArray);
         contextTodo.setIsAddItemOpened (false);
+        // 999
+        contextTodo.setTodoFormMode('READ');
     })
 
     // Example how to watch value of any of the registered input fields
@@ -167,8 +203,9 @@ export function TodoAddForm (props) {
         // console.log (` \n........name=${val.target.name} ......val=${val.target.value}`);
     });
 
-    
-    if (!contextTodo.isAddItemOpened) { // screen should be closed as long as not in Add Mode
+    // 999
+    // if (!contextTodo.isAddItemOpened) { // screen should be closed as long as not in Add Mode
+    if (contextTodo.todoFormMode==="READ") {
         return <div></div>
     }
 
@@ -182,10 +219,10 @@ export function TodoAddForm (props) {
         {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
-                <legend>{props.action} Task</legend>
+                <legend>{contextTodo.todoFormMode} - Task</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
-                    <input name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} id="title" type="text" placeholder="type your task" defaultValue={undefined} 
+                    <input name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} id="title" type="text" placeholder="type your task" defaultValue={itemAtWork.title} 
                         ref={register ({
                            require: {
                                value: true,
@@ -202,6 +239,7 @@ export function TodoAddForm (props) {
                          && "Type: " + (errors.title.type) + "  Message: " + (errors.title.message)} */}
                     
                     {/* {errors.title && errors.title.type==="value" && ( <span className="validationErrMessage"> Title value is missing </span> )} */}
+            
                     {/* {errors.title && errors.title.type==="required" && ( <span className="validationErrMessage"> Title is a required field</span> )} */}
                     {/* {errors.title && errors.title.type==="validate" && ( <span className="validationErrMessage"> Title can't be empty</span> )} */}
                     {/* {errors.title && (errors.title.type==="minLength" || errors.title.type==="maxLength") &&  */}
@@ -211,15 +249,15 @@ export function TodoAddForm (props) {
 
                 <div className="todoEditFormDivLine">
                     <label>Start Date</label>
-                    <input name="startDate" id="startDate" type="date" defaultValue={convertDateFormat((new Date()),'SHORT_1')} ref={register}></input> 
+                    <input name="startDate" id="startDate" type="date" defaultValue={itemAtWork.startDate} ref={register}></input> 
 
-                    <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue="NS" selectedValue="NS" register={register}
+                    <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue={itemAtWork.status} selectedValue={itemAtWork.status} register={register}
                                  id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
                 
                 <div className="todoEditFormDivLine">
                     <label>End Date</label>
-                    <input name="endDate" id="endDate" type="date" defaultValue={defaultEndDate()} className={errors.endDate?"requiredFieldError":""}
+                    <input name="endDate" id="endDate" type="date" defaultValue={itemAtWork.endDate} className={errors.endDate?"requiredFieldError":""}
                         ref={register ({
                             require: {
                                 value: true,
@@ -231,11 +269,11 @@ export function TodoAddForm (props) {
                     <CustomizedErrorMsg errObject={errors} fieldName="endDate" fieldLabel="End Date"></CustomizedErrorMsg>
                     <br></br>
 
-                    <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue="3" register={register}
+                    <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={itemAtWork.priority} register={register}
                                  id="priority" fieldName="priority" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                  </div>
                  <div className="todoEditFormDivLine">
-                    <InputSelect fieldLabel="complexity" optionsArray={complexityOptions} selectedValue="C" register={register}
+                    <InputSelect fieldLabel="complexity" optionsArray={complexityOptions} selectedValue={itemAtWork.complexity} register={register}
                                  id="complexity" fieldName="complexity" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
 
                     {/* <Moment format="YYYY-MM-DD"></Moment> */}
@@ -245,7 +283,7 @@ export function TodoAddForm (props) {
                 <div className="todoEditFormDivLine">
                     <label className="labelBlock">Details</label>
                     {/* <textarea   name="details" rows="4" className="inputWide" id="details" value={props.item.details}></textarea> */}
-                    <textarea   name="details" rows="4" id="details" placeholder="type here details....." defaultValue="" ref={register}></textarea>
+                    <textarea   name="details" rows="4" id="details" placeholder="type here details....." defaultValue={itemAtWork.details} ref={register}></textarea>
                 </div>    
                 <hr></hr>
 
@@ -253,7 +291,7 @@ export function TodoAddForm (props) {
                 <div className="todoEditFormDivLine">
                     {/* read only: for debug */}
                     <label className="">Debug id</label>
-                    <input name="id" type="number" defaultValue="" className={errors.id?"requiredFieldError":""}
+                    <input name="id" type="number" defaultValue={itemAtWork.id} className={errors.id?"requiredFieldError":""}
                         ref={register( {
                             require: true,
 
@@ -262,7 +300,6 @@ export function TodoAddForm (props) {
                             min: {
                                 value: 1,
                                 messsage: "99"},
-                            max: 909,    
                         },
                          )}></input>
                          <CustomizedErrorMsg errObject={errors} fieldName="id" fieldLabel="Debug Id" min="1"></CustomizedErrorMsg>
@@ -272,7 +309,7 @@ export function TodoAddForm (props) {
                          {/* {errors.id && errors.id.type==="min" &&  <span className="validationErrMessage">"id" must be a positive number</span>} */}
 
                     <label>Mongodb _id</label>
-                    <input className="inputSemiWide" disabled name="_id" type="text" defaultValue="" ref={register}></input>
+                    <input className="inputSemiWide" disabled name="_id" type="text" defaultValue={itemAtWork._id} ref={register}></input>
                 </div>
 
 

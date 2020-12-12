@@ -21,7 +21,15 @@ function openAddForm(contextObject) {
     // If form is already opened in Add Mode --> do nothing 
     alert ('Switch to Add Form ');
     contextObject.setIsAddItemOpened (true);
+
+
+    // 999
+    contextObject.setTodoFormMode('ADD');
+    contextObject.setTodo_IdInEditMode ('');
+    contextObject.setItemToEdit({});
 }
+
+
 
 async function getTodoList() {
     // const result = await fetch ('https://jsonplaceholder.typicode.com/comments');
@@ -67,6 +75,8 @@ export function TodoList (props) {
             <strong className="todoListHeader">Total Items: {contextTodo.todoList.length}</strong>
             <button className="btnListHeader" onClick={()=>{openAddForm(contextTodo)}}>Add</button>
             <button className="btnListHeader" onClick={() =>{refreshList(contextTodo)}}>Refersh</button>
+            {/* 999 */}
+            <strong> Mode: {contextTodo.todoFormMode}</strong>
             <hr></hr>
             <div className="divListHeader">
                 <label className="labelInHeader">Editing Item:</label> 

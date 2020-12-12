@@ -59,7 +59,8 @@ export function CustomizedErrorMsg (props) {
             {showFullDetails?"-":"+"}</button>
         <br></br>
         <span className={showFullDetails?"":"displayNone"}>
-            Id: {props.fieldName}. / Label: {props.fieldLable}
+            Id: {props.fieldName} | 
+            Label: {props.fieldLabel} | 
             Type: {validationType}
          </span>
         {/* Type: Is Object Valid = { props.errObject[props.fieldName]? "VALID":"NOT VALID"}  */}

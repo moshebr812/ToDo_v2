@@ -1,0 +1,32 @@
+const contextTodo = {
+      versionNumber,
+      fieldLablePlaceHolder,  // Not yet in use
+      //
+      todoList,
+      setTodoList,
+      // while many items can be opened for view via "Info"
+      // only 1 Item at a time can be opened for view mode
+      // Eventually I can remove these 4 and use only "itemToEdit"
+      todo_IdInEditMode,
+      setTodo_IdInEditMode,
+      todo_TitleInEditMode,
+      setTodo_TitleInEditMode,
+      //
+      itemToEdit,    	-- KEEP
+      setItemToEdit,	-- KEEP
+      //
+      itemInView,
+      setItemInView,
+      // 
+      isAddItemOpened,
+      setIsAddItemOpened,
+      // 
+      todoFormMode,
+      setTodoFormMode
+	  // later rename "itemToEdit with itemInFocus
+
+   }
+
+
+
+

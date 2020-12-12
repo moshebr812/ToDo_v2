@@ -102,8 +102,8 @@ export function TodoItemInline (props) {
         <button className="btnInline btnEdit" 
             onClick={()=> { 
                         // openEditForm(contextTodo, props.item)}
-                        if (contextTodo.isAddItemOpened) {
-                            alert ('Submit or Cancel the form used for "Add Task", \n then proceed');
+                        if (contextTodo.todoFormMode !=="READ") {
+                            alert (`Submit or Cancel the form currenly in ${contextTodo.todoFormMode}, \n then proceed`);
                             return 0;
                         }
                         console.log (`TodoItemInline.js / onClick() props.item._id=${props.item._id}`);
@@ -111,6 +111,8 @@ export function TodoItemInline (props) {
                         contextTodo.setTodo_TitleInEditMode(props.item.title);
 
                         contextTodo.setItemToEdit (props.item);
+                        // 999
+                        contextTodo.setTodoFormMode('READ');
                         console.log (`TodoItemInline.js / onClick() after setItemToEdit (props.item)`,contextTodo.itemToEdit );
 
                     }} title="TBD how to edit inline">

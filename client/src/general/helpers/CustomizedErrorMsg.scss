@@ -4,10 +4,6 @@ div .validationErrObject {
     padding-left: 5px;
     padding-right: 5px;
     margin-left: 5px;
-    // align-items: flex-start;
-    // align-content: left;
-    // justify-items: flex-start;
-    // justify-content: left;
     text-align: left;
 
     .btnErrAdditionalInfo {
@@ -16,6 +12,7 @@ div .validationErrObject {
         color: blue;
         margin-left: 5px;
         margin-top: -4px;
+        background: yellow;
     }
 
     .btnErrAdditionalInfo:hover {
