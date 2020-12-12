@@ -9,6 +9,7 @@ $inline-button-left-margin: 12px;
     padding: 5px 0 5px 5px;
     position: relative;
 }
+
 .highlightnedLine {
     font-weight: 700; // 400 is normal
 }
@@ -66,5 +67,6 @@ $inline-button-left-margin: 12px;
 .itemFullInLineSectionOpened {
     display: inherit;
     background: lightgray;
+    font-weight: 400; // set to normal to overide the main line that is in focus with 700;
 }
  // ===================================================   

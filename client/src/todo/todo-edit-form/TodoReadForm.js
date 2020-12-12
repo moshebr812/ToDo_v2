@@ -13,7 +13,7 @@
 //  PROJECT:    TODO_V1
 //  FILE:       TodoEditForm.js
 import { useContext, useState } from 'react';
-import './TodoEditForm.scss';
+import './TodoForm.scss';
 import { AppContextTodo } from '../../AppContext';
 // import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,8 +28,7 @@ function closeForm(contextObject) {
     alert ('closeForm');
 }
 
-
-export function TodoEditForm (props) {
+export function TodoReadForm (props) {
     
     const [viewOnly, setViewOnly] = useState(true);
 
@@ -51,7 +50,6 @@ export function TodoEditForm (props) {
         console.log (` \n........name=${val.target.name} ......val=${val.target.value}`);
     });
 
-   
     if (contextTodo.todoFormMode!=='READ') { // open secren only when in READ mode
         return <div></div>
     }
@@ -68,13 +66,10 @@ export function TodoEditForm (props) {
         <h4>Additional Info (TodoEditForm.js)</h4>
         <hr></hr>
 
-        {/* UPON SUBMIT -->> handleSubmit will validate the data, if all ok it will call function "onSubmit" and will pass it the data */}
-        {/* in data we will see all input fields that were properly regitered */}
         <form>      
-        {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
-                <legend>{props.action} Task....:   {contextTodo.todoInFocus.title}</legend>
+                <legend>{props.action} Task:   {contextTodo.todoInFocus.title}</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
                     {/* list navigation works, but readOnly */}
@@ -96,11 +91,9 @@ export function TodoEditForm (props) {
                     {/* <InputSelect fieldLabel="Status" optionsArray={statusOptionsArr} selectedValue={props.item.status} register={register}
                                  id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect> */}
 
-
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
                                  id="status" fieldName="status" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
-                {/* <hr></hr> */}
 
                 <div className="todoEditFormDivLine">
                     <label>End Date</label>
@@ -110,7 +103,6 @@ export function TodoEditForm (props) {
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.todoInFocus.priority} 
                                  id="priority" fieldName="priority" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>
-                {/* <hr></hr> */}
 
                 <div className="todoEditFormDivLine">
                     <InputSelect fieldLabel="Complexity" optionsArray={complexityOptions} selectedValue={contextTodo.todoInFocus.complexity} 
@@ -126,7 +118,6 @@ export function TodoEditForm (props) {
                 <hr></hr>
 
                 <div className="todoEditFormDivLine">
-                    {/* read only: for debug */}
                     <label className="">Debug id</label>
                     <input disabled name="id" type="text" disabled={viewOnly} value={contextTodo.todoInFocus.id}></input>
                     <label>Mongo _id</label>
@@ -150,6 +141,3 @@ export function TodoEditForm (props) {
         </form>
     </div>
 }
-
-
-

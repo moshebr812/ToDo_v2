@@ -135,7 +135,7 @@ routerSrv.post ('/', async (request, response, next) => {
                 "status": "NS",  // Not Started
                 "changeDate": newTodo.insertDate,  // populated on client on record todoitem
             }
-        // const data2 = "test";
+       
         const data2 = await  TodostatusModel
             .insertMany (todoStatusRecord)            
             console.log ('Inserted 1 row into todostatus.  object = ',todoStatusRecord);
@@ -155,7 +155,7 @@ routerSrv.post ('/', async (request, response, next) => {
 
 
 // put - replace the full record
-routerSrv.put ('/:id', async (request, response) => {
+routerSrv.put ('/:id', async (request, response, next) => {
     const todoObjectID = request.params.id; // this is the mongodb _id field
     console.log( `${'-'.repeat(40)}  .put() PATH = '/api/todoitems/:id'     params = ${JSON.stringify(request.params)}    using _id (mongo ObjectID)  = ${todoObjectID}`);
     console.log ('put. request.body ==??', request.body);
@@ -169,15 +169,38 @@ routerSrv.put ('/:id', async (request, response) => {
     const update = request.body;
     const options ={ new: true } ; // do I see the old or new values of the updated element
     
+    let todoStatusRecord = {
+        "todoId": update._id,          // MongoId
+        "todoitemId": update.id,       // Human debug
+        "status": update.status,       // The new Status
+        "changeDate": update.insertDate,  // populated on client on record todoitem
+    }        
+    
     try {
+        let data2={} // case we insert a log into itemstatus table
+
         const data = await TodoitemModel
             .findOneAndUpdate ( filter, update, options )       // await Character.findOneAndUpdate(filter, update, options);
             .exec();
+
+            // if there was a status change, client adds 3 fields to the structure:
+                //data['insertDate']=  convertDateFormat ((new Date),"FULL_1_NO_SEC");
+                //data['insertStatusChange']=true;
+                //data['previousStatus']=itemAtWork.status;
+            if (update.insertStatusChange) {
+                
+               
+                console.log ('Going to insert 1 row to todostatus. object = ',todoStatusRecord);
+                data2 = await  TodostatusModel
+                    .insertMany (todoStatusRecord)            
+                
+            } // end insert status change into todostatus    
+
             response.json ({
                 debugInfo,
-                // same element as I set in POST
                 "todoItemData": data,
-            });                    
+                "todoStatusData": data2 });
+                       
     }  catch (e) {
         console.log(`FAILED ........put('/api/dotoitems/:_id')`,e);
         // throw new Error("Server -->> FAIL TO ADD todoitem");

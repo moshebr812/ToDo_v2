@@ -7,7 +7,7 @@ import {useContext} from 'react';
 import './TodoMain.scss';
 import { AppContextTodo } from '../../AppContext';
 import { TodoList } from '../todo-list/TodoList';
-import { TodoEditForm } from '../todo-edit-form/TodoEditForm';
+import { TodoReadForm } from '../todo-edit-form/TodoReadForm';
 import { TodoAddForm } from '../todo-edit-form/TodoAddForm';
 import { StatusHistoryList } from '../status-history/StatusHistoryList';
 
@@ -30,7 +30,7 @@ return (
 
       <div className="mainCenter">
           <TodoAddForm action="Add"></TodoAddForm>
-          <TodoEditForm action="View"></TodoEditForm>
+          <TodoReadForm action="View"></TodoReadForm>
           <StatusHistoryList></StatusHistoryList>
       </div>
 

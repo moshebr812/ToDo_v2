@@ -8,7 +8,7 @@
 // <input type="submit" />
 
 import { useContext } from 'react';
-import './TodoEditForm.scss';   
+import './TodoForm.scss';   
 import { AppContextTodo } from '../../AppContext';
 // import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,8 +20,7 @@ import { convertDateFormat } from '../../general/helpers/Dates';
 import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
 
 function isFieldNotEmpty  (fieldValue) {
-    // alert (`isFieldEmpty /${fieldValue}/`);
-    if (fieldValue==="" || fieldValue==null || fieldValue==undefined) {
+    if (fieldValue==="" || fieldValue===null || fieldValue===undefined) {
         // I can set the message by returining it rather then returning false
         return `###FieldLablePlaceHolder### mandatory field`;
     } else {
@@ -33,7 +32,7 @@ function compareDates (D1, D2, D1Label, D2Label, errObject) {
     console.log ('errObject', errObject);
 
     let isD2Empty = isFieldNotEmpty(D2);
-    if ( isD2Empty != true ) {
+    if ( isD2Empty !== true ) {
         return isD2Empty;       // field is mandatory, so don't compare if empty
     }
     if (  (Date.parse(D2) - Date.parse(D1)) >= 0 ) {
@@ -46,7 +45,7 @@ function compareDates (D1, D2, D1Label, D2Label, errObject) {
 }
 
 function defaultEndDate () {
-    let with5Days_MS = Date.now() + 1000 * 60 *60 * 24 * 7;     // get todays time in MS, add 5 Days in MS
+    let with5Days_MS = Date.now() + 1000 * 60 *60 * 24 * 5;     // get todays time in MS, add 5 Days in MS
     let with5Days_Date = new Date (with5Days_MS);
     return convertDateFormat (with5Days_Date, "SHORT_1");;
 }
@@ -61,12 +60,9 @@ function closeForm(contextObject) {
 async function dbUpdateOneTodo (data, action, ObjectID) { 
     //  data:       the data from the form submission
     //  action:     support Add = POST & Edit = PUT
-    
-    console.log ('PPPPPPPPPPPPPPPPPPP ---- PPPPPPPPPPPP');
+    console.log (`${"X".repeat(30)}  dbUpdateOneTodo()`);
     try {
             console.log(`Client -->> dbUpdateOneTodo().  action: ${action}  ObjectID: ${ObjectID}`);
-            console.log (`-------->> Title:  ${data.title}`);
-            // console.log(data);
             let result = {};
             if (action==='ADD') {
                 console.log ('Client -->> ACTION = ADD');
@@ -78,7 +74,10 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
                     body: JSON.stringify(data)
                 })
             } else if (action==='EDIT') {
-                console.log ('Client -->> ACTION = EDIT');    
+                console.log ('Client -->> ACTION = EDIT'); 
+                console.log (data);
+
+                console.log ('before await fetch (`/api/todoitems/${ObjectID.toString()} ');
                 result = await fetch (`/api/todoitems/${ObjectID.toString()}`, {
                         method: "PUT",
                         headers: {
@@ -96,7 +95,7 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
              
     } catch (error)     {
             console.log ('Client -->> dbUpdateOneTodo(). FAILED fetch (`/api/todoitems/:_id) .PUT \n', error);
-            alert ('Client -->> Failed to save.');
+            alert ('Client -->> Failed to save at     dbUpdateOneTodo() .');
             throw new Error(error);
     }
 
@@ -106,19 +105,20 @@ export function TodoAddForm (props) {
     
     const contextTodo = useContext(AppContextTodo);
     
-    const { register, handleSubmit, watch, errors, getValues } = useForm({
+    const { register, handleSubmit, watch, errors, getValues, formState } = useForm({
         mode: "onSubmit",
     });
+    const {isDirty, isSubmitting} = formState;
 
     const newItemDefaults =  {
-        title: "...",
-        startDate: defaultEndDate(),
-        Status: "RO",
+        title: "",
+        startDate: convertDateFormat( (new Date()) , "SHORT_1"),
+        status: "NS",
         endDate: defaultEndDate(),
         priority: 1,
         complexity: "S", 
         details: "",
-        id: -9,
+        id: "",
         _id: "",
     }
 
@@ -138,7 +138,7 @@ export function TodoAddForm (props) {
 
     // This is the function called at the form level when we trigger the onSubmit 
     const onSubmit = ( async (data) => {
-        // data DOES NOT include fields that are "disabled" --> id, _id. so I will need to user props.item.data
+        // data DOES NOT include fields that are "disabled" --> id, _id. --> I will add them
         
         let action = contextTodo.todoFormMode;
 
@@ -146,10 +146,17 @@ export function TodoAddForm (props) {
         console.log(`Client -->> Before fix: Submitting data of TodoAddForm \n action=${action}`, data);
 
         // Add the insert time so we can stamp it in the Status History Table --> I don't hold this field on the Client
-        data['insertDate']=  convertDateFormat ((new Date),"FULL_1_NO_SEC");
-        if (action=="EDIT") {
-            // need to add _id to the data element as the field is disabled
+        data['insertDate']=  convertDateFormat ((new Date()),"FULL_1_NO_SEC");
+        if (action==="EDIT") {
+            // need to add fields _id, id  to the data element - as these fields are disabled
             data['_id'] = itemAtWork._id
+            data['id'] = itemAtWork.id
+
+            // Status has changed. Send the Server the old status so it can insert a record to 
+            if (itemAtWork.status !== data.status) {
+                data['insertStatusChange']=true;
+                data['previousStatus']=itemAtWork.status;
+            }
         }
 
         console.log(`Client -->> After  fix: Submitting data of TodoAddForm \n action=${action}`, data);
@@ -157,14 +164,13 @@ export function TodoAddForm (props) {
         let responseObject = {};
         try {
             responseObject = await dbUpdateOneTodo(data, action, contextTodo.todoInFocus._id); // _id - will be "" when action="ADD"
-            console.log ('Client -->> after call "await dbUpdateOneTodo()". return object updateStatus: ' , responseObject);
+            console.log ('Client -->> after call "await dbUpdateOneTodo()". returned updateStatus: ' , responseObject);
         } catch (e) {
-            console.log (`Client -->> FAILED To ${action} record.`.e);
+            console.log (`Client -->> FAILED To ${action} record.`,e);
             alert ('Failed to Add Task');
             throw new Error (e) ; //return -1;
         }    
 
-        
         // POST --> uses insertMany --> returns data[]
         // PUT -->  uses findOneAndUpdate --> returns data{}
         // update the main array
@@ -174,9 +180,12 @@ export function TodoAddForm (props) {
                 //"todoItemData": data,
                 //"todoStatusData": data2
         if ( action ==="ADD" ) {
+
             tempArray.unshift (responseObject.todoItemData[0]);
+
         } else if ( action === "EDIT" ) {
-            let indexOfUpdated = tempArray.findIndex (element => element._id==itemAtWork._id);
+
+            let indexOfUpdated = tempArray.findIndex (element => element._id===itemAtWork._id);
             if (indexOfUpdated<0) {
                 // failed to locate the updated row in the list
                 alert('failed to update listArray after Update');
@@ -188,7 +197,6 @@ export function TodoAddForm (props) {
         contextTodo.setTodoList (tempArray);
         contextTodo.setTodoInFocus ({})
         contextTodo.setTodoFormMode('READ');
-        
         
         console.log (`TodoAddForm.js onSubmit last line. action=${action}`);
         // when we are in edit mode, we do not close the form, we only change back to mode READ !!!
@@ -218,7 +226,7 @@ export function TodoAddForm (props) {
         {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
-                <legend>{contextTodo.todoFormMode} - Task</legend>
+                <legend>{contextTodo.todoFormMode} - Task / isDirty={isDirty?"Yes":"No"}</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
                     <input name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} id="title" type="text" placeholder="type your task" defaultValue={itemAtWork.title} 
@@ -290,7 +298,9 @@ export function TodoAddForm (props) {
                 <div className="todoEditFormDivLine">
                     {/* read only: for debug */}
                     <label className="">Debug id</label>
-                    <input name="id" type="number" defaultValue={itemAtWork.id} className={errors.id?"requiredFieldError":""}
+                    <input name="id" type="number" defaultValue={itemAtWork.id} 
+                        className={errors.id?"requiredFieldError":""}
+                        disabled={contextTodo.todoFormMode !== "ADD"}
                         ref={register( {
                             require: true,
 
@@ -308,16 +318,19 @@ export function TodoAddForm (props) {
                          {/* {errors.id && errors.id.type==="min" &&  <span className="validationErrMessage">"id" must be a positive number</span>} */}
 
                     <label>Mongodb _id</label>
-                    <input className="inputSemiWide" disabled name="_id" type="text" defaultValue={itemAtWork._id} ref={register}></input>
+                    <input className="inputSemiWide" disabled name="_id" type="text" defaultValue={itemAtWork._id}
+                    ref={register}></input>
                 </div>
 
 
                 <div className="todoEditFormDivLine">
-                    <button type="submit" className="btnEditForm" title="Save changes and close"
+                    <button type="submit" className="btnEditForm" title="Save changes and close" 
+                        disabled={!isDirty}
                         // this function must correlate by name to the function in the <form>
                         onClick={ ( () => {handleSubmit(onSubmit)})}
                     >Save</button>
                     <button type="button" className="btnEditForm" title="Close without saving changes"
+                        disabled={isSubmitting}
                         onClick={(()=>{closeForm(contextTodo)})}
                     >Cancel</button>
                 </div>          
