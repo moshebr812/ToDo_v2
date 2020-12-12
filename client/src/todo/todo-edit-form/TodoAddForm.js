@@ -18,29 +18,38 @@ import { useForm } from 'react-hook-form';
 // Components
 import { InputSelect } from '../../general/input-elements/InputSelect';
 import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
-import { convertDateFormat } from '../../general/input-elements/Dates';
+import { convertDateFormat } from '../../general/helpers/Dates';
+// This is my Error Message Object
+import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
+
+
+// I want my external functions to have access to contextTodo
 
 function isFieldNotEmpty  (fieldValue) {
     // if fieldValue = null / undefined / "" will return false, else will return true
     // alert (`isFieldEmpty /${fieldValue}/`);
     if (fieldValue==="" || fieldValue==null || fieldValue==undefined) {
-        return false;
+        // I can set the message by returining it rather then returning false
+        return `###FieldLablePlaceHolder### mandatory field`;
     } else {
         return true;
     }
-    
-    // return fieldValue; // field is not empty 
 }
 
-function compareDates (D1, D2, errObject) {
+function compareDates (D1, D2, D1Label, D2Label, errObject) {
     console.log ('errObject', errObject);
     // alert (`compareDates D1=${D1}  D2=${D2}`);
+
+    let isD2Empty = isFieldNotEmpty(D2);
+    if ( isD2Empty != true ) {
+        return isD2Empty;
+    }
     if (  (Date.parse(D2) - Date.parse(D1)) >= 0 ) {
         // alert ('OK');    
         return true;
     } else {
         // alert ('NOT OK');
-        return false;
+        return `${D2Label} must be equal or bigger than ${D1Label}`;
     }
 }
 
@@ -50,8 +59,8 @@ function defaultEndDate () {
     let NextWeekDate = new Date (NextWeekInMS);
     NextWeekDate = convertDateFormat (NextWeekDate, "SHORT_1");
     return NextWeekDate;
-    
 }
+
 function closeForm(contextObject) {
     // close the form and loose changes
     contextObject.setIsAddItemOpened (false);
@@ -106,6 +115,7 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
 export function TodoAddForm (props) {
     
     const contextTodo = useContext(AppContextTodo);
+    
     const { register, handleSubmit, watch, errors, getValues } = useForm({
         mode: "onSubmit",
     });
@@ -175,23 +185,27 @@ export function TodoAddForm (props) {
                 <legend>{props.action} Task</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
-                    {/* <input name="startDate" id="startDate" type="text" defaultValue={props.item.startDate} ref={register}></input>  */}
-                    {/* <input name="title" className="inputWide" id="title" type="text" defaultValue={props.item.title}  */}
                     <input name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} id="title" type="text" placeholder="type your task" defaultValue={undefined} 
                         ref={register ({
-                           require: true,
-                           validate: isFieldNotEmpty,
-                           minLength: 5,
-                           maxLength: 30}     
-                        )}
-                    ></input> 
-                    {errors.title && errors.title.type==="required" && ( <span className="validationErrMessage"> Title is a required field</span> )}
-                    {errors.title && errors.title.type==="validate" && ( <span className="validationErrMessage"> Title can't be empty</span> )}
-                    {errors.title && (errors.title.type==="minLength" || errors.title.type==="maxLength") && 
-                        ( <span className="validationErrMessage">Title has be between 5 to 30 chars long</span> )}
+                           require: {
+                               value: true,
+                               message: "title is a required field"
+                               },  // the type in the "error" object is "value"
+                               validate: isFieldNotEmpty,
+                               minLength: 5,
+                               maxLength: 30,
+                            }
+                        )}></input> 
 
+                    <CustomizedErrorMsg errObject={errors} fieldName="title" fieldLabel="Title" minVal="5" maxVal="30"></CustomizedErrorMsg>
+                    {/* {errors.title && errors.title.type 
+                         && "Type: " + (errors.title.type) + "  Message: " + (errors.title.message)} */}
                     
-                    
+                    {/* {errors.title && errors.title.type==="value" && ( <span className="validationErrMessage"> Title value is missing </span> )} */}
+                    {/* {errors.title && errors.title.type==="required" && ( <span className="validationErrMessage"> Title is a required field</span> )} */}
+                    {/* {errors.title && errors.title.type==="validate" && ( <span className="validationErrMessage"> Title can't be empty</span> )} */}
+                    {/* {errors.title && (errors.title.type==="minLength" || errors.title.type==="maxLength") &&  */}
+                        {/* ( <span className="validationErrMessage">Title has be between 5 to 30 chars long</span> )} */} 
                 </div>
                 <hr></hr>
 
@@ -207,12 +221,15 @@ export function TodoAddForm (props) {
                     <label>End Date</label>
                     <input name="endDate" id="endDate" type="date" defaultValue={defaultEndDate()} className={errors.endDate?"requiredFieldError":""}
                         ref={register ({
-                            require: true,
-                            validate: () => compareDates ( getValues('startDate'), getValues('endDate'), errors),
+                            require: {
+                                value: true,
+                                message: "is a required field"},
+                            validate: () => compareDates ( getValues('startDate'), getValues('endDate'), "Start Date", "End Date", errors),
+                            // validate: isFieldNotEmpty,
                         })}>
                     </input> 
+                    <CustomizedErrorMsg errObject={errors} fieldName="endDate" fieldLabel="End Date"></CustomizedErrorMsg>
                     <br></br>
-                    {errors.endDate && errors.endDate.type==="validate" && ( <span className="validationErrMessage"> End Date should be equal or bigger than Start Date</span>)}
 
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue="3" register={register}
                                  id="priority" fieldName="priority" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
@@ -239,13 +256,21 @@ export function TodoAddForm (props) {
                     <input name="id" type="number" defaultValue="" className={errors.id?"requiredFieldError":""}
                         ref={register( {
                             require: true,
-                            validate: isFieldNotEmpty,
-                            min: 1
-                        } 
+
+                            validate: () => isFieldNotEmpty ( getValues('id'), contextTodo),
+                            // validate: isFieldNotEmpty,
+                            min: {
+                                value: 1,
+                                messsage: "99"},
+                            max: 909,    
+                        },
                          )}></input>
-                         {errors.id && errors.id.type==="required" &&  <span className="validationErrMessage">"id" is a required field</span>}
-                         {errors.title && errors.title.type==="validate" && ( <span className="validationErrMessage"> "id" can't be empty</span> )}
-                         {errors.id && errors.id.type==="min" &&  <span className="validationErrMessage">"id" must be a positive number</span>}
+                         <CustomizedErrorMsg errObject={errors} fieldName="id" fieldLabel="Debug Id" min="1"></CustomizedErrorMsg>
+                         {/* {errors.id && errors.id.type && <strong>{errors.id.type}</strong>} */}
+                         {/* {errors.id && errors.id.type==="required" &&  <span className="validationErrMessage">"id" is a required field</span>} */}
+                         {/* {errors.id && errors.id.type==="validate" && ( <span className="validationErrMessage"> "id" can't be empty</span> )} */}
+                         {/* {errors.id && errors.id.type==="min" &&  <span className="validationErrMessage">"id" must be a positive number</span>} */}
+
                     <label>Mongodb _id</label>
                     <input className="inputSemiWide" disabled name="_id" type="text" defaultValue="" ref={register}></input>
                 </div>

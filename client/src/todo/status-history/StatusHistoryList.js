@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 // import from my code
 import './StatusHistoryList.scss';
 import { AppContextTodo } from '../../AppContext';
-import { convertDateFormat } from '../../general/input-elements/Dates';
+import { convertDateFormat } from '../../general/helpers/Dates';
 
 
 async function getStatusHistory(item_id) {
