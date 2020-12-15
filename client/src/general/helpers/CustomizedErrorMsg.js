@@ -17,9 +17,9 @@ export function CustomizedErrorMsg (props) {
     let validationMsg = props.errObject[props.fieldName].message
 
     
-    // not in all cases we have errors.fieldName.message is defined
+    // errors.fieldName.message  is not always valid 
     if (validationMsg) {
-        // in some messages we need to set the field "UI" label text    
+        // in some messages we want to embed the field UI "Label" in the message.  For that we have a Place Holder
         validationMsg = validationMsg.replace(FieldLablePlaceHolder, props.fieldLabel)
     }
 
@@ -35,10 +35,10 @@ export function CustomizedErrorMsg (props) {
             // validationMsg = `${props.fieldLabel} is a required field (and can't be empty).`;
             break;
         case "min":
-            validationMsg = `${props.fieldLabel} minimum allowed value is ${props.errObject[props.fieldName]['value']}`;
+            validationMsg = `${props.fieldLabel} minimum allowed value is ${props.min}`;
             break;
         case "max":
-            validationMsg = `${props.fieldLabel} maximum allowed value is ${props.errObject.max}`;
+            validationMsg = `${props.fieldLabel} maximum allowed value is ${props.max}`;
             break;
         case "minLength":
             validationMsg = `${props.fieldLabel} minimum allowed length is ${props.minVal}`;
@@ -48,7 +48,6 @@ export function CustomizedErrorMsg (props) {
             break;
         default: 
             validationMsg = `${props.fieldLabel} validation type ${validationType} not yet supported`;
-
     }
     
     return <div className="validationErrObject"> 

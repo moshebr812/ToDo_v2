@@ -11,26 +11,10 @@
 const expressSrv = require('express');
 const routerSrv = expressSrv.Router();  // as we did myApp = expressSrv();
 const {ObjectID} = require('mongodb');
-
 // DB Schemas
 const {TodoitemModel} = require ('../../models/todoitems.models');
 const {TodostatusModel} = require ('../../models/todostatus.models');
 
-
-function getCurrentDate() {
-    const myDate = new Date();
-    
-    let myMonth = parseInt(myDate.getMonth()) + 1;
-    myMonth = (myMonth<10) ? '0'+myMonth : myMonth;
-    
-    let myCalendarDay = parseInt(myDate.getDate());
-    myCalendarDay = (myCalendarDay<10) ? '0'+myCalendarDay : myCalendarDay;
-
-    // console.log ('myDate = ' + myDate);
-    // console.log ('myMonth = ' + myMonth);
-    // console.log ('myCalendarDay = ' + myCalendarDay);
-    return ( myDate.getFullYear().toString() + '-' + myMonth + '-' + myCalendarDay );
-}
 /*      =============        Mongoose       =================
     No need for a direct link to dbServices.
     Mongoose DB connection is initiated in index.js
@@ -62,6 +46,56 @@ routerSrv.get ('/', async (request, response) => {
     }
 });
 
+routerSrv.get ('/getNextFreeDebugId', async (request, response, next) => {
+    
+    console.log( `${'-'.repeat(40)}  .get() PATH = '/api/todoitems/getNextFreeDebugId'     params = ${JSON.stringify(request.params)}   `);
+    //.find({country_id : 10}).sort({score : -1}).limit(1);
+    try {
+        const data = await TodoitemModel
+            .find ()
+            // .find ()
+            .select ('_id id')
+            .sort ( {id: -1})
+            .limit (1)
+            .exec();
+ 
+            response.json (data);
+   } 
+    catch (err) {
+        console.log (`failed in TodoItems.js .get('/getNextFreeDebugId)  ${err}`);
+        next(err)
+    }
+});
+
+routerSrv.get ('/aggregateCountByStatus' , async (request, response, next) => {
+    console.log( `${'-'.repeat(40)}  .get() PATH = '/api/todoitems/aggregateCountByStatus'     params = ${JSON.stringify(request.params)}   `);
+    
+    try {
+        
+        const data = await TodoitemModel
+        .aggregate( [
+            // { $match: { "status": { $in: ["RO", "IP", "CMP"] } } },
+            { $group: {
+                        "_id": "$status",
+                        "count": { "$sum": 1 }
+                    }
+            }
+        ])
+        // .find ()
+        // .select ('_id id')
+        // .sort ( {id: -1})
+        // .limit (1)
+        .exec();
+        response.json (data);
+    } catch (err) {
+        console.log ('Server --> FAILED AT:  aggregateCountByStatus', err);
+        next(err);
+    }
+
+
+
+})
+// the /:id must come after all the /textPath
 routerSrv.get ('/:id', async (request, response) => {
     
     const todoObjectID = request.params.id;
@@ -148,7 +182,6 @@ routerSrv.post ('/', async (request, response, next) => {
 
     }  catch (e) {
         console.log(`Server -->> FAILED ........post ('/api/dotoitems/)`,e);
-        // throw new Error("Server -->> FAIL TO ADD todoitem");
         next(e);
     }
 });

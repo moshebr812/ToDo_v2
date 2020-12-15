@@ -74,7 +74,8 @@ export function StatusHistoryList (props) {
                                 <option key="4" value="NS">Not Started</option>                            </select>
                             
                             {/* <label type="text" className="changeDateColumn">{convertDateFormat ((new Date()), 'FULL_1_NO_SEC')}</label> */}
-                            <label type="text" className="changeDateColumn">{element.changeDate.substring(0,10)+" "+element.changeDate.substring(11,16)}</label>
+                            {/* <label type="text" className="changeDateColumn">{element.changeDate.substring(0,10)+" "+element.changeDate.substring(11,16)}</label> */}
+                            <label type="text" className="changeDateColumn">{new Date (element.changeDate).toString() }</label>
                        </div> 
                     })}
             </div>  

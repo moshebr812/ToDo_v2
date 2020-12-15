@@ -63,7 +63,7 @@ export function TodoReadForm (props) {
     }
 
     return <div className="additionalInfo">
-        <h4>Additional Info (TodoEditForm.js)</h4>
+        <h4>Additional Info (TodoReadForm.js)</h4>
         <hr></hr>
 
         <form>      
@@ -72,14 +72,9 @@ export function TodoReadForm (props) {
                 <legend>{props.action} Task:   {contextTodo.todoInFocus.title}</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
-                    {/* list navigation works, but readOnly */}
-                    <input name="title" className="inputWide" id="title" type="text" disabled={viewOnly} 
-                    // defaultValue = {contextTodo.itemToEdit.title}
+                    <input name="title" className="inputWide" id="title" type="text" disabled={viewOnly}  
                     value={contextTodo.todoInFocus.title}
                     ref={register}></input> 
-                    {/* if I put this I can edit, but the refresh fails */}
-                    {/* <input name="title" className="inputWide" id="title" type="text" defaultValue={contextTodo.itemToEdit.title} 
-                        ref={register}></input>  */}
                 </div>
                 <hr></hr>
                 <div className="todoEditFormDivLine">
@@ -87,9 +82,6 @@ export function TodoReadForm (props) {
                     <input name="startDate" id="startDate"  type="string" disabled={viewOnly} 
                         value={(contextTodo.todoInFocus.startDate?contextTodo.todoInFocus.startDate:"").substring(0,10)}
                         ref={register}></input> 
-
-                    {/* <InputSelect fieldLabel="Status" optionsArray={statusOptionsArr} selectedValue={props.item.status} register={register}
-                                 id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect> */}
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
                                  id="status" fieldName="status" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>

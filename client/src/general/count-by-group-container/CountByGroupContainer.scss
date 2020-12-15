@@ -1,0 +1,28 @@
+div .countByGroupContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 2px purple solid;
+}
+
+.countByGroupContainer {
+    h4 {
+        color: blue;
+    }
+
+    .counterInGroup {
+        margin: 5px 15px 5px 15px;
+        display: flex;
+        // flex-direction: column;
+        border: darkblue 2px solid;
+        border-radius: 7px;
+        font-weight: bold;
+        width: 80px;
+        font-size: 11px;
+        justify-content: center; // centers the text inside
+    }
+}
+
+
+
+

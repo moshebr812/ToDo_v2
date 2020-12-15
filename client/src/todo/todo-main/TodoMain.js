@@ -10,10 +10,12 @@ import { TodoList } from '../todo-list/TodoList';
 import { TodoReadForm } from '../todo-edit-form/TodoReadForm';
 import { TodoAddForm } from '../todo-edit-form/TodoAddForm';
 import { StatusHistoryList } from '../status-history/StatusHistoryList';
+import { CountByGroupContainer } from '../../general/count-by-group-container/CountByGroupContainer';
 
 export function TodoMain() {
   
-  const contextTodo = useContext (AppContextTodo) 
+  const contextTodo = useContext (AppContextTodo)
+
  
 return ( 
    <div className="appToDo">
@@ -29,6 +31,7 @@ return (
       </div>
 
       <div className="mainCenter">
+          <CountByGroupContainer groupName="Status"></CountByGroupContainer>
           <TodoAddForm action="Add"></TodoAddForm>
           <TodoReadForm action="View"></TodoReadForm>
           <StatusHistoryList></StatusHistoryList>

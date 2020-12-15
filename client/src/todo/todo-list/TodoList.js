@@ -20,16 +20,15 @@ function openAddForm(contextObject) {
     contextObject.setTodoInFocus({}); // Opening a new item
 }
 
-
-
 async function getTodoList() {
-    // const result = await fetch ('https://jsonplaceholder.typicode.com/comments');
-    // const result = await fetch ('http://localhost:3002/api/todoitems');
     const result = await fetch ('/api/todoitems');
     const data = await result.json();
     return data;
 }
 
+function onClick(idClicked) {
+    console.log(`TodoList.js onClick(idClicked) = ${idClicked} `);
+}
 export function TodoList (props) {
         const now = JSON.stringify ( new Date() ).substring(1,11);
         
@@ -78,7 +77,7 @@ export function TodoList (props) {
             <div className="todoListScrollerContainer">
                 {
                     contextTodo.todoList.map ( (element, idx) => { return <div key={element._id} className="todoToggleList"> 
-                        <TodoItemInline item={element} idx={idx+1}></TodoItemInline>
+                        <TodoItemInline item={element} idx={idx+1} onClick={onClick}></TodoItemInline>
                         </div>
                     })
                 }

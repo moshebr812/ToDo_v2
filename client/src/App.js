@@ -18,10 +18,10 @@ import { ExamplesMenu } from '../src/examples/ExamplesMenu';
 export function App() {
   const versionNumber = '0.2.1';
 
-  let [todoList, setTodoList] = useState ([]);
+  let [todoList, setTodoList] = useState ([]);    // Array
   
-  let [todoFormMode, setTodoFormMode] = useState ('READ')
-  let [todoInFocus, setTodoInFocus] = useState ({})
+  let [todoFormMode, setTodoFormMode] = useState ('READ')     //READ, ADD, EDIT
+  let [todoInFocus, setTodoInFocus] = useState ({})           // Object of 1 todo
   const fieldLablePlaceHolder = '###FieldLablePlaceHolder###'; 
     
   const contextTodo = {

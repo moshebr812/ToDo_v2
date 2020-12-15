@@ -61,18 +61,19 @@ async function deleteTodo(contextObject, ObjectID, title) {     // Client Hanlde
     }
 } // END deleteTodo
 
+function onClickTest (my_id) {
+    console.log (`clicked from TodoItemInline.js ${my_id}`);
+}
 export function TodoItemInline (props) {
 
     let [isOpen, setIsOpen] = useState ( false );
 
     const contextTodo = useContext (AppContextTodo);
 
-
-        //  +
-    //     (contextTodo.todoInFocus && contextTodo.todoInFocus._id && contextTodo.todoInFocus._id == props.item._id) ?
-    //     " highlightnedLine" : ""}>
-
-    return <div className={ (contextTodo.todoInFocus._id && contextTodo.todoInFocus._id == props.item._id)? "todoItemInline highlightnedLine " : "todoItemInline "}>
+    return <div className={ (contextTodo.todoInFocus._id && contextTodo.todoInFocus._id == props.item._id)? "todoItemInline highlightnedLine " : "todoItemInline "}
+            onFocus={props.onClick(props.item._id)}
+            onClick={onClickTest(props.item._id)}
+            >
 
         <label> {props.idx}) </label>
         {props.item.title}

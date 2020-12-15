@@ -1,10 +1,12 @@
 
 // These list of ENUMS should be shared accross the board
 export const statusOptions = [
-    {value: "NS", text: "Not Started"},
-    {value: "IP", text: "In Process"},
-    {value: "CMP", text: "Completed"}, 
-    {value: "RO", text: "Reopened"},
+    // uiCounterSort: SORT of status when we present the Counters Summary
+    // SORT is by "status life cycle", not bt text A-Z
+    {value: "NS", text: "Not Started", uiCounterSort: 10},
+    {value: "IP", text: "In Process", uiCounterSort: 20},
+    {value: "CMP", text: "Completed", uiCounterSort: 30}, 
+    {value: "RO", text: "Reopened", uiCounterSort: 40},
 ];
 
 

@@ -21,7 +21,7 @@ import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
 
 function isFieldNotEmpty  (fieldValue) {
     if (fieldValue==="" || fieldValue===null || fieldValue===undefined) {
-        // I can set the message by returining it rather then returning false
+        // I can define my own message by returning it as string rather then returning false
         return `###FieldLablePlaceHolder### mandatory field`;
     } else {
         return true;
@@ -36,10 +36,8 @@ function compareDates (D1, D2, D1Label, D2Label, errObject) {
         return isD2Empty;       // field is mandatory, so don't compare if empty
     }
     if (  (Date.parse(D2) - Date.parse(D1)) >= 0 ) {
-        // alert ('OK');    
         return true;
     } else {
-        // alert ('NOT OK');
         return `${D2Label} must be equal or bigger than ${D1Label}`;
     }
 }
@@ -92,21 +90,41 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
             const replyContent = await result.json();
             console.log('Client -->> replyContent', replyContent);
             return replyContent;        
-             
     } catch (error)     {
             console.log ('Client -->> dbUpdateOneTodo(). FAILED fetch (`/api/todoitems/:_id) .PUT \n', error);
             alert ('Client -->> Failed to save at     dbUpdateOneTodo() .');
             throw new Error(error);
     }
-
 }   // end deleteOntTodo
+
+async function getNextFreeDebugId (setValue) {
+    try {
+        const result = await fetch (`/api/todoitems/getNextFreeDebugId`);
+        const data = await result.json();
+        let NextId=1;
+
+        console.log ( `from Client --> getNextFreeDebugId(). data = `, data);
+        
+        if (data && data[0]) {
+            console.log ('using setValue("id")')
+            NextId = data[0].id+1;
+        } else {
+            // 1st doccumet, default to 1
+        }
+        // Why? fetch is async,   newItemDefaults was already set to screen 
+        setValue("id", NextId, {shouldValidate: false, shouldDirty: false} );
+    } catch (e) {
+        console.log (`Client --> failed getNextFreeDebugId`)
+        return -99; // failed, user will allocate
+    }    
+}
 
 export function TodoAddForm (props) {
     
     const contextTodo = useContext(AppContextTodo);
     
-    const { register, handleSubmit, watch, errors, getValues, formState } = useForm({
-        mode: "onSubmit",
+    const { register, handleSubmit, watch, errors, getValues, setValue, formState } = useForm({
+        mode: "onSubmit", // when to apply the validations & raise the errors
     });
     const {isDirty, isSubmitting} = formState;
 
@@ -118,11 +136,20 @@ export function TodoAddForm (props) {
         priority: 1,
         complexity: "S", 
         details: "",
-        id: "",
+        id: "-99", // if not ADD, don't access server
         _id: "",
     }
 
+    if (contextTodo.todoFormMode==="ADD") {
+        // the result from fetch arrives late anyway
+        // newItemDefaults.id = getNextFreeDebugId(setValue);
+        // console.log (`newItemDefaults.id  = ${newItemDefaults.id }`);
+        getNextFreeDebugId(setValue);
+    }
+
+    // What values should we populate in the form: When ADD = defaults.   When EDIT = Data of Object In Focus
     let itemAtWork = (contextTodo.todoFormMode ==='EDIT') ? contextTodo.todoInFocus : newItemDefaults;
+    
     if (contextTodo.todoFormMode ==='EDIT' && itemAtWork.startDate ) {
         // during the save this code is rendered twice and the if we don't check the field we crash
         itemAtWork.startDate =  itemAtWork.startDate.substring (0, 10);
@@ -188,7 +215,7 @@ export function TodoAddForm (props) {
             let indexOfUpdated = tempArray.findIndex (element => element._id===itemAtWork._id);
             if (indexOfUpdated<0) {
                 // failed to locate the updated row in the list
-                alert('failed to update listArray after Update');
+                alert('failed to find the entry of the update Todo-Item in the todoArrayList (TodoAddForm.js');
             } else {
                 // replace the updated row 
                 tempArray.splice (indexOfUpdated, 1, responseObject.todoItemData);
@@ -199,8 +226,6 @@ export function TodoAddForm (props) {
         contextTodo.setTodoFormMode('READ');
         
         console.log (`TodoAddForm.js onSubmit last line. action=${action}`);
-        // when we are in edit mode, we do not close the form, we only change back to mode READ !!!
-
     })
 
     // Example how to watch value of any of the registered input fields
@@ -229,17 +254,14 @@ export function TodoAddForm (props) {
                 <legend>{contextTodo.todoFormMode} - Task / isDirty={isDirty?"Yes":"No"}</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
-                    <input name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} id="title" type="text" placeholder="type your task" defaultValue={itemAtWork.title} 
+                    <input  name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} 
+                            id="title" type="text" placeholder="type your task" defaultValue={itemAtWork.title} 
                         ref={register ({
-                           require: {
-                               value: true,
-                               message: "title is a required field"
-                               },  // the type in the "error" object is "value"
-                               validate: isFieldNotEmpty,
-                               minLength: 5,
-                               maxLength: 30,
-                            }
-                        )}></input> 
+                                require: true,
+                                validate: isFieldNotEmpty,
+                                minLength: 5,
+                                maxLength: 30,
+                        })}></input> 
 
                     <CustomizedErrorMsg errObject={errors} fieldName="title" fieldLabel="Title" minVal="5" maxVal="30"></CustomizedErrorMsg>
                     {/* {errors.title && errors.title.type 
@@ -269,8 +291,7 @@ export function TodoAddForm (props) {
                             require: {
                                 value: true,
                                 message: "is a required field"},
-                            validate: () => compareDates ( getValues('startDate'), getValues('endDate'), "Start Date", "End Date", errors),
-                            // validate: isFieldNotEmpty,
+                                validate: () => compareDates ( getValues('startDate'), getValues('endDate'), "Start Date", "End Date", errors),
                         })}>
                     </input> 
                     <CustomizedErrorMsg errObject={errors} fieldName="endDate" fieldLabel="End Date"></CustomizedErrorMsg>
@@ -294,23 +315,16 @@ export function TodoAddForm (props) {
                 </div>    
                 <hr></hr>
 
-                {/* read only section - no need to register */}
                 <div className="todoEditFormDivLine">
-                    {/* read only: for debug */}
                     <label className="">Debug id</label>
                     <input name="id" type="number" defaultValue={itemAtWork.id} 
                         className={errors.id?"requiredFieldError":""}
                         disabled={contextTodo.todoFormMode !== "ADD"}
                         ref={register( {
                             require: true,
-
                             validate: () => isFieldNotEmpty ( getValues('id'), contextTodo),
-                            // validate: isFieldNotEmpty,
-                            min: {
-                                value: 1,
-                                messsage: "99"},
-                        },
-                         )}></input>
+                            min: 1,
+                        })}></input>
                          <CustomizedErrorMsg errObject={errors} fieldName="id" fieldLabel="Debug Id" min="1"></CustomizedErrorMsg>
                          {/* {errors.id && errors.id.type && <strong>{errors.id.type}</strong>} */}
                          {/* {errors.id && errors.id.type==="required" &&  <span className="validationErrMessage">"id" is a required field</span>} */}
