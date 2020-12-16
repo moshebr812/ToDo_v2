@@ -16,7 +16,6 @@ async function aggregateCountByStatus() {
     }
 }
 
-
 export function CountByGroupContainer (props) {
 
     let [statusCounters, setStatusCounters] = useState([]);

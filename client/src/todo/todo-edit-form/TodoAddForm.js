@@ -18,6 +18,10 @@ import { statusOptions, priorityOptions, complexityOptions } from '../../general
 import { convertDateFormat } from '../../general/helpers/Dates';
 // This is my Error Message Object
 import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
+import { formatDateOnly, dateFormatForDatePicker } from '../../general/helpers/Dates';
+//
+const dateFormat = require ('dateformat');
+
 
 function isFieldNotEmpty  (fieldValue) {
     if (fieldValue==="" || fieldValue===null || fieldValue===undefined) {
@@ -43,9 +47,7 @@ function compareDates (D1, D2, D1Label, D2Label, errObject) {
 }
 
 function defaultEndDate () {
-    let with5Days_MS = Date.now() + 1000 * 60 *60 * 24 * 5;     // get todays time in MS, add 5 Days in MS
-    let with5Days_Date = new Date (with5Days_MS);
-    return convertDateFormat (with5Days_Date, "SHORT_1");;
+    return  ( Date.now() + 1000 * 60 *60 * 24 * 5 );     // get todays time in MS, add 5 Days in MS
 }
 
 function closeForm(contextObject) {
@@ -130,9 +132,11 @@ export function TodoAddForm (props) {
 
     const newItemDefaults =  {
         title: "",
-        startDate: convertDateFormat( (new Date()) , "SHORT_1"),
+        // startDate: convertDateFormat( (new Date()) , "SHORT_1"),
+        // nove the convert from internal function to require('dateformat')
+        startDate: dateFormat ( (new Date()) , dateFormatForDatePicker),
         status: "NS",
-        endDate: defaultEndDate(),
+        endDate: dateFormat ( defaultEndDate(), dateFormatForDatePicker ),
         priority: 1,
         complexity: "S", 
         details: "",
@@ -152,8 +156,8 @@ export function TodoAddForm (props) {
     
     if (contextTodo.todoFormMode ==='EDIT' && itemAtWork.startDate ) {
         // during the save this code is rendered twice and the if we don't check the field we crash
-        itemAtWork.startDate =  itemAtWork.startDate.substring (0, 10);
-        itemAtWork.endDate = itemAtWork.endDate.substring (0, 10);
+        itemAtWork.startDate =  dateFormat( new Date(itemAtWork.startDate), dateFormatForDatePicker);
+        itemAtWork.endDate = dateFormat ( new Date(itemAtWork.endDate), dateFormatForDatePicker );
     }
 
     // useForm mode:  onBlur, onChange, onSubmit --> don't use onBlur, because if I did NOT enter on of the fields, onBlur did NOT fire and the submit will occur
@@ -278,7 +282,8 @@ export function TodoAddForm (props) {
 
                 <div className="todoEditFormDivLine">
                     <label>Start Date</label>
-                    <input name="startDate" id="startDate" type="date" defaultValue={itemAtWork.startDate} ref={register}></input> 
+                    <input name="startDate" id="startDate" type="date"  title="Am using here require('dataformat). input type='date', not datetime' "
+                    defaultValue={itemAtWork.startDate} ref={register}></input> 
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue={itemAtWork.status} selectedValue={itemAtWork.status} register={register}
                                  id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>

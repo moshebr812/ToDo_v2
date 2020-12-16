@@ -1,3 +1,7 @@
+export const formatDateTimeNoSec = 'dd-mmm-yyyy HH:MM';     // date + time but without seconds
+export const formatDateOnly = 'dd-mmm-yyyy';                // date only
+export const dateFormatForDatePicker = 'yyyy-mm-dd';        // date that complies with input type="date" datepikcer
+
 export function convertDateFormat (inputDate, format) {
     // alert (inputDate + '/ ' + format);
 
@@ -32,5 +36,7 @@ export function convertDateFormat (inputDate, format) {
     return inputDate; 
 }
 export default { 
-    convertDateFormat,
+    convertDateFormat,          // function
+    formatDateTimeNoSec,        // format
+    dateFormatForDatePicker,    // format
 }

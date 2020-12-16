@@ -3,6 +3,7 @@
     border: 2px dotted red;
     display: flex;
     flex-direction: column;
+    overflow: auto;
 }
 
 .statusHistoryLine {

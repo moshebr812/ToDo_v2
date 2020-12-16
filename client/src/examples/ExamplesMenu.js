@@ -11,13 +11,10 @@ function isPali(e) {
 export function ExamplesMenu (props)  {
 
     return <div className="examplesMenu">
-        <div>
-            <h3> Code Examples </h3> 
-        </div>
-
         
         <BrowserRouter>
             <div>
+                <h3> Code Examples </h3> 
                 <Link to="/" className="exampleLink">None</Link> <br></br> <hr></hr>
                 <Link to="/examples/classComponentParent" className="exampleLink"> Parent Son: pass values using Class</Link> <br></br> <hr></hr>
                 <Link to="/examples/functionComponentParent" className="exampleLink"> Parent Son: pass values using Function</Link>  <br></br> <hr></hr>

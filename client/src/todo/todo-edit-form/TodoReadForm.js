@@ -20,6 +20,8 @@ import { useForm } from 'react-hook-form';
 // Components
 import { InputSelect } from '../../general/input-elements/InputSelect';
 import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
+import { formatDateTimeNoSec, formatDateOnly } from '../../general/helpers/Dates';
+const dateFormat = require ('dateformat');
 
 function closeForm(contextObject) {
    
@@ -79,8 +81,8 @@ export function TodoReadForm (props) {
                 <hr></hr>
                 <div className="todoEditFormDivLine">
                     <label>Start Date</label>
-                    <input name="startDate" id="startDate"  type="string" disabled={viewOnly} 
-                        value={(contextTodo.todoInFocus.startDate?contextTodo.todoInFocus.startDate:"").substring(0,10)}
+                    <input name="startDate" id="startDate"  type="datetime" disabled={viewOnly} 
+                        value={ dateFormat( contextTodo.todoInFocus.startDate , formatDateOnly)}
                         ref={register}></input> 
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
@@ -89,9 +91,10 @@ export function TodoReadForm (props) {
 
                 <div className="todoEditFormDivLine">
                     <label>End Date</label>
-                    <input name="endDate" id="endDate" type="text" disabled={viewOnly} 
-                        value={ (contextTodo.todoInFocus.endDate?contextTodo.todoInFocus.endDate:"").substring(0,10)} ref={register}></input> 
-
+                    <input name="endDate" id="endDate" type="datetime" disabled={viewOnly} 
+                       value={dateFormat ( new Date(contextTodo.todoInFocus.endDate) , formatDateOnly )} >
+                       </input>
+ 
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.todoInFocus.priority} 
                                  id="priority" fieldName="priority" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
                 </div>

@@ -3,7 +3,10 @@ import { useState, useEffect, useContext } from 'react';
 // import from my code
 import './StatusHistoryList.scss';
 import { AppContextTodo } from '../../AppContext';
-import { convertDateFormat } from '../../general/helpers/Dates';
+import { formatDateTimeNoSec } from '../../general/helpers/Dates';
+
+
+const dateFormat = require("dateformat");
 
 
 async function getStatusHistory(item_id) {
@@ -71,11 +74,11 @@ export function StatusHistoryList (props) {
                                 <option key="1" value="RO">Reopened</option>
                                 <option key="2" value="CMP">Completed</option>
                                 <option key="3" value="IP">In Process</option>
-                                <option key="4" value="NS">Not Started</option>                            </select>
+                                <option key="4" value="NS">Not Started</option>                 
+                            </select>
                             
-                            {/* <label type="text" className="changeDateColumn">{convertDateFormat ((new Date()), 'FULL_1_NO_SEC')}</label> */}
-                            {/* <label type="text" className="changeDateColumn">{element.changeDate.substring(0,10)+" "+element.changeDate.substring(11,16)}</label> */}
-                            <label type="text" className="changeDateColumn">{new Date (element.changeDate).toString() }</label>
+                            <label type="text" className="changeDateColumn">
+                                {dateFormat(  new Date (element.changeDate), formatDateTimeNoSec ) }</label>
                        </div> 
                     })}
             </div>  
