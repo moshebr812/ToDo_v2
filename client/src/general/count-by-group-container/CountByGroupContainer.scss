@@ -2,7 +2,10 @@ div .countByGroupContainer{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: 2px purple solid;
+    border: 3px purple solid;
+    border-radius: 7px;
+    margin: 10px 5px 0 5px;
+
 }
 
 .countByGroupContainer {
@@ -13,9 +16,10 @@ div .countByGroupContainer{
     .counterInGroup {
         margin: 5px 15px 5px 15px;
         display: flex;
-        // flex-direction: column;
         border: darkblue 2px solid;
         border-radius: 7px;
+        background-color: skyblue;
+        color: darkblue;
         font-weight: bold;
         width: 80px;
         font-size: 11px;

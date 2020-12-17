@@ -2,9 +2,13 @@ $small-button-height: 20px;
 $small-button-width: 35px;
 
 .todoList {
-    border: 2p dotted red;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     
+    .todoListSummaryHeader {
+        height: 70px;
+    }
     h4 {
         color: blue;
         margin: 3px;
@@ -29,6 +33,7 @@ $small-button-width: 35px;
 
     .divListHeader {
         text-align: left;
+        height: 25px;
     }
 
     .labelInHeader {
@@ -38,10 +43,6 @@ $small-button-width: 35px;
         font-weight: bold;
     }
 
-    // .todoListScrollerContainer {
-        //   overflow: auto;
-    // }
-    
     // added class name .todoToggleList so the line coloring toggle will NOT APPLY when I press Show Info
     .todoToggleList:nth-child(odd) {
         background-color: rgba(173, 221, 230, 0.60);
@@ -52,12 +53,17 @@ $small-button-width: 35px;
     }
 }
 
-
-// .inlineButton{
-//     color:red;
-//     font-weight: bold;
-//     height: $small-button-height;
-//     width: $small-button-width;
-//     margin-left: 20px;
-// }
+.todoListScrollerContainer {
+    
+    // Link Menus header for entire App:  35px
+    // Header: 80px
+    // todoListSummaryHeader:   70px
+    // divListHeader:  25px
+    // Footer: 60px
+    // Leave place for horizontal scroller: 35ox
+    height: calc(100vh - (35px + 80px + 70px + 25px + 60px + 35px));
+    
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
 

@@ -27,7 +27,7 @@ async function getTodoList() {
 }
 
 function onClick(idClicked) {
-    console.log(`TodoList.js onClick(idClicked) = ${idClicked} `);
+    // console.log(`TodoList.js onClick(idClicked) = ${idClicked} `);
 }
 export function TodoList (props) {
         const now = JSON.stringify ( new Date() ).substring(1,11);
@@ -60,14 +60,16 @@ export function TodoList (props) {
 
         // we have data
         return <div className="todoList">
-            <h4> My Todo List | {now} (ToDoList.js). </h4> 
-            
-            <strong className="todoListHeader">Total Items: {contextTodo.todoList.length}</strong>
-            <button className="btnListHeader" onClick={()=>{openAddForm(contextTodo)}}>Add</button>
-            <button className="btnListHeader" onClick={() =>{refreshList(contextTodo)}}>Refersh</button>
-            
-            <strong> Mode: {contextTodo.todoFormMode}</strong>
-            <hr></hr>
+            <div className="todoListSummaryHeader">
+                <h4> My Todo List | {now} (ToDoList.js). </h4> 
+                
+                <strong className="todoListHeader">Total Items: {contextTodo.todoList.length}</strong>
+                <button className="btnListHeader" onClick={()=>{openAddForm(contextTodo)}}>Add</button>
+                <button className="btnListHeader" onClick={() =>{refreshList(contextTodo)}}>Refersh</button>
+                
+                <strong> Mode: {contextTodo.todoFormMode}</strong>
+                <hr></hr>
+            </div>
             <div className="divListHeader">
                 <label className="labelInHeader">Focus on: </label>    
                     {contextTodo.todoInFocus? 

@@ -1,16 +1,9 @@
-// read the following per how to apply Validations 
-//  https://react-hook-form.com/api
-//  https://react-hook-form.com/api#errors
-//  https://reedbarger.com/how-to-use-react-hook-form-for-dead-simple-forms/
-
-// try this link:
 //  https://medium.com/@everdimension/how-to-handle-forms-with-just-react-ac066c48bd4f
 // <input type="submit" />
 
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './TodoForm.scss';   
 import { AppContextTodo } from '../../AppContext';
-// import React from 'react';
 import { useForm } from 'react-hook-form';
 // Components
 import { InputSelect } from '../../general/input-elements/InputSelect';
@@ -18,10 +11,9 @@ import { statusOptions, priorityOptions, complexityOptions } from '../../general
 import { convertDateFormat } from '../../general/helpers/Dates';
 // This is my Error Message Object
 import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
-import { formatDateOnly, dateFormatForDatePicker } from '../../general/helpers/Dates';
+import { dateFormatForDatePicker } from '../../general/helpers/Dates';
 //
 const dateFormat = require ('dateformat');
-
 
 function isFieldNotEmpty  (fieldValue) {
     if (fieldValue==="" || fieldValue===null || fieldValue===undefined) {
@@ -50,10 +42,15 @@ function defaultEndDate () {
     return  ( Date.now() + 1000 * 60 *60 * 24 * 5 );     // get todays time in MS, add 5 Days in MS
 }
 
-function closeForm(contextObject) {
-    // close the form and loose changes
+function closeForm(contextObject, pendingChanges) {
+    // Regardless for the mode, close will always close the form
     contextObject.setTodoFormMode('READ');
-    alert ('closeForm "Add"');
+    
+    if (pendingChanges) {
+       alert (`closeForm.  \n\n There are pending changes that will be lost. \n\n Switching from mode "${contextObject.todoFormMode}" to mode "READ"  `);    
+    } else {
+       alert (`closeForm.  \n\n switching from mode "${contextObject.todoFormMode}" to mode "READ"  `);
+    }
     return 0;
 }
 
@@ -117,7 +114,7 @@ async function getNextFreeDebugId (setValue) {
         setValue("id", NextId, {shouldValidate: false, shouldDirty: false} );
     } catch (e) {
         console.log (`Client --> failed getNextFreeDebugId`)
-        return -99; // failed, user will allocate
+        return -99; 
     }    
 }
 
@@ -125,15 +122,21 @@ export function TodoAddForm (props) {
     
     const contextTodo = useContext(AppContextTodo);
     
+    let [isFormReadOnly, setIsFormReadOnly] = useState ( (contextTodo.todoFormMode==="READ")? true : false  );
+    // let [isFormReadOnly, setIsFormReadOnly] = useState ( false  );
+
+    useEffect ( () => {
+        setIsFormReadOnly ((contextTodo.todoFormMode==="READ")? true : false)
+    },[contextTodo.todoFormMode, contextTodo.todoInFocus]) /// check this one/
+
     const { register, handleSubmit, watch, errors, getValues, setValue, formState } = useForm({
         mode: "onSubmit", // when to apply the validations & raise the errors
     });
-    const {isDirty, isSubmitting} = formState;
+
+    const {isDirty, isSubmitting } = formState;
 
     const newItemDefaults =  {
         title: "",
-        // startDate: convertDateFormat( (new Date()) , "SHORT_1"),
-        // nove the convert from internal function to require('dateformat')
         startDate: dateFormat ( (new Date()) , dateFormatForDatePicker),
         status: "NS",
         endDate: dateFormat ( defaultEndDate(), dateFormatForDatePicker ),
@@ -144,20 +147,21 @@ export function TodoAddForm (props) {
         _id: "",
     }
 
+    let itemAtWork={};
     if (contextTodo.todoFormMode==="ADD") {
         // the result from fetch arrives late anyway
         // newItemDefaults.id = getNextFreeDebugId(setValue);
         // console.log (`newItemDefaults.id  = ${newItemDefaults.id }`);
         getNextFreeDebugId(setValue);
-    }
 
-    // What values should we populate in the form: When ADD = defaults.   When EDIT = Data of Object In Focus
-    let itemAtWork = (contextTodo.todoFormMode ==='EDIT') ? contextTodo.todoInFocus : newItemDefaults;
-    
-    if (contextTodo.todoFormMode ==='EDIT' && itemAtWork.startDate ) {
-        // during the save this code is rendered twice and the if we don't check the field we crash
-        itemAtWork.startDate =  dateFormat( new Date(itemAtWork.startDate), dateFormatForDatePicker);
-        itemAtWork.endDate = dateFormat ( new Date(itemAtWork.endDate), dateFormatForDatePicker );
+        itemAtWork = newItemDefaults;
+    } else {
+        itemAtWork = contextTodo.todoInFocus; // can be undefined 
+
+        if (itemAtWork.startDate) {
+            itemAtWork.startDate =  dateFormat( new Date(itemAtWork.startDate), dateFormatForDatePicker);
+            itemAtWork.endDate = dateFormat ( new Date(itemAtWork.endDate), dateFormatForDatePicker );
+        }
     }
 
     // useForm mode:  onBlur, onChange, onSubmit --> don't use onBlur, because if I did NOT enter on of the fields, onBlur did NOT fire and the submit will occur
@@ -193,7 +197,7 @@ export function TodoAddForm (props) {
         console.log(`Client -->> After  fix: Submitting data of TodoAddForm \n action=${action}`, data);
         
         let responseObject = {};
-        
+        let updateObject={};
         try {
             responseObject = await dbUpdateOneTodo(data, action, contextTodo.todoInFocus._id); // _id - will be "" when action="ADD"
             console.log ('Client -->> after call "await dbUpdateOneTodo()". returned updateStatus: ' , responseObject);
@@ -214,7 +218,7 @@ export function TodoAddForm (props) {
         if ( action ==="ADD" ) {
 
             tempArray.unshift (responseObject.todoItemData[0]);
-
+            updateObject = responseObject.todoItemData[0]
         } else if ( action === "EDIT" ) {
 
             let indexOfUpdated = tempArray.findIndex (element => element._id===itemAtWork._id);
@@ -224,20 +228,17 @@ export function TodoAddForm (props) {
             } else {
                 // replace the updated row 
                 tempArray.splice (indexOfUpdated, 1, responseObject.todoItemData);
+                updateObject = responseObject.todoItemData;
             }
         }
         contextTodo.setTodoList (tempArray);
-        
-        // Set to read mode
+        // contextTodo.setTodoInFocus ({})
+       
         contextTodo.setTodoFormMode('READ');
+        console.log ('TodoAddForm --> updating contextTodo.setTodoInFocus ({updateObject}) with' , contextTodo.todoInFocus);
+        contextTodo.setTodoInFocus ({updateObject});
         
-        // Now set the item in focus to the last updated Item
-        if ( action ==="ADD" ) {
-            contextTodo.setTodoInFocus ( responseObject.todoItemData[0] );
-        } else if  ( action ==="EDIT") {
-             contextTodo.setTodoInFocus (responseObject.todoItemData);
-        }
-        // console.log (`TodoAddForm.js onSubmit last line. action=${action}`);
+        console.log (`TodoAddForm.js onSubmit last line. action=${action}`);
     })
 
     // Example how to watch value of any of the registered input fields
@@ -249,10 +250,6 @@ export function TodoAddForm (props) {
         // console.log (` \n........name=${val.target.name} ......val=${val.target.value}`);
     });
 
-    if (contextTodo.todoFormMode==="READ") {
-        return <div></div>
-    }
-
     return <div className="additionalInfo">
         <h4>Adding a Todo Item (TodoAddForm.js)</h4>
         <hr></hr>
@@ -260,7 +257,6 @@ export function TodoAddForm (props) {
         {/* UPON SUBMIT -->> handleSubmit will validate the data, if all ok it will call function "onSubmit" and will pass it the data */}
         {/* in data we will see all input fields that were properly regitered */}
         <form onSubmit={handleSubmit(onSubmit)}>      
-        {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
                 <legend>{contextTodo.todoFormMode} - Task / isDirty={isDirty?"Yes":"No"}</legend>
@@ -268,9 +264,10 @@ export function TodoAddForm (props) {
                     <label>Title</label> 
                     <input  name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} 
                             id="title" type="text" placeholder="type your task" defaultValue={itemAtWork.title} 
+                            disabled={isFormReadOnly}
                         ref={register ({
                                 require: true,
-                                validate: isFieldNotEmpty,
+                                // validate: isFieldNotEmpty,
                                 minLength: 5,
                                 maxLength: 30,
                         })}></input> 
@@ -291,10 +288,10 @@ export function TodoAddForm (props) {
                 <div className="todoEditFormDivLine">
                     <label>Start Date</label>
                     <input name="startDate" id="startDate" type="date"  title="Am using here require('dataformat). input type='date', not datetime' "
-                    defaultValue={itemAtWork.startDate} ref={register}></input> 
+                    defaultValue={itemAtWork.startDate} ref={register} disabled={isFormReadOnly} ></input> 
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue={itemAtWork.status} selectedValue={itemAtWork.status} register={register}
-                                 id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler} disabled={isFormReadOnly}></InputSelect>
                 </div>
                 
                 <div className="todoEditFormDivLine">
@@ -305,17 +302,18 @@ export function TodoAddForm (props) {
                                 value: true,
                                 message: "is a required field"},
                                 validate: () => compareDates ( getValues('startDate'), getValues('endDate'), "Start Date", "End Date", errors),
-                        })}>
+                        })}
+                        disabled={isFormReadOnly}>
                     </input> 
                     <CustomizedErrorMsg errObject={errors} fieldName="endDate" fieldLabel="End Date"></CustomizedErrorMsg>
                     <br></br>
 
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={itemAtWork.priority} register={register}
-                                 id="priority" fieldName="priority" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="priority" fieldName="priority" onChangeSelectField={onInputSelectChangeHandler} disabled={isFormReadOnly}></InputSelect>
                  </div>
                  <div className="todoEditFormDivLine">
                     <InputSelect fieldLabel="complexity" optionsArray={complexityOptions} selectedValue={itemAtWork.complexity} register={register}
-                                 id="complexity" fieldName="complexity" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="complexity" fieldName="complexity" onChangeSelectField={onInputSelectChangeHandler} disabled={isFormReadOnly}></InputSelect>
 
                     {/* <Moment format="YYYY-MM-DD"></Moment> */}
                 </div>
@@ -324,7 +322,9 @@ export function TodoAddForm (props) {
                 <div className="todoEditFormDivLine">
                     <label className="labelBlock">Details</label>
                     {/* <textarea   name="details" rows="4" className="inputWide" id="details" value={props.item.details}></textarea> */}
-                    <textarea   name="details" rows="4" id="details" placeholder="type here details....." defaultValue={itemAtWork.details} ref={register}></textarea>
+                    <textarea   name="details" rows="4" id="details" placeholder="type here details....." defaultValue={itemAtWork.details} 
+                        disabled={isFormReadOnly}
+                        ref={register}></textarea>
                 </div>    
                 <hr></hr>
 
@@ -351,14 +351,20 @@ export function TodoAddForm (props) {
 
 
                 <div className="todoEditFormDivLine">
-                    <button type="submit" className="btnEditForm" title="Save changes and close" 
+                    <button type="button" className={(contextTodo.todoFormMode==="READ")? "btnEditForm" : "hideObject"}
+                        onClick={(()=>{contextTodo.setTodoFormMode ('EDIT') })}
+                        >
+                        {/* Show EDIT only when in mode "READ" */}
+                    Edit     
+                    </button>
+                    <button type="submit" className={(contextTodo.todoFormMode!=="READ")?"btnEditForm":"hideObject"} title="Save changes and close" 
                         disabled={!isDirty}
                         // this function must correlate by name to the function in the <form>
                         onClick={ ( () => {handleSubmit(onSubmit)})}
                     >Save</button>
                     <button type="button" className="btnEditForm" title="Close without saving changes"
                         disabled={isSubmitting}
-                        onClick={(()=>{closeForm(contextTodo)})}
+                        onClick={(()=>{closeForm(contextTodo, isDirty)})}
                     >Cancel</button>
                 </div>          
           </fieldset>
