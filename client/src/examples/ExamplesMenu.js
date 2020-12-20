@@ -2,6 +2,7 @@ import './ExamplesMenu.scss';
 import { ClassComponentParent } from './ClassComponentParent';
 import { FunctionComponentParent } from './FunctionComponentParent';
 import { HostHook } from './HostHook';
+import { ReactIconsLib } from './ReactIconsLib';
 // routing to examples
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ export function ExamplesMenu (props)  {
                 <Link to="/examples/classComponentParent" className="exampleLink"> Parent Son: pass values using Class</Link> <br></br> <hr></hr>
                 <Link to="/examples/functionComponentParent" className="exampleLink"> Parent Son: pass values using Function</Link>  <br></br> <hr></hr>
                 <Link to="/hosthook" className="exampleLink"> example using my own hook</Link>  <br></br> <hr></hr>
+                <Link to="/reactIconsLib" className="exampleLink"> Interfacing react-icons</Link> <br></br> <hr></hr>
 
                 <label>Input</label>
                 <input type="text" value="test"></input>
@@ -34,6 +36,9 @@ export function ExamplesMenu (props)  {
                 </Route>
                 <Route path="/hosthook">
                     <HostHook></HostHook>
+                </Route>
+                <Route path="/reactIconsLib">
+                    <ReactIconsLib></ReactIconsLib>
                 </Route>
             </Switch>
 

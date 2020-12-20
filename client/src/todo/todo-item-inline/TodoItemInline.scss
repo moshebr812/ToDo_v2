@@ -40,7 +40,8 @@ $inline-button-left-margin: 12px;
 }
 
 .btnInline {
-    height: 20px;
+    display: inline;
+    height: 22px;
     width: $inline-button-width;
     border-radius: 7px;
     margin-left: $inline-button-left-margin;

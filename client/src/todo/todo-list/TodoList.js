@@ -4,6 +4,20 @@ import { useEffect, useContext } from 'react';
 import './TodoList.scss';
 import { AppContextTodo } from '../../AppContext';
 import { TodoItemInline } from '../todo-item-inline/TodoItemInline';
+// Smart Context to pass parameters
+import { IconContext } from 'react-icons';
+import { FaTasks } from 'react-icons/fa';
+
+// AiFillDelete
+// AiOutlineFileAdd
+
+// RiFileAddLine
+// RiDeleteBin6Line
+// RiEdit2Line
+// RiEdit2Fill
+// RiRefreshLine - not good, use HiRefresh or HiOutlineRefresh
+// TiEyeOutline
+// RiInformationLine / RiInformationFill
 
 
 async function refreshList(contextObject) {
@@ -61,19 +75,28 @@ export function TodoList (props) {
         // we have data
         return <div className="todoList">
             <div className="todoListSummaryHeader">
-                <h4> My Todo List | {now} (ToDoList.js). </h4> 
+                <h4>
+                     <IconContext.Provider value={{ style: {fontSize: '20px', color: "red", paddingRight: "10px", paddingTop: "5px"}}}>
+                        <FaTasks>   ___</FaTasks>
+                    </IconContext.Provider>
+                    My Todo List | {now} (ToDoList.js). </h4> 
                 
                 <strong className="todoListHeader">Total Items: {contextTodo.todoList.length}</strong>
                 <button className="btnListHeader" onClick={()=>{openAddForm(contextTodo)}}>Add</button>
                 <button className="btnListHeader" onClick={() =>{refreshList(contextTodo)}}>Refersh</button>
                 
-                <strong> Mode: {contextTodo.todoFormMode}</strong>
+                <strong> Mode: {contextTodo.todoFormMode}</strong> 
                 <hr></hr>
             </div>
             <div className="divListHeader">
                 <label className="labelInHeader">Focus on: </label>    
                     {contextTodo.todoInFocus? 
                         (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id): "..."}
+                <br></br>        
+                <button>#</button> 
+                <button>Task</button>
+                <button>Status</button>
+                <button>Priority</button>
                    
             </div> 
             <div className="todoListScrollerContainer">
