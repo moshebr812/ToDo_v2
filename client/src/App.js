@@ -1,6 +1,7 @@
 // PROJECT:   Todo_v1
 // FILE:      App.js
 
+// npm run dev
 
 // External
 import { useState } from 'react';
@@ -19,6 +20,7 @@ export function App() {
   const versionNumber = '0.2.1';
 
   let [todoList, setTodoList] = useState ([]);    // Array
+  let [sortedByColumn, setSortedByColumn] = useState ('');
   
   let [todoFormMode, setTodoFormMode] = useState ('READ')     //READ, ADD, EDIT
   let [todoInFocus, setTodoInFocus] = useState ({})           // Object of 1 todo
@@ -32,7 +34,9 @@ export function App() {
       //
       todoFormMode,   setTodoFormMode,
       // 
-      todoInFocus,    setTodoInFocus
+      todoInFocus,    setTodoInFocus,
+      //
+      sortedByColumn, setSortedByColumn
    }
 
     return ( <AppContextTodo.Provider value={contextTodo}>

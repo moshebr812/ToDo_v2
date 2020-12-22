@@ -1,0 +1,20 @@
+.divColHeaderForSort {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-items: left;
+    align-content: flex-start;
+    justify-content: left;
+
+    button {
+        color: black;
+        font-weight: 700;
+        text-align: left;
+        padding-right: 5px;
+    }
+}
+
+
+.hideMe {
+    display: none;
+}

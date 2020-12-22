@@ -11,6 +11,7 @@ import { TodoReadForm } from '../todo-edit-form/TodoReadForm';
 import { TodoAddForm } from '../todo-edit-form/TodoAddForm';
 import { StatusHistoryList } from '../status-history/StatusHistoryList';
 import { CountByGroupContainer } from '../../general/count-by-group-container/CountByGroupContainer';
+import { CountPerGroupMember } from '../../general/count-by-group-container/CountPerGroupMember';
 
 export function TodoMain() {
   
@@ -32,6 +33,7 @@ return (
 
       <div className="mainCenter">
           <CountByGroupContainer groupName="Status"></CountByGroupContainer>
+          {/* <CountPerGroupMember groupName="Status"></CountPerGroupMember> */}
           <TodoAddForm action="Add"></TodoAddForm>
           <TodoReadForm action="View"></TodoReadForm>
           <StatusHistoryList></StatusHistoryList>

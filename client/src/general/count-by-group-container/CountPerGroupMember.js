@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import './CountByGroupContainer.scss';
-import { AppContextTodo } from '../../../src/AppContext';
+import { AppContextTodo } from '../../AppContext';
 import { statusOptions } from '../input-elements/SelectListValues';
 
 
@@ -20,7 +20,7 @@ async function aggregateCountByStatus() {
 // To make this generic I need to pass in props:
 // 1. The array by which we sort the Group Members
 // 2. The URL for the fetch
-export function CountByGroupContainer (props) {
+export function CountPerGroupMember (props) {
 
     let [statusCounters, setStatusCounters] = useState([]);
     const contextToDo = useContext (AppContextTodo);
@@ -55,6 +55,7 @@ export function CountByGroupContainer (props) {
     }
 
     return <div className="countByGroupContainer">
+        <strong>{props.groupName}</strong>
         {statusCounters.map ( (element, idx) => {
             return (<div className="counterInGroup" key={idx+1}>
                 {/* the array that holds the value/text of status select options --> take the "text" for the UI  */}

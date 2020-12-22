@@ -1,5 +1,5 @@
 // import services
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 // import from my code
 import './TodoList.scss';
 import { AppContextTodo } from '../../AppContext';
@@ -7,20 +7,9 @@ import { TodoItemInline } from '../todo-item-inline/TodoItemInline';
 // Smart Context to pass parameters
 import { IconContext } from 'react-icons';
 import { FaTasks } from 'react-icons/fa';
+import { ColumnHeaderForSort } from '../../general/column-header-for-sort/ColumnHeaderForSort';
 
-// AiFillDelete
-// AiOutlineFileAdd
-
-// RiFileAddLine
-// RiDeleteBin6Line
-// RiEdit2Line
-// RiEdit2Fill
-// RiRefreshLine - not good, use HiRefresh or HiOutlineRefresh
-// TiEyeOutline
-// RiInformationLine / RiInformationFill
-
-
-async function refreshList(contextObject) {
+async function refreshList(contextObject) { 
     const data = await getTodoList();
     contextObject.setTodoList (data);
     return true;
@@ -58,7 +47,32 @@ export function TodoList (props) {
                 contextTodo.setTodoList (data);
             }    
             dummyFunction();
+
+            if (contextTodo.sortedByColumn ==="") {
+                console.log (`TodoList.js / useEffect() - 1st page load. Setting column 1st time for sort `);
+                // Of course this needs to correlate with the sort applied on the Server 
+                contextTodo.setSortedByColumn('title');
+            }
+            
         },[]);
+
+        function clickedColumnHeaderSort (sortByColumnName, columnNewSortState) {
+            // alert (`in parent: clickedColumnHeaderSort( ${sortByColumnName} , ${columnNewSortState})`);
+
+            // Apply the sort without a DB Retrieve
+            let tempArray = [... contextTodo.todoList];
+            tempArray.sort ( (eleA, eleB) => {
+                if ( eleA[sortByColumnName].toLowerCase()  < eleB[sortByColumnName].toLowerCase() ) {
+                    return ( (columnNewSortState==="ASC") ? -1 : 1) ;
+                } else {
+                    return ( (columnNewSortState==="ASC") ? 1 : -1); 
+                }
+            })  // end sort
+                    
+            contextTodo.setTodoList (tempArray);
+            contextTodo.setSortedByColumn (sortByColumnName);
+            return true;
+        }
 
         if (!contextTodo.todoList) {
            // to check this, set todoMockData=""
@@ -77,7 +91,7 @@ export function TodoList (props) {
             <div className="todoListSummaryHeader">
                 <h4>
                      <IconContext.Provider value={{ style: {fontSize: '20px', color: "red", paddingRight: "10px", paddingTop: "5px"}}}>
-                        <FaTasks>   ___</FaTasks>
+                        <FaTasks></FaTasks>
                     </IconContext.Provider>
                     My Todo List | {now} (ToDoList.js). </h4> 
                 
@@ -87,19 +101,37 @@ export function TodoList (props) {
                 
                 <strong> Mode: {contextTodo.todoFormMode}</strong> 
                 <hr></hr>
+                
             </div>
+            
             <div className="divListHeader">
+            
                 <label className="labelInHeader">Focus on: </label>    
-                    {contextTodo.todoInFocus? 
-                        (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id): "..."}
+                    {(contextTodo.todoInFocus.title===undefined) ? "" : (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id)}
                 <br></br>        
-                <button>#</button> 
-                <button>Task</button>
-                <button>Status</button>
-                <button>Priority</button>
+                
                    
             </div> 
             <div className="todoListScrollerContainer">
+                <div className="todoToggleList">
+                    <button className="headerNumber headerBtn" value={{height: "30px;"}}>#</button> 
+
+                    {/* this component is used to display the correct icon for te sort, set its local state and call the sortManager on the container */}
+                    <ColumnHeaderForSort buttonText="Title" gridColumnName="title" width="228px" height= "25px"
+                        parentOnClick={clickedColumnHeaderSort}
+                    ></ColumnHeaderForSort>
+
+                    <ColumnHeaderForSort buttonText="Status" gridColumnName="status" width="80px" height= "25px"
+                        parentOnClick={clickedColumnHeaderSort}
+                    ></ColumnHeaderForSort>
+
+                    <ColumnHeaderForSort buttonText="Priority" gridColumnName="priority" width="80px" height= "25px"
+                        parentOnClick={clickedColumnHeaderSort}
+                    ></ColumnHeaderForSort>
+
+
+                    <button className="headerBtn">.............................................</button>
+                 </div>
                 {
                     contextTodo.todoList.map ( (element, idx) => { return <div key={element._id} className="todoToggleList"> 
                         <TodoItemInline item={element} idx={idx+1} onClick={onClick}></TodoItemInline>
