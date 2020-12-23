@@ -2,7 +2,7 @@
 //  FILE:       TodoItemInline.js
 
 // services
-import {useState, useContext} from 'react';
+import {useState, useEffect, useContext} from 'react';
 // my code
 import './TodoItemInline.scss';
 import { TodoItemFull } from '../todo-item-full/TodoItemFull';
@@ -73,9 +73,14 @@ export function TodoItemInline (props) {
 
     const contextTodo = useContext (AppContextTodo);
 
+    useEffect ( () => {
+
+    },[contextTodo.debugOptions])
+
     return <div className={ (contextTodo.todoInFocus._id && contextTodo.todoInFocus._id === props.item._id)? "todoItemInline highlightnedLine " : "todoItemInline "}
             onFocus={props.onClick(props.item._id)}
             onClick={onClickTest(props.item._id)}
+            style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px orange dotted":""}`}}
             >
 
         <label> {props.idx}) </label>
@@ -148,15 +153,6 @@ export function TodoItemInline (props) {
             <RiDeleteBin6Line></RiDeleteBin6Line>
         </IconContext.Provider>    
         </button>
-        
-        {/* <BtnWithReactIcon className="btnInline btnDelete"
-        <BtnWithReactIcon 
-         actionType='DELETE' 
-         tooltip="Careful: deleting task and all its history permanently"
-         textColor="red"
-         fontSize="16px"
-        //  onClick={deleteOnContainer}
-        ></BtnWithReactIcon> */}
         
         {/* this info will be added under the line of the main item */}
         <div className={isOpen? "itemFullInLineSectionOpened" : "itemFullInLineSectionClosed"}>

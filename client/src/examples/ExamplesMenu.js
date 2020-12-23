@@ -1,4 +1,6 @@
 import './ExamplesMenu.scss';
+import { useContext } from 'react';
+import { AppContextTodo } from '../AppContext';
 import { ClassComponentParent } from './ClassComponentParent';
 import { FunctionComponentParent } from './FunctionComponentParent';
 import { HostHook } from './HostHook';
@@ -11,6 +13,8 @@ function isPali(e) {
 }
 export function ExamplesMenu (props)  {
 
+    const contextTodo = useContext(AppContextTodo);
+
     return <div className="examplesMenu">
         
         <BrowserRouter>
@@ -22,9 +26,20 @@ export function ExamplesMenu (props)  {
                 <Link to="/hosthook" className="exampleLink"> example using my own hook</Link>  <br></br> <hr></hr>
                 <Link to="/reactIconsLib" className="exampleLink"> Interfacing react-icons</Link> <br></br> <hr></hr>
 
-                <label>Input</label>
+                <label>Input  </label>
                 <input type="text" value="test"></input>
                 <button onClick={ ( (e) => {isPali(e)} )}>check</button>
+                <br></br>
+                <br></br>
+                <hr></hr>
+                <strong>Debug Options:</strong> <br></br>
+
+                <label>Show Component Usage:</label> 
+                <input type="checkbox" checked={contextTodo.debugOptions['showComponentUsage']} 
+                    onChange={((e) => contextTodo.setDebugOptions({"showComponentUsage": e.target.checked}))}></input>
+
+                <label>Show File Name:</label> 
+                <input type="checkbox" checked={contextTodo.debugOptions['showFileName']} onChange={((e) => contextTodo.setDebugOptions['showFileName'](e.target.checked))}></input>
             </div>
 
             <Switch>

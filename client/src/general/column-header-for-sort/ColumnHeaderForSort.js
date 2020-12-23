@@ -53,9 +53,10 @@ export function ColumnHeaderForSort (props) {
         props.parentOnClick (props.gridColumnName, newState);
     }
 
-    return <div className="divColHeaderForSort">
+    return <div className="divColHeaderForSort" style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px darkred dotted":""}`}}>
 
             <button className="btnSortHeader"
+                title={`Sort by: ${props.buttonText}`}
                 style={{width: `${props.width}`, height: `${props.height}`}}
                 onClick={changeSort}>
                 {props.buttonText} 

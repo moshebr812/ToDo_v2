@@ -25,7 +25,7 @@ export function InputSelect (props) {
     const contextTodo = useContext(AppContextTodo);
 
     if ( contextTodo.todoFormMode !="READ" ) {
-        return  <div>
+        return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
                     id={props.fieldId}
@@ -43,7 +43,7 @@ export function InputSelect (props) {
         </div>
     }
     
-    return  <div>
+    return  <div  style={{border: `${contextTodo.debugComponentsUsage?"3px brown dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
                     id={props.fieldId}

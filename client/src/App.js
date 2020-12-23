@@ -19,11 +19,16 @@ import { ExamplesMenu } from '../src/examples/ExamplesMenu';
 export function App() {
   const versionNumber = '0.2.1';
 
+  let debug = { "showComponentUsage": false,
+                "showFileName": false };
+
   let [todoList, setTodoList] = useState ([]);    // Array
   let [sortedByColumn, setSortedByColumn] = useState ('');
   
   let [todoFormMode, setTodoFormMode] = useState ('READ')     //READ, ADD, EDIT
   let [todoInFocus, setTodoInFocus] = useState ({})           // Object of 1 todo
+  let [debugOptions, setDebugOptions] = useState (debug);
+
   const fieldLablePlaceHolder = '###FieldLablePlaceHolder###'; 
     
   const contextTodo = {
@@ -36,7 +41,9 @@ export function App() {
       // 
       todoInFocus,    setTodoInFocus,
       //
-      sortedByColumn, setSortedByColumn
+      sortedByColumn, setSortedByColumn,
+      //
+      debugOptions, setDebugOptions
    }
 
     return ( <AppContextTodo.Provider value={contextTodo}>
