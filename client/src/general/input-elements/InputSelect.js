@@ -1,6 +1,3 @@
-// PROJECT:   Todo_v1
-// FILE:      InputSelect.js
-
 // ============== element usage ========================================//
 // pass the element an array of the values from which to build the 
 // drop down of the <select> & <option>
@@ -31,7 +28,6 @@ export function InputSelect (props) {
                     id={props.fieldId}
                     key={props.fieldId}
                     defaultValue={props.selectedValue}
-                    onChange={props.onChangeSelectField}  
                     ref={props.register}
                     disabled={props.disabled}
                     >
@@ -43,7 +39,7 @@ export function InputSelect (props) {
         </div>
     }
     
-    return  <div  style={{border: `${contextTodo.debugComponentsUsage?"3px brown dotted":""}`}}>
+    return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
                     id={props.fieldId}
@@ -51,7 +47,6 @@ export function InputSelect (props) {
                     key={props.fieldId}
                     // defaultValue={props.selectedValue} 
                     value={props.selectedValue}
-                    onChange={props.onChangeSelectField}  
                     ref={props.register}
                     disabled={props.disabled}
                     >

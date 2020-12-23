@@ -39,7 +39,8 @@ export function ExamplesMenu (props)  {
                     onChange={((e) => contextTodo.setDebugOptions({"showComponentUsage": e.target.checked}))}></input>
 
                 <label>Show File Name:</label> 
-                <input type="checkbox" checked={contextTodo.debugOptions['showFileName']} onChange={((e) => contextTodo.setDebugOptions['showFileName'](e.target.checked))}></input>
+                <input type="checkbox"></input><label style={{color: "black"}}>(WIP)</label>
+                {/* <input type="checkbox" checked={contextTodo.debugOptions['showFileName']} onChange={((e) => contextTodo.setDebugOptions['showFileName'](e.target.checked))}></input> */}
             </div>
 
             <Switch>

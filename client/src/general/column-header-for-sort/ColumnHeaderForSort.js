@@ -16,17 +16,16 @@ export function ColumnHeaderForSort (props) {
     useEffect ( () => {
         // When sort is done by another column --> clear "Arrow Down / Up" icons of this column (clear = hidden)
         if (contextTodo.sortedByColumn!==props.gridColumnName) {
-            console.log ('ColumnHeaderForSort useEffect(). Setting to "NONE"  for: ' + props.gridColumnName);
+            // console.log ('ColumnHeaderForSort useEffect(). Setting to "NONE"  for: ' + props.gridColumnName);
             setMySortState ("NONE"); // We want the icon to disappear
         } 
         
         if (contextTodo.sortedByColumn===props.gridColumnName && mySortState==="NONE") {
             // this is the rare case of page 1st load, which means Container Sorts by this column
             // yet no icon set, set it now
-            console.log ('ColumnHeaderForSort useEffect(). Setting to "ASC" as 1st Page Load  for: ' + props.gridColumnName);
+            // console.log ('ColumnHeaderForSort useEffect(). Setting to "ASC" as 1st Page Load  for: ' + props.gridColumnName);
             setMySortState("ASC");
         }
-
     },[contextTodo.sortedByColumn])
 
     function changeSort () {

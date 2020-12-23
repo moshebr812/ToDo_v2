@@ -37,8 +37,9 @@ export function StatusHistoryList (props) {
                 setStatusHist (data);
             }    
             dummyFunction();
-
-        }, [contextTodo.todoInFocus._id]);
+            // either a chage in _id in focus or change in mode should trigger the refresh.
+            // why change in mode? when we return from Edit --> read / Add --> read : item status has changed so we need refresh the History Status
+        }, [contextTodo.todoInFocus._id, contextTodo.todoFormMode]);
 
 
         if (contextTodo.todoFormMode==="ADD") { // screen should be closed when Mode = "ADD"

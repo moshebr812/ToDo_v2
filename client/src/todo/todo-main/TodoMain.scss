@@ -78,7 +78,6 @@
         }
     } // end .appMain
 
-
     .appFooter {
        display: block;
         position: fixed;
@@ -90,7 +89,6 @@
         width: 100%;
         background-color: black;
         color: lime;
-       
 
         div {
             align-items: center;
@@ -101,9 +99,7 @@
             justify-self: center;
         }    
     }   // end .appFooter
-
 } // end appToDo
-
 
 .linkTo {
     color: lightseagreen;

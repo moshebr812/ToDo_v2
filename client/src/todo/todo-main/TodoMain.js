@@ -1,7 +1,3 @@
-// PROJECT:   Todo_v1
-// FILE:      App.js
-
-// External
 import {useContext} from 'react';
 // Applciation 
 import './TodoMain.scss';
@@ -16,14 +12,13 @@ import { CountPerGroupMember } from '../../general/count-by-group-container/Coun
 export function TodoMain() {
   
   const contextTodo = useContext (AppContextTodo)
-
  
 return ( 
    <div className="appToDo">
    
      <div className="appHeader">
         <h4> Todo Project.   version {contextTodo.versionNumber} </h4> <br></br>
-        <p className="debugInfo"> <strong>Debug Info:</strong>   (TodoMain.js) </p>
+        <p className="debugInfo"> (TodoMain.js) </p>
     </div>
 
     <div className="appMain">
@@ -33,20 +28,15 @@ return (
 
       <div className="mainCenter">
           <CountByGroupContainer groupName="Status"></CountByGroupContainer>
-          {/* <CountPerGroupMember groupName="Status"></CountPerGroupMember> */}
           <TodoAddForm action="Add"></TodoAddForm>
           <TodoReadForm action="View"></TodoReadForm>
           <StatusHistoryList></StatusHistoryList>
       </div>
 
-      {/* <div className="mainRight"> 
-          <h3>place holder : Main - right</h3>
-          <h5>may add debug prints here</h5>
-      </div> */}
     </div>
 
     <div className="appFooter">
-      maybe set here page routing?
+      Placeholder for additional options
     </div>
     
   </div>

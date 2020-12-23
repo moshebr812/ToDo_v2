@@ -18,10 +18,9 @@ import { statusOptions, priorityOptions, complexityOptions } from '../../general
 import { convertDateFormat } from '../../general/helpers/Dates';
 // This is my Error Message Object
 import { CustomizedErrorMsg } from '../../general/helpers/CustomizedErrorMsg';
-import { formatDateOnly, dateFormatForDatePicker } from '../../general/helpers/Dates';
+import { dateFormatForDatePicker } from '../../general/helpers/Dates';
 //
 const dateFormat = require ('dateformat');
-
 
 function isFieldNotEmpty  (fieldValue) {
     if (fieldValue==="" || fieldValue===null || fieldValue===undefined) {
@@ -242,12 +241,6 @@ export function TodoAddForm (props) {
 
     // Example how to watch value of any of the registered input fields
     // console.log('watch("title")', watch("title")); // watch input value by passing the name of it
-    
-    // for the moment I am not using this as a I pass the value using ref={props,register} in the compoenent
-    const onInputSelectChangeHandler = ( (val) => {
-        // console.log (`from:  TodoEditForm.js / onStatusChangeHandler /`);
-        // console.log (` \n........name=${val.target.name} ......val=${val.target.value}`);
-    });
 
     if (contextTodo.todoFormMode==="READ") {
         return <div></div>
@@ -294,7 +287,8 @@ export function TodoAddForm (props) {
                     defaultValue={itemAtWork.startDate} ref={register}></input> 
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue={itemAtWork.status} selectedValue={itemAtWork.status} register={register}
-                                 id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="status" fieldName="status"></InputSelect>
+                                 {/* id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect> */}
                 </div>
                 
                 <div className="todoEditFormDivLine">
@@ -311,13 +305,11 @@ export function TodoAddForm (props) {
                     <br></br>
 
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={itemAtWork.priority} register={register}
-                                 id="priority" fieldName="priority" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="priority" fieldName="priority"></InputSelect>
                  </div>
                  <div className="todoEditFormDivLine">
                     <InputSelect fieldLabel="complexity" optionsArray={complexityOptions} selectedValue={itemAtWork.complexity} register={register}
-                                 id="complexity" fieldName="complexity" onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
-
-                    {/* <Moment format="YYYY-MM-DD"></Moment> */}
+                                 id="complexity" fieldName="complexity"></InputSelect>
                 </div>
                 <hr></hr>
 
@@ -348,7 +340,6 @@ export function TodoAddForm (props) {
                     <input className="inputSemiWide" disabled name="_id" type="text" defaultValue={itemAtWork._id}
                     ref={register}></input>
                 </div>
-
 
                 <div className="todoEditFormDivLine">
                     <button type="submit" className="btnEditForm" title="Save changes and close" 

@@ -1,4 +1,3 @@
-// PROJECT = TODO_V1
 import React from 'react';
 export const AppContextTodo = React.createContext();    
 

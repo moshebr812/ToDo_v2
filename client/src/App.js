@@ -17,23 +17,20 @@ import { Welcome } from '../src/general/Welcome';
 import { ExamplesMenu } from '../src/examples/ExamplesMenu';
 
 export function App() {
-  const versionNumber = '0.2.1';
+  const versionNumber = '1.0.5';
 
   let debug = { "showComponentUsage": false,
                 "showFileName": false };
 
-  let [todoList, setTodoList] = useState ([]);    // Array
+  let [todoList, setTodoList] = useState ([]);                // Array
   let [sortedByColumn, setSortedByColumn] = useState ('');
   
   let [todoFormMode, setTodoFormMode] = useState ('READ')     //READ, ADD, EDIT
   let [todoInFocus, setTodoInFocus] = useState ({})           // Object of 1 todo
   let [debugOptions, setDebugOptions] = useState (debug);
 
-  const fieldLablePlaceHolder = '###FieldLablePlaceHolder###'; 
-    
   const contextTodo = {
       versionNumber,
-      fieldLablePlaceHolder,  // Not yet in use
       //
       todoList,       setTodoList,
       //
@@ -53,7 +50,6 @@ export function App() {
           <Link to="/todoMain"        className="linkItemMenu">  Todo Main</Link>
           <Link to="/examplesMenu"    className="linkItemMenu">  Code Examples</Link>
           <Link to="/about"           className="linkItemMenu">  About</Link>
-
         </div>
 
         <Switch>

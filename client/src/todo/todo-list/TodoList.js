@@ -1,5 +1,5 @@
-// import services
-import { useEffect, useContext, useState } from 'react';
+//
+import { useEffect, useContext } from 'react';
 // import from my code
 import './TodoList.scss';
 import { AppContextTodo } from '../../AppContext';
@@ -16,8 +16,6 @@ async function refreshList(contextObject) {
 }
 
 function openAddForm(contextObject) {
-    // If form is opened in View Mode - close it
-    // If form is already opened in Add Mode --> do nothing 
     alert ('Switch to Add Form ');
     contextObject.setTodoFormMode('ADD');
     contextObject.setTodoInFocus({}); // Opening a new item
@@ -49,18 +47,15 @@ export function TodoList (props) {
             dummyFunction();
 
             if (contextTodo.sortedByColumn ==="") {
-                console.log (`TodoList.js / useEffect() - 1st page load. Setting column 1st time for sort `);
-                // Of course this needs to correlate with the sort applied on the Server 
+                //console.log (`TodoList.js / useEffect() - 1st page load. Setting column 1st time for sort `);
+                // Note: this needs to correlate with the sort applied on the Server 
                 contextTodo.setSortedByColumn('title');
             }
-            
         },[]);
 
         function clickedColumnHeaderSort (sortByColumnName, columnNewSortState) {
-            // alert (`in parent: clickedColumnHeaderSort( ${sortByColumnName} , ${columnNewSortState})`);
-
             // Apply the sort without a DB Retrieve
-            let tempArray = [... contextTodo.todoList];
+            let tempArray = [...contextTodo.todoList];
             tempArray.sort ( (eleA, eleB) => {
                 if ( eleA[sortByColumnName].toLowerCase()  < eleB[sortByColumnName].toLowerCase() ) {
                     return ( (columnNewSortState==="ASC") ? -1 : 1) ;
@@ -101,22 +96,19 @@ export function TodoList (props) {
                 
                 <strong> Mode: {contextTodo.todoFormMode}</strong> 
                 <hr></hr>
-                
             </div>
             
             <div className="divListHeader">
-            
                 <label className="labelInHeader">Focus on: </label>    
-                    {(contextTodo.todoInFocus.title===undefined) ? "" : (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id)}
+                {(contextTodo.todoInFocus.title===undefined) ? "" : (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id)}
                 <br></br>        
-                
-                   
             </div> 
+
             <div className="todoListScrollerContainer">
                 <div className="todoToggleList">
                     <button className="headerNumber headerBtn" value={{height: "30px;"}}>#</button> 
 
-                    {/* this component is used to display the correct icon for te sort, set its local state and call the sortManager on the container */}
+                    {/* component is used to display the correct icon representing the Applied Sort. */}
                     <ColumnHeaderForSort buttonText="Title" gridColumnName="title" width="228px" height= "25px"
                         parentOnClick={clickedColumnHeaderSort}
                     ></ColumnHeaderForSort>
@@ -128,17 +120,16 @@ export function TodoList (props) {
                     <ColumnHeaderForSort buttonText="Priority" gridColumnName="priority" width="80px" height= "25px"
                         parentOnClick={clickedColumnHeaderSort}
                     ></ColumnHeaderForSort>
-
-
                     <button className="headerBtn">.............................................</button>
                  </div>
+
                 {
-                    contextTodo.todoList.map ( (element, idx) => { return <div key={element._id} className="todoToggleList"> 
-                        <TodoItemInline item={element} idx={idx+1} onClick={onClick}></TodoItemInline>
+                    contextTodo.todoList.map ( (element, idx) => { 
+                        return <div key={element._id} className="todoToggleList"> 
+                            <TodoItemInline item={element} idx={idx+1} onClick={onClick}></TodoItemInline>
                         </div>
                     })
                 }
             </div>   
         </div>
 }
-

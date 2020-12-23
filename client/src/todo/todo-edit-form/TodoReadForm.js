@@ -45,13 +45,7 @@ export function TodoReadForm (props) {
 
     // Example how to watch value of any of the registered input fields
     // console.log('watch("title")', watch("title")); 
-    
-    // for the moment I am not using this as a I pass the value using ref={props,register} in the compoenent
-    const onInputSelectChangeHandler = ( (val) => {
-        console.log (`from:  TodoEditForm.js / onStatusChangeHandler /`);
-        console.log (` \n........name=${val.target.name} ......val=${val.target.value}`);
-    });
-
+ 
     if (contextTodo.todoFormMode!=='READ') { // open secren only when in READ mode
         return <div></div>
     }
@@ -86,7 +80,7 @@ export function TodoReadForm (props) {
                         ref={register}></input> 
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
-                                 id="status" fieldName="status" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="status" fieldName="status" disabled={viewOnly}></InputSelect>
                 </div>
 
                 <div className="todoEditFormDivLine">
@@ -96,12 +90,12 @@ export function TodoReadForm (props) {
                        </input>
  
                     <InputSelect fieldLabel="Priority" optionsArray={priorityOptions} selectedValue={contextTodo.todoInFocus.priority} 
-                                 id="priority" fieldName="priority" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="priority" fieldName="priority" disabled={viewOnly}></InputSelect>
                 </div>
 
                 <div className="todoEditFormDivLine">
                     <InputSelect fieldLabel="Complexity" optionsArray={complexityOptions} selectedValue={contextTodo.todoInFocus.complexity} 
-                                 id="complexity" fieldName="complexity" disabled={viewOnly} onChangeSelectField={onInputSelectChangeHandler}></InputSelect>
+                                 id="complexity" fieldName="complexity" disabled={viewOnly}></InputSelect>
                 </div>
                 <hr></hr>
 

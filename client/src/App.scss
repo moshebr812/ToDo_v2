@@ -1,13 +1,9 @@
-// html, body {
-//     background-color: black;
-// }
 .mainMenu {
     display: flex;
     align-content: center;
     justify-content: center;
     height: 35px;
 
-    // Link is a tag type of <a>
     a {
         color: blue;
     }
@@ -68,13 +64,11 @@
         }
     } // end .appMain
 
-
     .appFooter {
         height: 75px;
         width: 100%;
         background-color: black;
         color: lime;
-       
 
         div {
             align-items: center;
@@ -85,9 +79,7 @@
             justify-self: center;
         }    
     }   // end .appFooter
-
 } // end appToDo
-
 
 .linkTo {
     color: lightseagreen;

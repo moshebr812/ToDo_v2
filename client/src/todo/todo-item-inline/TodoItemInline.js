@@ -1,18 +1,14 @@
-//  PROJECT:    TODO_V1
-//  FILE:       TodoItemInline.js
-
-// services
-import {useState, useEffect, useContext} from 'react';
-// my code
+//
+import {useState, useContext} from 'react';
+// 
 import './TodoItemInline.scss';
 import { TodoItemFull } from '../todo-item-full/TodoItemFull';
 import { AppContextTodo } from '../../AppContext';
 import { statusOptions, priorityOptions } from '../../general/input-elements/SelectListValues';
-import { BtnWithReactIcon } from '../../general/btn-with-react-icon/BtnWithReactIcon';
 import { IconContext } from 'react-icons';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine } from 'react-icons/ri';
 
-async function dbDeleteOneTodo (ObjectID) {   // Server Call
+async function dbDeleteOneTodo (ObjectID) {  
     try {
             const result = await fetch (`/api/todoitems/${ObjectID.toString()}`, {
                     method: "DELETE",
@@ -26,30 +22,27 @@ async function dbDeleteOneTodo (ObjectID) {   // Server Call
             console.log ('FAILED\n', error);
             return error;
     }
-}   // end deleteOntTodo
+}   // end dbDeleteOneTodo
 
-async function deleteTodo(contextObject, ObjectID, title) {     // Client Hanlde
+async function deleteTodo(contextObject, ObjectID, title) {     // Client Handle
     const reply = window.confirm(`\nPlease confirm deleting task "${title}"\n\nmongodb _id:   ${ObjectID}`);
     
     if (reply) {
-        console.log(`deleteTodo(). confirmed to del item ${title}  _id:  ${ObjectID}`);
+        // console.log(`deleteTodo(). confirmed to del item ${title}  _id:  ${ObjectID}`);
         const deleteStatus = await dbDeleteOneTodo(ObjectID);
         
-        console.log('deleteTodo(). returned result from server after fetch(delete): ', deleteStatus);
+        // console.log('deleteTodo(). returned result from server after fetch(delete): ', deleteStatus);
         
-        // ?????? Is there a shorter way to check if error occured 
         if ( (deleteStatus) && (deleteStatus.data) && (deleteStatus.data.deletedCount>0)) {
             // db Delete succeeded. We can now refresh the todoList Array
-            console.log ('deleteTodo(). REFERS Client ARRAY after db.delete');
-            // must use [... so I can work on a side Array and then send the updated array tp the context Object]
+            // console.log ('deleteTodo(). REFERS Client ARRAY after db.delete');
+            // must use [...] so I can work on a side Array and then send the updated array tp the context Object]
             let tempArray = [...contextObject.todoList];
             const index = tempArray.findIndex (element => element._id === ObjectID)
-            console.log (`deleteTodo(). findIndex = ${index}`);
+            // console.log (`deleteTodo(). findIndex = ${index}`);
             
             if (index>=0) { 
-                // If its in Edit Mode, clean the "Edit" before else we crash
-                tempArray.splice (index, 1) ;
-                // console.log (`deleteTodo(). tempArray after splice`, tempArray);
+                tempArray.splice (index, 1) ;   // delete the item from UI Array
                 contextObject.setTodoList ( tempArray);
             }
 
@@ -60,22 +53,19 @@ async function deleteTodo(contextObject, ObjectID, title) {     // Client Hanlde
         } 
 
     } else {
-        console.log(`deleteTodo(). DELETE FOR ${title}  _id:  ${ObjectID}  cancelled by user`);
+        // console.log(`deleteTodo(). DELETE FOR ${title}  _id:  ${ObjectID}  cancelled by user`);
     }
 } // END deleteTodo
 
 function onClickTest (my_id) {
     // console.log (`clicked from TodoItemInline.js ${my_id}`);
 }
+
 export function TodoItemInline (props) {
 
     let [isOpen, setIsOpen] = useState ( false );
 
     const contextTodo = useContext (AppContextTodo);
-
-    useEffect ( () => {
-
-    },[contextTodo.debugOptions])
 
     return <div className={ (contextTodo.todoInFocus._id && contextTodo.todoInFocus._id === props.item._id)? "todoItemInline highlightnedLine " : "todoItemInline "}
             onFocus={props.onClick(props.item._id)}
@@ -86,7 +76,6 @@ export function TodoItemInline (props) {
         <label> {props.idx}) </label>
         {props.item.title}
 
-        {/* <label className="statusLabel">{props.item.status}</label>  */}
         <select className="statusLabel" name="status" id="status" disabled value={props.item.status}>
 
             {statusOptions.map ( (element, idx) => {
@@ -95,13 +84,6 @@ export function TodoItemInline (props) {
             
         </select>
 
-        {/* <InputSelect fieldLabel="" optionsArray={statusOptionsArr} selectedValue={props.item.status} 
-                                 id="status" fieldName="status" readonly ></InputSelect> */}
-
-        {/* <label className="priorityLabel">{props.item.priority}</label> 
-        const priorityOptionsArr = [ {value: 5, text: "Highest"}, {value: 4, text: "High"}, {value: 3, text: "Medium"},
-                             {value: 2, text: "Low"}, {value: 1, text: "Lowest"}] ; */}
-        
         <select className="priorityLabel" name="priority" id="priority" disabled value={props.item.priority}>
             {priorityOptions.map ( (element, idx) => {
                 return <option key={idx} value={element.value}>{element.text}</option>
@@ -117,11 +99,11 @@ export function TodoItemInline (props) {
                             alert (`Submit or Cancel the form currenly in ${contextTodo.todoFormMode} mode. \n then proceed`);
                             return 0;
                         }
-                        console.log (`TodoItemInline.js / Edit.onClick() props.item._id=${props.item._id}`);
+                        // console.log (`TodoItemInline.js / Edit.onClick() props.item._id=${props.item._id}`);
 
                         contextTodo.setTodoFormMode('READ');
                         contextTodo.setTodoInFocus (props.item);
-                        console.log (`TodoItemInline.js -> onClick() after setTodoInFocus (props.item)`,contextTodo.todoInFocus );
+                        // console.log (`TodoItemInline.js -> onClick() after setTodoInFocus (props.item)`,contextTodo.todoInFocus );
 
                     }} title="Edit: to view full details / edit. Info: inline overview. / delete: remove task.">
             <IconContext.Provider value={{style: {color: 'blue', fontSize: '16px', padding: "0", marginTop: "0"}}}>
