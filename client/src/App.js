@@ -17,7 +17,7 @@ import { Welcome } from '../src/general/Welcome';
 import { ExamplesMenu } from '../src/examples/ExamplesMenu';
 
 export function App() {
-  const versionNumber = '1.0.5';
+  const versionInfo = {"versionNumber": "1.2.0", "releasedDate": "24-Dec-2020 15:00"}
 
   let debug = { "showComponentUsage": false,
                 "showFileName": false };
@@ -30,7 +30,7 @@ export function App() {
   let [debugOptions, setDebugOptions] = useState (debug);
 
   const contextTodo = {
-      versionNumber,
+      versionInfo,
       //
       todoList,       setTodoList,
       //

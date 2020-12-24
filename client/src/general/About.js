@@ -1,9 +1,12 @@
 // PROJECT:   Todo_v1
 // FILE:      About.js
 
-import React, {createRef} from 'react';
+import React, {createRef, useContext} from 'react';
 import './About.scss';
 import styled from 'styled-components';
+import { AppContextTodo} from '../AppContext';
+
+const dateFormat = require("dateformat");
 
 const DivAbout = styled.div`
   background-color: yellow;
@@ -18,17 +21,22 @@ const HeaderH2 = styled.h2`
   color:      red;
 `;
 const HeaderH3 = styled.h3`
-  font-size:  25px;
-  color:      purple;
+  font-size:  20px;
+  color:      blue;
 `;
 const MyP = styled.p`
   color: darkred;
   font-size: 20px;
 `;
+const MyP_2 = styled.p`
+  color: blue;
+  font-size: 20px;
+  font-style: italic;
+`
 
 export function About (props) {
-    // const currentDate = new Date();
-
+    const contextTodo = useContext ( AppContextTodo );
+ 
     let Roy = { name: 'Roy', children: [] };
     let Kate = { name: 'Kate', children: []};
     let Edna = { name: 'Edna', children: []};
@@ -48,15 +56,6 @@ export function About (props) {
     Huey.children = [Leonida, Veronica];
     Veronica.children = [Trevor];
     
-
-    let textInput = createRef();
-
-    function isPali () {
-        alert ('Test ==>>  ' + textInput.current.value);
-        let value = textInput.current.value;
-      }
-
-
     function kidsArray (parentName, kids) {
 
         console.log ('kidsArray() = ' +parentName + ' / ' + kids.length);
@@ -78,25 +77,23 @@ export function About (props) {
         }
     }
 
-    //      While will this cause an endless loop" as the sone contains the parent and vica versa
-    ////    Trevor.children = [Roy];
     return <DivAbout>
-        <HeaderH2>Using styped-components </HeaderH2>
-        <HeaderH2>About my project "Todo" </HeaderH2>
+        <br></br>
         
-        <HeaderH3>Bla Bla</HeaderH3>
+        <HeaderH2>my   "Todo"   project</HeaderH2>
+        
+        <HeaderH3>Version: {contextTodo.versionInfo.versionNumber} </HeaderH3>
+        <HeaderH3>Released Date: {contextTodo.versionInfo.releasedDate}  </HeaderH3>
         <MyP>
-            Version: V1.0.2 <br></br>
-            Date: currentDate <br></br>
-            Name: Moshe <br></br>
+            Created by: Moshe Braude<br></br> <br></br>
         </MyP>
 
+        
 
-        <label>Is Pali?</label>
-        <input placeholder=",,," ref={textInput}></input>
-        <button onClick={ () => {isPali()}}
-        >Is Pali?</button>
         <hr></hr>
+        <MyP_2>Runtime Info: Hosting Server: .... /  Hosting Port: .....</MyP_2>
+        <MyP_2>This about screen was cretaed using "styled-components" </MyP_2>
+         <hr></hr>
         <button onClick={ () => {checkFamily(Roy)}}>Check Names</button>
     </DivAbout>
 }

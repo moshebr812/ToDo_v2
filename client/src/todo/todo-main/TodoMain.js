@@ -17,7 +17,7 @@ return (
    <div className="appToDo">
    
      <div className="appHeader">
-        <h4> Todo Project.   version {contextTodo.versionNumber} </h4> <br></br>
+        <h4> Todo Project.   version {contextTodo.versionInfo.versionNumber} </h4> <br></br>
         <p className="debugInfo"> (TodoMain.js) </p>
     </div>
 
