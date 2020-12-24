@@ -91,7 +91,8 @@ export function About (props) {
         
 
         <hr></hr>
-        <MyP_2>Runtime Info: Hosting Server: .... /  Hosting Port: .....</MyP_2>
+        <MyP_2>Hosting Server: {contextTodo.envInfo.hostingServer} /  Hosting Port: {contextTodo.envInfo.hostingPort}</MyP_2>
+        <MyP_2>Language: {contextTodo.envInfo.environmentLanguage}</MyP_2>
         <MyP_2>This about screen was cretaed using "styled-components" </MyP_2>
          <hr></hr>
         <button onClick={ () => {checkFamily(Roy)}}>Check Names</button>

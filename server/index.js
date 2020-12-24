@@ -1,7 +1,3 @@
-// PROJECT:     TOTO_V1
-// FILE:        index.js
-
-// Services
 const expressSrv = require('express');
 const myApp = expressSrv();
 const { dbConnectViaMongoose } = require('./routers/dbService');
@@ -17,6 +13,12 @@ dbConnectViaMongoose();
 // router services per each Module
 const todoitemsRouter = require ('./routers/Todo/TodoItems');
 const todostatusRouter = require ('./routers/Todo/TodoStatus');
+
+
+// Enable to show in the About Client Screen if u r running locally or via Heroku
+let connetionInfo = {   "hostingServer":"unknown", 
+                        "hostingPort":"unknown",
+                        "envLanguage":"unknown"};
 
 
 // Variables & settings
@@ -35,12 +37,21 @@ myApp.use(expressSrv.json());   // convert valid JSON structures to JS Objects
 myApp.use("/api/todoitems", todoitemsRouter);
 myApp.use("/api/todostatus", todostatusRouter);
 myApp.use("/",expressSrv.static(path.join(__dirname, '../client/build')));
+//
+myApp.get ('/api/todoServerParameters' ,  async (request, response) => {
+    response.json  ( connetionInfo );
+})
 
-
+// Set the relevant port, stamp the server+port for the About Screen
 if (process.env.PORT) {
     // Heroku has defined a port for us
     port = process.env.PORT;
+    connetionInfo.hostingServer = "external, Heroku"
+} else {
+    connetionInfo.hostingServer = "localhost"
 }
+connetionInfo.hostingPort = port;
+connetionInfo.envLanguage = process.env.LANG;
 
 // Start listening
 myApp.listen(port);

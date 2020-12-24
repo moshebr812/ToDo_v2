@@ -4,7 +4,7 @@
 // npm run dev
 
 // External
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // for Routing within client
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 // Applciation 
@@ -16,11 +16,17 @@ import { About } from '../src/general/About';
 import { Welcome } from '../src/general/Welcome';
 import { ExamplesMenu } from '../src/examples/ExamplesMenu';
 
-export function App() {
-  const versionInfo = {"versionNumber": "1.2.0", "releasedDate": "24-Dec-2020 15:00"}
+async function getServerInfo() {
+  const result = await fetch ('/api/todoServerParameters');
+  const serverParamsObj = await result.json();
+  return serverParamsObj;
+}
 
+export function App() {
+  const versionInfo = { "versionNumber": "1.2.4",     // update this before every Deploy
+                        "releasedDate": "24-Dec-2020 20:00"}
   let debug = { "showComponentUsage": false,
-                "showFileName": false };
+                "showFileName": false};
 
   let [todoList, setTodoList] = useState ([]);                // Array
   let [sortedByColumn, setSortedByColumn] = useState ('');
@@ -28,9 +34,18 @@ export function App() {
   let [todoFormMode, setTodoFormMode] = useState ('READ')     //READ, ADD, EDIT
   let [todoInFocus, setTodoInFocus] = useState ({})           // Object of 1 todo
   let [debugOptions, setDebugOptions] = useState (debug);
-
+  let [envInfo, setEnvInfo]  = useState ({ "hostingServer": "srv-PendingCheck",
+                                           "hostingPort": "port-PendingCheck",
+                                           "environmentLangauge": "???"});
+   useEffect ( () => {
+     const dummyFunction = async () => {
+        const data = await getServerInfo();
+        setEnvInfo (data);
+    }    
+    dummyFunction();
+},[]);
   const contextTodo = {
-      versionInfo,
+      versionInfo,   envInfo, // no need to expose setEnvInfo Globally. keep it read only
       //
       todoList,       setTodoList,
       //
