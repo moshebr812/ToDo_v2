@@ -47,11 +47,12 @@ if (process.env.PORT) {
     // Heroku has defined a port for us
     port = process.env.PORT;
     connetionInfo.hostingServer = "external, Heroku"
+    connetionInfo.envLanguage = process.env.LANG;
 } else {
     connetionInfo.hostingServer = "localhost"
 }
 connetionInfo.hostingPort = port;
-connetionInfo.envLanguage = process.env.LANG;
+
 
 // Start listening
 myApp.listen(port);
