@@ -10,6 +10,7 @@ const dbTodo = 'todoProject';
 // return a valid connection to a given DB
 async function dbConnectViaMongoose () {
     if (process.env.DATABASE_URL) {
+        console.log (`dbConnectViaMongoose DATABASE_URL = ` + process.env.DATABASE_URL);
         // connect to the Database on external server
         mongoDbUrl = process.env.DATABASE_URL;
     }
