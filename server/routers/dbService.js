@@ -9,6 +9,7 @@ const dbTodo = 'todoProject';
 
 // return a valid connection to a given DB
 async function dbConnectViaMongoose () {
+    // connect('SERVERURL/DBName')
     await mongooseSrv.connect(`${mongoDbUrl}/${dbTodo}`,
             {   useNewUrlParser: true,
                 useUnifiedTopology: true

@@ -23,7 +23,7 @@ async function getServerInfo() {
 }
 
 export function App() {
-  const versionInfo = { "versionNumber": "1.2.4",     // update this before every Deploy
+  const versionInfo = { "versionNumber": "1.2.0.2087",     // update this before every Deploy
                         "releasedDate": "24-Dec-2020 20:00"}
   let debug = { "showComponentUsage": false,
                 "showFileName": false};
@@ -36,7 +36,7 @@ export function App() {
   let [debugOptions, setDebugOptions] = useState (debug);
   let [envInfo, setEnvInfo]  = useState ({ "hostingServer": "srv-PendingCheck",
                                            "hostingPort": "port-PendingCheck",
-                                           "environmentLangauge": "???"});
+                                           "envLanguage": "???"});
    useEffect ( () => {
      const dummyFunction = async () => {
         const data = await getServerInfo();
