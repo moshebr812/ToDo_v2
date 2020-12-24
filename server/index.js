@@ -16,9 +16,9 @@ const todostatusRouter = require ('./routers/Todo/TodoStatus');
 
 
 // Enable to show in the About Client Screen if u r running locally or via Heroku
-let connetionInfo = {   "hostingServer":"unknown", 
+let connectionInfo = {   "hostingServer":"unknown", 
                         "hostingPort":"unknown",
-                        "envLanguage":"unknown"};
+                        "envLanguage":"pending local read"};
 
 
 // Variables & settings
@@ -39,20 +39,26 @@ myApp.use("/api/todostatus", todostatusRouter);
 myApp.use("/",expressSrv.static(path.join(__dirname, '../client/build')));
 //
 myApp.get ('/api/todoServerParameters' ,  async (request, response) => {
-    response.json  ( connetionInfo );
+    response.json  ( connectionInfo );
 })
 
-// Set the relevant port, stamp the server+port for the About Screen
+// hostingPort
 if (process.env.PORT) {
-    // Heroku has defined a port for us
-    port = process.env.PORT;
-    connetionInfo.hostingServer = "external, Heroku"
-    connetionInfo.envLanguage = process.env.LANG;
-} else {
-    connetionInfo.hostingServer = "localhost"
-}
-connetionInfo.hostingPort = port;
+    port = process.env.PORT;  // Heroku has defined a port for us
+} // else we already set a local port above locally to 3002
+connectionInfo.hostingPort = port;
 
+
+// hostingServer
+if (process.env.HOSTING_SERVER_NAME) {
+    connectionInfo.hostingServer = process.env.HOSTING_SERVER_NAME
+} else {
+    connectionInfo.hostingServer = "localhost"
+}
+
+if (process.env.LANG) {
+    connectionInfo.envLanguage = process.env.LANG;
+} // else I still need to get it from somewhere
 
 // Start listening
 myApp.listen(port);
