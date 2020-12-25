@@ -60,5 +60,10 @@ if (process.env.LANG) {
     connectionInfo.envLanguage = process.env.LANG;
 } // else I still need to get it from somewhere
 
+
+console.log ('=============================================');
+console.log ('=============================================');
+console.log ('=============================================');
+console.log('process.env.DATABASE_URL = ' + process.env.DATABASE_URL ) ;
 // Start listening
 myApp.listen(port);
