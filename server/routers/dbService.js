@@ -15,18 +15,29 @@ async function dbConnectViaMongoose () {
         console.log (`dbConnectViaMongoose DATABASE_URL = ` + process.env.DATABASE_URL);
         // connect to the Database on external server
         mongoDbUrl = process.env.DATABASE_URL;
+
+        console.log(`dbConnectViaMongoose. mongoDbUrl=${mongoDbUrl}`);
+        // connect('SERVERURL/DBName')
+        await mongooseSrv.connect(`${mongoDbUrl}`,
+                {   useNewUrlParser: true,
+                    useUnifiedTopology: true
+                });
         // mongoDbUrl = 'I PUT Grabage on purpose';
     } else {
         console.log('===================================');
         console.log (`from : dbConnectViaMongoose --> process.env.DATABASE_URL return false`);
+
+
+
+        await mongooseSrv.connect(`${mongoDbUrl}/${dbTodo}`,
+        {   useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
     }
 
     console.log(`dbConnectViaMongoose. mongoDbUrl=${mongoDbUrl}`);
     // connect('SERVERURL/DBName')
-    await mongooseSrv.connect(`${mongoDbUrl}/${dbTodo}`,
-            {   useNewUrlParser: true,
-                useUnifiedTopology: true
-            });
+   
 }   // END mogooseConnect
 
 
