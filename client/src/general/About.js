@@ -6,10 +6,8 @@ import './About.scss';
 import styled from 'styled-components';
 import { AppContextTodo} from '../AppContext';
 
-const dateFormat = require("dateformat");
-
 const DivAbout = styled.div`
-  background-color: yellow;
+  background-color:  rgb(238, 255, 0);
   height: 100vh;
   width: 100vvw;
   border: 5px solid black;
@@ -28,7 +26,7 @@ const MyP = styled.p`
   color: darkred;
   font-size: 20px;
 `;
-const MyP_2 = styled.p`
+const MyP2 = styled.p`
   color: blue;
   font-size: 20px;
   font-style: italic;
@@ -91,11 +89,11 @@ export function About (props) {
         
 
         <hr></hr>
-        <MyP_2>Hosting Server: ______   URL: {contextTodo.envInfo.hostingServer} /  Port: {contextTodo.envInfo.hostingPort}</MyP_2>
-        <MyP_2>Language: {contextTodo.envInfo.envLanguage}</MyP_2>
+        <MyP2>Hosting Server: ______   URL: {contextTodo.envInfo.hostingServer} /  Port: {contextTodo.envInfo.hostingPort}</MyP2>
+        <MyP2>Language: {contextTodo.envInfo.envLanguage}</MyP2>
 
 
-        <MyP_2>This about screen was cretaed using "styled-components" </MyP_2>
+        <MyP2>This about screen was cretaed using "styled-components" </MyP2>
          <hr></hr>
         <button onClick={ () => {checkFamily(Roy)}}>Check Names</button>
     </DivAbout>

@@ -19,7 +19,8 @@ function useCommentsFetcher (PostId) {
         dummyFunction();
         // register to window, upon any change in window screen size ... call function checkScreenSize
         // window.addEventListener("resize", checkScreenSize);
-    });
+    },[PostId]);
+
 
     return commentsByPostId;
 }

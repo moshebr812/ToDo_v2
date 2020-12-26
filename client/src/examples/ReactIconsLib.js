@@ -33,13 +33,10 @@ export function ReactIconsLib (props) {
       switch (iconFor) {
         case 'DELETE':
             return <RiDeleteBin6Line></RiDeleteBin6Line>;
-            break;
         case 'EDIT':
             return <RiEdit2Line></RiEdit2Line>
-            break;
         case 'INFO':    
             return <RiInformationLine></RiInformationLine>
-            break;
         default:
             alert(`invalid icon in ReactIconsLib.getIconTag(${iconFor})`);
             console.log ();

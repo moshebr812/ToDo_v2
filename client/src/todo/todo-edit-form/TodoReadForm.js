@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form';
 // Components
 import { InputSelect } from '../../general/input-elements/InputSelect';
 import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
-import { formatDateTimeNoSec, formatDateOnly } from '../../general/helpers/Dates';
+import { formatDateOnly } from '../../general/helpers/Dates';
 const dateFormat = require ('dateformat');
 
 function closeForm(contextObject) {
@@ -37,14 +37,6 @@ export function TodoReadForm (props) {
     const contextTodo = useContext(AppContextTodo);
     
     const { register, handleSubmit, watch, errors } = useForm();
-
-    //  "register"          used to connect an input object to be part of the form result objects
-    //  "handleSubmit"      will validate your inputs before invoking "onSubmit"
-    //  "watch"             function to which we pass a registered input field and see its content
-    //  Note we MUST use defaultValue and not value to set an init value to a field
-
-    // Example how to watch value of any of the registered input fields
-    // console.log('watch("title")', watch("title")); 
  
     if (contextTodo.todoFormMode!=='READ') { // open secren only when in READ mode
         return <div></div>

@@ -73,10 +73,10 @@ async function dbUpdateOneTodo (data, action, ObjectID) {
                     body: JSON.stringify(data)
                 })
             } else if (action==='EDIT') {
-                console.log ('Client -->> ACTION = EDIT'); 
-                console.log (data);
+                // console.log ('Client -->> ACTION = EDIT'); 
+                // console.log (data);
 
-                console.log ('before await fetch (`/api/todoitems/${ObjectID.toString()} ');
+                // console.log ('before await fetch (`/api/todoitems/${ObjectID.toString()} ');
                 result = await fetch (`/api/todoitems/${ObjectID.toString()}`, {
                         method: "PUT",
                         headers: {
@@ -250,8 +250,6 @@ export function TodoAddForm (props) {
         <h4>Adding a Todo Item (TodoAddForm.js)</h4>
         <hr></hr>
 
-        {/* UPON SUBMIT -->> handleSubmit will validate the data, if all ok it will call function "onSubmit" and will pass it the data */}
-        {/* in data we will see all input fields that were properly regitered */}
         <form onSubmit={handleSubmit(onSubmit)}>      
         {/* <form>    */}
         <div className="todoEditForm">
@@ -288,7 +286,6 @@ export function TodoAddForm (props) {
 
                     <InputSelect fieldLabel="Status" optionsArray={statusOptions} defaultValue={itemAtWork.status} selectedValue={itemAtWork.status} register={register}
                                  id="status" fieldName="status"></InputSelect>
-                                 {/* id="status" fieldName="status" onChangeSelectField={onInputSelectChangeHandler}></InputSelect> */}
                 </div>
                 
                 <div className="todoEditFormDivLine">

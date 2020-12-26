@@ -9,35 +9,24 @@ const dbTodo = 'todoProject';
 
 // return a valid connection to a given DB
 async function dbConnectViaMongoose () {
-    console.log (`dbConnectViaMongoose() from dbService.js ========>>>>>>>    DATABASE_URL = ` + process.env.DATABASE_URL);
-    
-    if (process.env.DATABASE_URL) {
-        console.log (`dbConnectViaMongoose DATABASE_URL = ` + process.env.DATABASE_URL);
-        // connect to the Database on external server
+
+    if (process.env.DATABASE_URL) { // Working via external server, that includes the full URL + dbName
+        // console.log(`dbConnectViaMongoose. mongoDbUrl=${mongoDbUrl}`);
         mongoDbUrl = process.env.DATABASE_URL;
 
-        console.log(`dbConnectViaMongoose. mongoDbUrl=${mongoDbUrl}`);
-        // connect('SERVERURL/DBName')
         await mongooseSrv.connect(`${mongoDbUrl}`,
                 {   useNewUrlParser: true,
                     useUnifiedTopology: true
                 });
-        // mongoDbUrl = 'I PUT Grabage on purpose';
     } else {
         console.log('===================================');
-        console.log (`from : dbConnectViaMongoose --> process.env.DATABASE_URL return false`);
-
-
-
-        await mongooseSrv.connect(`${mongoDbUrl}/${dbTodo}`,
+        console.log (`from : dbConnectViaMongoose --> process.env.DATABASE_URL return false. !!! working locally`);
+        // Note here I add the dbName in the connect command
+        await mongooseSrv.connect(`${mongoDbUrl}/${dbTodo}`,    
         {   useNewUrlParser: true,
             useUnifiedTopology: true
         });
     }
-
-    console.log(`dbConnectViaMongoose. mongoDbUrl=${mongoDbUrl}`);
-    // connect('SERVERURL/DBName')
-   
 }   // END mogooseConnect
 
 
