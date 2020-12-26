@@ -1,0 +1,37 @@
+.expandCollapseWithArrow {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    // border: 2px red dotted;
+    height:auto;
+    border-bottom: 2px solid darkgrey;
+
+    .expandCollapseText {
+        padding-left: 5px;
+        // width is set by conatiner as it has to fit the max(text length) of group
+        // border: 3px lime solid;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .expandCollapseIcon {
+        // width is set by this object to contain the react-icon
+        width: 30px;
+        // border: 2px blue dashed;
+    }
+
+    .expandCollapseObject {
+        // Do not set the width. 
+        width: max-content;
+        // border: yellow 2px solid;
+        display: block;
+    }
+
+    .hideSection {
+        display: none;
+    }
+}
+
+.expandCollapseWithArrow:first-child {
+    margin-top: 3px;
+}

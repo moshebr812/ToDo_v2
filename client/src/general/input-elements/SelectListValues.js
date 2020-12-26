@@ -11,11 +11,11 @@ export const statusOptions = [
 
 
 export const priorityOptions = [ 
-    {value: 5, text: "Highest", uiCounterSort: 10},
-    {value: 4, text: "High", uiCounterSort: 20},
-    {value: 3, text: "Medium", uiCounterSort: 30},
-    {value: 2, text: "Low", uiCounterSort: 40}, 
-    {value: 1, text: "Lowest", uiCounterSort: 50}
+    {value: "5", text: "Highest", uiCounterSort: 10},
+    {value: "4", text: "High", uiCounterSort: 20},
+    {value: "3", text: "Medium", uiCounterSort: 30},
+    {value: "2", text: "Low", uiCounterSort: 40}, 
+    {value: "1", text: "Lowest", uiCounterSort: 50},
 ];
 
 

@@ -23,18 +23,20 @@ async function getServerInfo() {
 }
 
 export function App() {
-  const versionInfo = { "versionNumber": "1.3.1 078",     // update this before every Deploy
-                        "releasedDate": "26-Dec-2020 09:27"};
+  const versionInfo = { "versionNumber": "1.3.15",     // update this before every Deploy
+                        "releasedDate": "26-Dec-2020 23:00"};
 
-  let debug = { "showComponentUsage": false,
-                "showFileName": false};
+  let debugInit = { "showComponentUsage": false,
+                    "showFileName": false,
+                    "showFlagsState": false,
+                    };
 
   let [todoList, setTodoList] = useState ([]);                // Array
   let [sortedByColumn, setSortedByColumn] = useState ('');
   
   let [todoFormMode, setTodoFormMode] = useState ('READ')     //READ, ADD, EDIT
   let [todoInFocus, setTodoInFocus] = useState ({})           // Object of 1 todo
-  let [debugOptions, setDebugOptions] = useState (debug);
+  let [debugOptions, setDebugOptions] = useState (debugInit);
   let [envInfo, setEnvInfo]  = useState ({ "hostingServer": "srv-PendingCheck",
                                            "hostingPort": "port-PendingCheck",
                                            "envLanguage": "???"});

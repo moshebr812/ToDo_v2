@@ -67,6 +67,38 @@ routerSrv.get ('/getNextFreeDebugId', async (request, response, next) => {
     }
 });
 
+
+// This API will return a COUNT(*), field_name GROUP BY field_name --> where field_name is the input
+routerSrv.get ('/aggregateCountByFieldName/:field_name' , async (request, response, next) => {
+    let fieldName = request.params.field_name;
+    console.log( `${'-'.repeat(40)}  .get() PATH = '/aggregateCountByFieldName/:field_name'     params = ${JSON.stringify(request.params)}   `);
+
+    try {
+        const data = await TodoitemModel
+        .aggregate( [
+            // { $match: { "status": { $in: ["RO", "IP", "CMP"] } } },
+            { $group: {
+                        // "_id": "$status",    // this creates the break by field
+                        // "_id": "status",     // this brings a total count, no group by
+                        "_id": `$${fieldName}`, // this enables me to have a generic component "CountAndGroupByFieldName"
+                        "count": { "$sum": 1 }
+                    }
+            }
+        ])
+        // .find ()
+        // .select ('_id id')
+        // .sort ( {id: -1})
+        // .limit (1)
+        .exec();
+        response.json (data);
+    } catch (err) {
+        console.log (`Server --> FAILED AT:  aggregateCountByFieldName. field_Name=${fieldName}`, err);
+        next(err);
+    }
+    // response.json ({'debug': 'from /aggregateCountByFieldName/:field_name', "fieldName": fieldName});
+    // response.json (data);
+})
+
 routerSrv.get ('/aggregateCountByStatus' , async (request, response, next) => {
     console.log( `${'-'.repeat(40)}  .get() PATH = '/api/todoitems/aggregateCountByStatus'     params = ${JSON.stringify(request.params)}   `);
     
@@ -91,10 +123,9 @@ routerSrv.get ('/aggregateCountByStatus' , async (request, response, next) => {
         console.log ('Server --> FAILED AT:  aggregateCountByStatus', err);
         next(err);
     }
-
-
-
 })
+
+
 // the /:id must come after all the /textPath
 routerSrv.get ('/:id', async (request, response) => {
     
