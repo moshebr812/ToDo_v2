@@ -23,7 +23,7 @@ async function getServerInfo() {
 }
 
 export function App() {
-  const versionInfo = { "versionNumber": "1.3.0 0102",     // update this before every Deploy
+  const versionInfo = { "versionNumber": "1.3.0 0222",     // update this before every Deploy
                         "releasedDate": "26-Dec-2020 09:27"}
   let debug = { "showComponentUsage": false,
                 "showFileName": false};
