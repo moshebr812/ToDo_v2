@@ -22,12 +22,12 @@ export function convertDateFormat (inputDate, format) {
     // console.log ('myMonth = ' + myMonth);
     // console.log ('myCalendarDay = ' + myCalendarDay);
 
-    if (format == 'SHORT_1') {
+    if (format === 'SHORT_1') {
         // YYYY-MM-DD
         return ( myYear.toString() + '-' + myMonth + '-' + myCalendarDay );
     }
 
-    if (format == 'FULL_1_NO_SEC') {
+    if (format === 'FULL_1_NO_SEC') {
         // YYYY-MM-DD HH:MM
         return ( myYear.toString() + '-' + myMonth + '-' + myCalendarDay +' ' + MyHour + ":" + MyMinute);
     }
