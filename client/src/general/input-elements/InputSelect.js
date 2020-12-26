@@ -13,7 +13,7 @@
 //                                       Pointer to Parent useForm() register object to included in onSubmit(data)
 // ============== element usage ========================================//
 
-import {useState, useContext} from 'react';
+import {useContext} from 'react';
 import './InputSelect.scss';
 import { AppContextTodo } from '../../AppContext';
 
@@ -21,7 +21,7 @@ export function InputSelect (props) {
     
     const contextTodo = useContext(AppContextTodo);
 
-    if ( contextTodo.todoFormMode !="READ" ) {
+    if ( contextTodo.todoFormMode !=="READ" ) {
         return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 

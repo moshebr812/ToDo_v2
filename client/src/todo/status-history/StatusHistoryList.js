@@ -46,7 +46,7 @@ export function StatusHistoryList (props) {
             return <div></div>
         }
 
-        if ( !contextTodo.todoInFocus || contextTodo.todoInFocus._id==undefined) {
+        if ( !contextTodo.todoInFocus || contextTodo.todoInFocus._id===undefined) {
             return <div className="statusHistoryList">
                 No Item Selected
             </div>
