@@ -1,0 +1,143 @@
+[33mcommit 5dcea9d0c7c510528d7833cc677b7405d764fd61[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sat Dec 26 09:28:22 2020 +0200
+
+    v1.3.0 0076 Heroku still doesn't connect to cloud.mongodb
+
+[33mcommit 3d0900ec0ce88149fd8fe66e24a3e742b8e9875a[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Fri Dec 25 07:17:31 2020 +0200
+
+    debug failing to connect Mongodb atlas to Heroku
+
+[33mcommit 85b594bb40ab7f94b424eab2b02a5c267978114f[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 24 21:54:15 2020 +0200
+
+    adding mongo DATABASE_URL  HOSTING_SERVER_NAME
+
+[33mcommit f3c30874443f2926ecf61a7ee80a0768aaec8840[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 24 21:36:52 2020 +0200
+
+    adding mongo DATABASE_URL  HOSTING_SERVER_NAME
+
+[33mcommit 1c3e724311d0d3a6ff7fde5c23769861321cc50d[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 24 21:20:33 2020 +0200
+
+    add DATABASE_URL in dbService.js
+
+[33mcommit daff15cc8bda5290038614dbc0764206e3d92b29[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 24 20:58:47 2020 +0200
+
+    ver 1.2.0.2087
+
+[33mcommit c769a726075266415e3f0d39668588e84fb0a550[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 24 20:13:49 2020 +0200
+
+    revision: 1.2.4 - adding envInfo on contextTodo for About.js screen
+
+[33mcommit faaf311271d559c59fe4236946554a738e7a98a5[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 24 16:07:43 2020 +0200
+
+    v1.2.0 add versionInfo to AppContext
+
+[33mcommit 6ff21e126709817f6d44c76b426a8d05aa095b3b[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Wed Dec 23 20:45:28 2020 +0200
+
+    update README.md
+
+[33mcommit 8c6e27b0cbfeeaf8b834a774fa4f9b4f740cb524[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Wed Dec 23 20:37:34 2020 +0200
+
+    code cleaning, bug on refresh history status, add README.md file
+
+[33mcommit 08f26c7b8450c60070ddf36d1bb2dd974c264a91[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Wed Dec 23 17:06:38 2020 +0200
+
+    backup before code / comment cleanup
+
+[33mcommit 2fb2c90edc80d3779416c4205396e1f6e407aaf7[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Tue Dec 22 21:20:50 2020 +0200
+
+    new component ColumnHeaderForSort used to sort list of Todo
+
+[33mcommit b69bddbe4d4f3f579e6365d13163f39ff263411a[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sun Dec 20 19:11:20 2020 +0200
+
+    changes in server.index.js ,  project.package.json for Heroku
+
+[33mcommit d2ccc2a79e5a790c5a14ba9c957caa5eb8c4634a[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sun Dec 20 18:45:43 2020 +0200
+
+    adding react-icons for object TodoInline.js
+
+[33mcommit c3f3d85f183e5e86f072dbcc6a893077a4f42976[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Fri Dec 18 00:45:36 2020 +0200
+
+    1. Upon submit of ADD / EDIT, we setItemInFocus the record we worked on. 2. Fix Vertical Scroll on todoList
+
+[33mcommit c10eeca934232bb1e341c5f8db0891dbee1a80d0[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Wed Dec 16 17:04:02 2020 +0200
+
+    use dateformat
+
+[33mcommit 45cd1f3d48d8e112e7a1d3c944358af05706ce86[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Tue Dec 15 22:24:08 2020 +0200
+
+    added CountByGroupContainer to present summary of couunt by status (of todo)
+
+[33mcommit 2f17606d9cf8e76edad85c9de121319d2d03de41[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sun Dec 13 00:04:07 2020 +0200
+
+    TodoForm.scss TodoReadForm.js renamed
+
+[33mcommit a805ea3f89d5b12785348121bfe88871f968327c[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sat Dec 12 19:31:12 2020 +0200
+
+    stabilize Edit mode + set todoInFocus to font-weight=700
+
+[33mcommit d55d32cecd91c4c54652aefafbefcb211a91b997[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sat Dec 12 15:25:51 2020 +0200
+
+    done form mode 'EDIT' - still with debug old variables
+
+[33mcommit 8f3f6b8fb7830f7efb29e8d9d403ad95dc92cc27[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Sat Dec 12 09:44:14 2020 +0200
+
+    done CustomizedErrorMsg
+
+[33mcommit f50a3c9ebe14da3d2304fbbf1b90428794a64d4b[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Thu Dec 10 23:47:50 2020 +0200
+
+     end of day 2020-12-10
+
+[33mcommit 791b6a5011f79d9f8ba3353cc06b780b5ee8361b[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Wed Dec 9 20:57:32 2020 +0200
+
+    clean log prints
+
+[33mcommit 4bdc7cb92b5412cc24dcd5d42fd44633120dcd61[m
+Author: Moshe Braude <mbraude@attentigroup.com>
+Date:   Wed Dec 9 19:55:10 2020 +0200
+
+    recover code

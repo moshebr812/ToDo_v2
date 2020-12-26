@@ -15,6 +15,7 @@ async function dbConnectViaMongoose () {
         console.log (`dbConnectViaMongoose DATABASE_URL = ` + process.env.DATABASE_URL);
         // connect to the Database on external server
         mongoDbUrl = process.env.DATABASE_URL;
+        mongoDbUrl = 'I PUT Grabage on purpose';
     } else {
         console.log('===================================');
         console.log (`from : dbConnectViaMongoose --> process.env.DATABASE_URL return false`);

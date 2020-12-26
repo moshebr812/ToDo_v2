@@ -36,11 +36,13 @@ myApp.use(expressSrv.json());   // convert valid JSON structures to JS Objects
 // middleware       - Set the list of Business Routers as middleware
 myApp.use("/api/todoitems", todoitemsRouter);
 myApp.use("/api/todostatus", todostatusRouter);
-myApp.use("/",expressSrv.static(path.join(__dirname, '../client/build')));
-//
 myApp.get ('/api/todoServerParameters' ,  async (request, response) => {
     response.json  ( connectionInfo );
 })
+
+myApp.use("/",expressSrv.static(path.join(__dirname, '../client/build')));
+//
+
 
 // hostingPort
 if (process.env.PORT) {

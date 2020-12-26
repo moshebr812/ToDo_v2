@@ -91,10 +91,7 @@ export function About (props) {
         
 
         <hr></hr>
-        {/* <MyP_2><strong>Hosting Server: </strong>{contextTodo.envInfo.hostingServer} / <strong> Hosting Port: </strong> {contextTodo.envInfo.hostingPort}</MyP_2>
-        <MyP_2><strong>Language:</strong> {contextTodo.envInfo.envLanguage}</MyP_2> */}
-
-        <MyP_2>Hosting Server: {contextTodo.envInfo.hostingServer} /  Hosting Port: {contextTodo.envInfo.hostingPort}</MyP_2>
+        <MyP_2>Hosting Server: ______   URL: {contextTodo.envInfo.hostingServer} /  Port: {contextTodo.envInfo.hostingPort}</MyP_2>
         <MyP_2>Language: {contextTodo.envInfo.envLanguage}</MyP_2>
 
 
