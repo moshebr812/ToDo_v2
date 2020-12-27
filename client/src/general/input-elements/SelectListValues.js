@@ -25,7 +25,7 @@ export const complexityOptions = [
     {value: "S", text: "Simple"} 
 ];
 
-export default { 
+export default{ 
     statusOptions,
     priorityOptions,
     complexityOptions,

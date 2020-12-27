@@ -12,11 +12,11 @@ import { statusOptions } from '../input-elements/SelectListValues';
 
 
 async function aggregateCountByFieldName(fieldName) {
-    console.log (`aggregateCountByFieldName :  ${fieldName}`);
+    // console.log (`aggregateCountByFieldName :  ${fieldName}`);
     try {
         const result = await fetch (`/api/todoitems/aggregateCountByFieldName/${fieldName}`);
         const data = await result.json();
-        console.log(`data is `, data);
+        // console.log(`data is `, data);
         return data;
 
     } catch (err) {

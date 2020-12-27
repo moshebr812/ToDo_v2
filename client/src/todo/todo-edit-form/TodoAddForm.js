@@ -52,7 +52,7 @@ function defaultEndDate () {
 function closeForm(contextObject) {
     // close the form and loose changes
     contextObject.setTodoFormMode('READ');
-    alert ('closeForm "Add"');
+    // alert ('closeForm "Add"');
     return 0;
 }
 
@@ -172,7 +172,7 @@ export function TodoAddForm (props) {
         
         let action = contextTodo.todoFormMode;
 
-        alert (`Client -->> Submitting data of TodoAddForm \n action=${action}`);
+        // alert (`Client -->> Submitting data of TodoAddForm \n action=${action}`);
         console.log(`Client -->> Before fix: Submitting data of TodoAddForm \n action=${action}`, data);
 
         // Add the insert time so we can stamp it in the Status History Table --> I don't hold this field on the Client
@@ -254,7 +254,7 @@ export function TodoAddForm (props) {
         {/* <form>    */}
         <div className="todoEditForm">
             <fieldset>
-                <legend>{contextTodo.todoFormMode} - Task / isDirty={isDirty?"Yes":"No"}</legend>
+                <legend>{contextTodo.todoFormMode} Task { (contextTodo.debugOptions.showFlagsState?`${isDirty?"(is Dirty? Yes)":"(is Dirty? No)"}`:"")}</legend>
                 <div className="todoEditFormDivLine">
                     <label>Title</label> 
                     <input  name="title" className={errors.title?"inputWide requiredFieldError":"inputWide"} 

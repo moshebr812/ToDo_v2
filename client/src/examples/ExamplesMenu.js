@@ -36,17 +36,24 @@ export function ExamplesMenu (props)  {
 
                 <fieldset>
                     <legend> <strong>Debug Options </strong></legend>
+
                     <label>Show Component Usage:</label> 
                     <input type="checkbox" checked={contextTodo.debugOptions['showComponentUsage']} 
-                        onChange={((e) => contextTodo.setDebugOptions({"showComponentUsage": e.target.checked}))}></input> <br></br>
+                        onChange={((e) => contextTodo.setDebugOptions({ "showComponentUsage": e.target.checked, 
+                                                                        "showFlagsState": contextTodo.debugOptions['showFlagsState']}))}></input>
+                    <label style={{color: "black"}}>(set dotted border around Function Components re-use )</label> <br></br>
 
                     <label>Show File Name:</label> 
-                    <input type="checkbox"></input><label style={{color: "black"}}>(WIP)</label> <br></br>
+                    <input type="checkbox"></input><label style={{color: "black"}}>(not yet implemented)</label> <br></br>
                     
 
                     <label>Show Flags State:</label> 
                     <input type="checkbox" checked={contextTodo.debugOptions['showFlagsState']} 
-                        onChange={((e) => contextTodo.setDebugOptions({"showFlagsState": e.target.checked}))}></input> <br></br>
+                        onChange={((e) => contextTodo.setDebugOptions({ "showComponentUsage": contextTodo.debugOptions['showComponentUsage'],
+                                                                        "showFlagsState": e.target.checked}))}></input> 
+                    <label style={{color: "black"}}>(show additional flags that present a status/action )</label> <br></br>
+
+
                 </fieldset>
             </div>
 

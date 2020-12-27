@@ -4,17 +4,18 @@ import { useState, useEffect, useContext } from 'react';
 import './StatusHistoryList.scss';
 import { AppContextTodo } from '../../AppContext';
 import { formatDateTimeNoSec } from '../../general/helpers/Dates';
+import { InputSelect } from '../../general/input-elements/InputSelect';
+import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
 
 
 const dateFormat = require("dateformat");
-
 
 async function getStatusHistory(item_id) {
     if (item_id) {
         const result = await fetch (`/api/todoitems/${item_id.toString()}/todostatus`);
         const data = await result.json();
         // I returned a more complex object with debug info, return to the form only the Array with Status records
-        console.log (`getStatusHistory for _id = ${item_id}. Total Rows Fetched: ${data.data.length}`);
+        // console.log (`getStatusHistory for _id = ${item_id}. Total Rows Fetched: ${data.data.length}`);
         return data.data;
     } else {
         return ([]);
@@ -56,9 +57,8 @@ export function StatusHistoryList (props) {
             </div>
         }
 
-        return <div className="statusHistoryList">
+        return <div className="statusHistoryList" disabled>
                     <div>
-                        Status Changes  ({statusHist.length})    ( StatusHistoryList.js )
                     </div>
 
                     <div className="statusHistoryLine">
@@ -80,6 +80,10 @@ export function StatusHistoryList (props) {
                             
                             <label type="text" className="changeDateColumn">
                                 {dateFormat(  new Date (element.changeDate), formatDateTimeNoSec ) }</label>
+
+                            {/* should open this for Additional Components */}
+                            {/* <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
+                                 id="status" fieldName="status" disabled usageMode="READ"></InputSelect> */}
                        </div> 
                     })}
             </div>  

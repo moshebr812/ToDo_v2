@@ -17,7 +17,7 @@ export function TodoMain() {
   
   const contextTodo = useContext (AppContextTodo)
 
-  console.log ('test',priorityOptions);
+  // console.log ('test',priorityOptions);
  
 return ( 
    <div className="appToDo">

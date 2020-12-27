@@ -21,7 +21,11 @@ export function InputSelect (props) {
     
     const contextTodo = useContext(AppContextTodo);
 
-    if ( contextTodo.todoFormMode !=="READ" ) {
+    // In debug 
+    if ( contextTodo.todoFormMode !=="READ") { //} && props.usageMode!=="READ") {
+        // I extend the usage of the list to additional screens
+        // So even if we are in mode ADD / EDIT, there are cases the form is updateable but a list 
+        // using this DDDW is in READ only
         return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
@@ -39,7 +43,7 @@ export function InputSelect (props) {
         </div>
     }
     
-    return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
+    return  <div  className="inputSelectDynamicLoad" style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
                     id={props.fieldId}

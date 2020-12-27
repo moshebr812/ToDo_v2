@@ -24,10 +24,8 @@ import { formatDateOnly } from '../../general/helpers/Dates';
 const dateFormat = require ('dateformat');
 
 function closeForm(contextObject) {
-   
     contextObject.setTodoInFocus({});
-
-    alert ('closeForm');
+    // alert ('closeForm');
 }
 
 export function TodoReadForm (props) {
@@ -43,7 +41,7 @@ export function TodoReadForm (props) {
     }
     
     // Case we delete an Item that is now opened in "Edit From", the item becomes invalid and we crash
-    if ( !contextTodo.todoInFocus || contextTodo.todoInFocus._id==undefined) {
+    if ( !contextTodo.todoInFocus || contextTodo.todoInFocus._id===undefined) {
         return <div className="additionalInfo">
             <h4>Additional Info (TodoEditForm.js)</h4>
             <hr></hr>
@@ -100,7 +98,7 @@ export function TodoReadForm (props) {
 
                 <div className="todoEditFormDivLine">
                     <label className="">Debug id</label>
-                    <input disabled name="id" type="text" disabled={viewOnly} value={contextTodo.todoInFocus.id}></input>
+                    <input name="id" type="text" disabled={viewOnly} value={contextTodo.todoInFocus.id}></input>
                     <label>Mongo _id</label>
                     <input className="inputSemiWide" disabled name="_id" type="text" value={contextTodo.todoInFocus._id}></input>
                 </div>

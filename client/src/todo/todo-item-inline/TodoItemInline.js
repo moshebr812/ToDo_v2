@@ -120,7 +120,7 @@ export function TodoItemInline (props) {
                     setIsOpen(true);
                     console.log ('from open ' + props.item.id);
                 }
-            }} title="Expand, Collapse, TBD">  
+            }}>  
             {/*  Change the caption */}
         {isOpen? 'Close' : 
                 <IconContext.Provider value={{style: {color: 'blue', fontSize: '16px', padding: "0", marginTop: "0"}}}>

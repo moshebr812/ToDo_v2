@@ -94,13 +94,14 @@ export function TodoList (props) {
                 <button className="btnListHeader" onClick={()=>{openAddForm(contextTodo)}}>Add</button>
                 <button className="btnListHeader" onClick={() =>{refreshList(contextTodo)}}>Refersh</button>
                 
-                <strong> Mode: {contextTodo.todoFormMode}</strong> 
+                <strong className={(contextTodo.debugOptions.showFlagsState)?"":"hideMe"}> Mode: {contextTodo.todoFormMode}</strong> 
                 <hr></hr>
             </div>
             
             <div className="divListHeader">
                 <label className="labelInHeader">Focus on: </label>    
-                {(contextTodo.todoInFocus.title===undefined) ? "" : (contextTodo.todoInFocus.title+" - "+contextTodo.todoInFocus._id)}
+                {(contextTodo.todoInFocus.title===undefined) ? "" : (contextTodo.todoInFocus.title)}
+                {(contextTodo.todoInFocus.title===undefined || contextTodo.debugOptions.showFlagsState===false) ? "" : (" - "+contextTodo.todoInFocus._id)}
                 <br></br>        
             </div> 
 

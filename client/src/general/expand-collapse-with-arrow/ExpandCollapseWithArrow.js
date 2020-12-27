@@ -21,7 +21,7 @@ export function ExpandCollapseWithArrow (props) {
     const contextTodo = useContext (AppContextTodo);
 
     function collapseExpand () {
-        console.log (`isExpanded = ${isExpanded?"true":"false"}`);
+        // console.log (`isExpanded = ${isExpanded?"true":"false"}`);
         setIsExpanded (!isExpanded);
     }
 
