@@ -6,7 +6,7 @@ import { TodoItemFull } from '../todo-item-full/TodoItemFull';
 import { AppContextTodo } from '../../AppContext';
 import { statusOptions, priorityOptions } from '../../general/input-elements/SelectListValues';
 import { IconContext } from 'react-icons';
-import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine } from 'react-icons/ri';
+import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
 
 async function dbDeleteOneTodo (ObjectID) {  
     try {
@@ -105,14 +105,14 @@ export function TodoItemInline (props) {
                         contextTodo.setTodoInFocus (props.item);
                         // console.log (`TodoItemInline.js -> onClick() after setTodoInFocus (props.item)`,contextTodo.todoInFocus );
 
-                    }} title="Edit: to view full details / edit. Info: inline overview. / delete: remove task.">
+                    }} title="View task full details with option to edit">
             <IconContext.Provider value={{style: {color: 'blue', fontSize: '16px', padding: "0", marginTop: "0"}}}>
                 <RiEdit2Line></RiEdit2Line>
             </IconContext.Provider> 
         </button>
 
         {/* Info Button: opens inline */}
-         <button className="btnInline btnInfo"  title="Additional Info presented inline"
+         <button className="btnInline btnInfo"  title={isOpen?"Close additional info":"Show inline additional info"}
           onClick={() => { 
                   if (isOpen) {
                     setIsOpen(false);
@@ -122,14 +122,16 @@ export function TodoItemInline (props) {
                 }
             }}>  
             {/*  Change the caption */}
-        {isOpen? 'Close' : 
+        {isOpen? <IconContext.Provider value={{style: {color: 'blue', fontSize: '16px', padding: "0", marginTop: "0"}}}>
+                    <RiCloseCircleLine></RiCloseCircleLine>
+                </IconContext.Provider> : 
                 <IconContext.Provider value={{style: {color: 'blue', fontSize: '16px', padding: "0", marginTop: "0"}}}>
                     <RiInformationLine></RiInformationLine>
                 </IconContext.Provider> 
         } </button> 
 
         {/* Delete Button */}
-        <button className="btnInline btnDelete" title="Deleting all !!! information related to this todo item" 
+        <button className="btnInline btnDelete" title="Warning - this will Delete all information related to this todo item" 
             onClick={()=> deleteTodo(contextTodo, props.item._id,  props.item.title)}>
         <IconContext.Provider value={{style: {color: 'red', fontSize: '16px', padding: "0", marginTop: "0"}}}>
             <RiDeleteBin6Line></RiDeleteBin6Line>

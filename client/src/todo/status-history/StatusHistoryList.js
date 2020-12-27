@@ -58,8 +58,8 @@ export function StatusHistoryList (props) {
         }
 
         return <div className="statusHistoryList" disabled>
-                    <div>
-                    </div>
+                    <h4> Status Changes History
+                    </h4>
 
                     <div className="statusHistoryLine">
                         <label className="idColumn columnHeader">#</label>

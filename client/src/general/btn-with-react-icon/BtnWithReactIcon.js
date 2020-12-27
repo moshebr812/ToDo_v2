@@ -2,8 +2,7 @@ import './BtnWithReactIcon.scss';
 // IconContext is a wrapper to enable setting additional properties of the icons
 // it works on "/fa", but not on "/gr" (for example)
 import { IconContext } from 'react-icons';
-import { FaTwitter } from 'react-icons/fa';
-import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine } from 'react-icons/ri';
+import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
 
 // in this link to can find all icons 
 // https://react-icons.github.io/react-icons/search?q=help
@@ -29,6 +28,8 @@ export function BtnWithReactIcon (props) {
 
     const getIconTag = (iconFor) => {
       switch (iconFor) {
+        case 'CLOSE-SMALL':
+            return <RiCloseCircleLine></RiCloseCircleLine>
         case 'DELETE':
             return <RiDeleteBin6Line></RiDeleteBin6Line>;
             

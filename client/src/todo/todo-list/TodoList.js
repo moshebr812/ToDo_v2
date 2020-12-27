@@ -16,7 +16,7 @@ async function refreshList(contextObject) {
 }
 
 function openAddForm(contextObject) {
-    alert ('Switch to Add Form ');
+    // alert ('Switch to Add Form ');
     contextObject.setTodoFormMode('ADD');
     contextObject.setTodoInFocus({}); // Opening a new item
 }
