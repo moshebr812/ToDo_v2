@@ -5,7 +5,7 @@ import './StatusHistoryList.scss';
 import { AppContextTodo } from '../../AppContext';
 import { formatDateTimeNoSec } from '../../general/helpers/Dates';
 import { InputSelect } from '../../general/input-elements/InputSelect';
-import { statusOptions, priorityOptions, complexityOptions } from '../../general/input-elements/SelectListValues';
+import { statusOptions } from '../../general/input-elements/SelectListValues';
 
 
 const dateFormat = require("dateformat");
@@ -71,19 +71,15 @@ export function StatusHistoryList (props) {
                     {statusHist.map ((element, idx) => {
                         return <div key={idx} className="statusHistoryLine"> 
                             <label type="text" className="idColumn">{idx+1}</label>
-                            <select key="999" className="statusColumn statusSelect" name="status" disabled id="status" value={element.status}>
-                                <option key="1" value="RO">Reopened</option>
-                                <option key="2" value="CMP">Completed</option>
-                                <option key="3" value="IP">In Process</option>
-                                <option key="4" value="NS">Not Started</option>                 
-                            </select>
-                            
-                            <label type="text" className="changeDateColumn">
-                                {dateFormat(  new Date (element.changeDate), formatDateTimeNoSec ) }</label>
 
-                            {/* should open this for Additional Components */}
-                            {/* <InputSelect fieldLabel="Status" optionsArray={statusOptions} selectedValue={contextTodo.todoInFocus.status} 
-                                 id="status" fieldName="status" disabled usageMode="READ"></InputSelect> */}
+                            <InputSelect className="statusColumn" fieldLabel="" optionsArray={statusOptions} selectedValue={element.status} 
+                                 id="status" fieldName="status" disabled usageMode="READ" backgroundColor="transparent" width="100px"
+                                 ></InputSelect>
+
+                            <label type="text" className="changeDateColumn">
+                                {dateFormat(  new Date (element.changeDate), formatDateTimeNoSec ) }
+                            </label>
+
                        </div> 
                     })}
             </div>  

@@ -7,6 +7,11 @@
     width: 100vw;
     height: 100vh;
 
+    h4 { 
+        color: blue;
+        font-size: 30px;
+        padding-left: 10px;
+    }
     h3 {
         color: lime;
         padding-left: 80px;
@@ -24,4 +29,29 @@
         padding-left: 10px;
         color: lime;
     }
+}
+
+.longText3Dots {
+    color: purple;
+    border: 2px black solid;
+    width: 100px;
+    display: inline;
+    //
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    // display: inline-block;
+}
+
+.ellipseTooltip {
+  border: 2px solid darkgray;  
+  background: pink;
+  color: red;
+}
+
+.debugEllipsisOnly {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

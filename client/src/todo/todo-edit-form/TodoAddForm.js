@@ -211,9 +211,7 @@ export function TodoAddForm (props) {
                 //"todoItemData": data,
                 //"todoStatusData": data2
         if ( action ==="ADD" ) {
-
             tempArray.unshift (responseObject.todoItemData[0]);
-
         } else if ( action === "EDIT" ) {
 
             let indexOfUpdated = tempArray.findIndex (element => element._id===itemAtWork._id);
@@ -263,7 +261,7 @@ export function TodoAddForm (props) {
                                 require: true,
                                 validate: isFieldNotEmpty,
                                 minLength: 5,
-                                maxLength: 30,
+                                maxLength: 50,
                         })}></input> 
 
                     <CustomizedErrorMsg errObject={errors} fieldName="title" fieldLabel="Title" minVal="5" maxVal="30"></CustomizedErrorMsg>

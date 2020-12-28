@@ -1,9 +1,10 @@
-// This file should by default remain empty so the tags inherit the SCSS of the parent container
-// using InputSelect
+.inputSelectReadOnly {
 
-.inputSelectDynamicLoad {
-    // -webkit-appearance: none;
-    // background: none;
-    // background-color: lime;
-    // border: none;
+    select {
+        -webkit-appearance: none;       // remove the arrow
+        -moz-appearance: none;          // remove the arrow
+        border: none;
+        color: black;
+    }
+
 }

@@ -14,6 +14,28 @@ $inline-button-left-margin: 12px;
     font-weight: 700; // 400 is normal
 }
 
+.ellipsisField {
+    color: black;
+    display: inline;
+    max-width: 220px;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+    // overflow: hidden;
+    padding-left: 3px;
+    margin: 0;
+    ///
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ellipseTooltipTypeA {
+    border: 2px solid black;  
+    background: white;
+    color: black;
+    border-radius: 10px;;
+  }
+
 .InputSelect {
     display: inline;
 }

@@ -22,11 +22,11 @@ export function InputSelect (props) {
     const contextTodo = useContext(AppContextTodo);
 
     // In debug 
-    if ( contextTodo.todoFormMode !=="READ") { //} && props.usageMode!=="READ") {
+    if ( contextTodo.todoFormMode !=="READ" && props.usageMode!=="READ") {
         // I extend the usage of the list to additional screens
         // So even if we are in mode ADD / EDIT, there are cases the form is updateable but a list 
         // using this DDDW is in READ only
-        return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
+        return  <div  style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px magenta dotted":""}`}}>
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
                     id={props.fieldId}
@@ -43,7 +43,11 @@ export function InputSelect (props) {
         </div>
     }
     
-    return  <div  className="inputSelectDynamicLoad" style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px brown dotted":""}`}}>
+    // In some places we want the background-color to be set AS IS in the Container, in some places we want it transparent so it can ...
+    // "an additional field in a line of columns"
+    return  <div  className="inputSelectReadOnly" 
+            style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px magenta dotted":""}`}}
+            >
             <label>{props.fieldLabel}</label>
             <select name={props.fieldName} 
                     id={props.fieldId}
@@ -53,6 +57,10 @@ export function InputSelect (props) {
                     value={props.selectedValue}
                     ref={props.register}
                     disabled={props.disabled}
+                    // container may want to specify a specific background
+                    style={{ backgroundColor: `${props.backgroundColor!==""?props.backgroundColor:""}`,
+                             width: `${props.width!==""?props.width:""}`
+                }}
                     >
                     
                     {/* the actual render of the select/option drop down */}

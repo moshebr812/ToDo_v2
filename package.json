@@ -14,7 +14,9 @@
   "dependencies": {
     "concurrently": "^5.3.0",
     "dataformat": "^1.0.0",
-    "react-hook-form": "^6.12.0"
+    "react-bootstrap": "^1.4.0",
+    "react-hook-form": "^6.12.0",
+    "react-texty": "^0.6.0"
   },
   "devDependencies": {},
   "keywords": [

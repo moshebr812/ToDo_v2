@@ -7,6 +7,12 @@ import { AppContextTodo } from '../../AppContext';
 import { statusOptions, priorityOptions } from '../../general/input-elements/SelectListValues';
 import { IconContext } from 'react-icons';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
+//
+import { InputSelect } from '../../general/input-elements/InputSelect';
+//
+import Text from 'react-texty';
+import 'react-texty/styles.css'
+
 
 async function dbDeleteOneTodo (ObjectID) {  
     try {
@@ -70,19 +76,40 @@ export function TodoItemInline (props) {
     return <div className={ (contextTodo.todoInFocus._id && contextTodo.todoInFocus._id === props.item._id)? "todoItemInline highlightnedLine " : "todoItemInline "}
             onFocus={props.onClick(props.item._id)}
             onClick={onClickTest(props.item._id)}
-            style={{border: `${contextTodo.debugOptions['showComponentUsage']?"3px orange dotted":""}`}}
+            style={{border: `${contextTodo.debugOptions['showComponentUsage']?"2px rgb(255,0,64) dotted":""}`}}
             >
 
-        <label> {props.idx}) </label>
-        {props.item.title}
+        <label className="ellipsisField"> {props.idx}) </label>
+        {/* need to put title in a tag so I can apply the ellipse + tooltip feature */}
+        {/* <label className="ellipsisField"> {props.item.title}</label> */}
+        <label className="ellipsisField">{props.item.title}</label>
+        
+        {/* <Text   className="ellipsisField" 
+                        tooltip={props.item.title}     // the actual text of the tooltip
+                        tagName="strong"
+                        tooltipClassName="ellipseTooltipTypeA"
+                        style={{display: 'inline'}}
+                        showDelay="180"    // in Milliseconds
+                        hideDelay="180"    // in Milliseconds
+                        placement="bottom-end"       // top|top-start|top-end|bottom|bottom-start|bottom-end
+                        hideArrow="false"             //
+                        // arrowClassName="BBB"
+                        tooltipStyle={{ 'color': 'black', 'border': '2px black solid', opacity: '0.75', backgroundColor: 'white', borderRadius: '0px'   }}
+                >{props.item.title}</Text> */}
+        
+        
 
         <select className="statusLabel" name="status" id="status" disabled value={props.item.status}>
-
             {statusOptions.map ( (element, idx) => {
                 return <option key={idx} value={element.value}>{element.text}</option>
             })}
-            
-        </select>
+        </select>    
+
+        {/* <InputSelect fieldLabel="" optionsArray={statusOptions} selectedValue={props.item.status} 
+                                 id="status" fieldName="status" disabled usageMode="READ" backgroundColor="transparent" width="8px"
+                                 ></InputSelect> */}
+
+        
 
         <select className="priorityLabel" name="priority" id="priority" disabled value={props.item.priority}>
             {priorityOptions.map ( (element, idx) => {

@@ -25,23 +25,21 @@
 
     .columnHeader {
         color: blue;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 14px;
     }
     .idColumn {
         width: 40px;
     }
     .statusColumn {
-        width: 180px;
-        -webkit-appearance: none;
-        background-color: lightgoldenrodyellow;
-        border: none;
+        width: 100px;
+        // -webkit-appearance: none;
+        // border: none;
     }
-    .statusSelect {
-        color: black;
-    }
+
     .changeDateColumn {
         width: 200px;
         font-size: 13px;;
+
     }
 }

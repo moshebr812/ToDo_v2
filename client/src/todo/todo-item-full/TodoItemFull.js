@@ -6,7 +6,7 @@ export function TodoItemFull (props) {
 
     const contextTodo = useContext (AppContextTodo);
 
-    return <div className="itemFullInLine" style={{border: `${contextTodo.debugOptions['showComponentUsage']?"4px red dotted":""}`}}>
+    return <div className="itemFullInLine" style={{border: `${contextTodo.debugOptions['showComponentUsage']?"4px yellow dotted":""}`}}>
             <label>ID:</label>{props.item.id}.
             <label>Title:</label>{props.item.title}
             <label>Status:</label>{props.item.status} 

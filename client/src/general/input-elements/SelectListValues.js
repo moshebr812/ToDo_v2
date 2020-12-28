@@ -20,9 +20,9 @@ export const priorityOptions = [
 
 
 export const complexityOptions = [ 
-    {value: "T", text: "Tough"},
-    {value: "C", text: "Challenging"},
-    {value: "S", text: "Simple"} 
+    {value: "T", text: "Tough", uiCounterSort: 10},
+    {value: "C", text: "Challenging", uiCounterSort: 20},
+    {value: "S", text: "Simple", uiCounterSort: 30} 
 ];
 
 export default{ 
