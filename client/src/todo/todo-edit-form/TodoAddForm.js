@@ -261,10 +261,10 @@ export function TodoAddForm (props) {
                                 require: true,
                                 validate: isFieldNotEmpty,
                                 minLength: 5,
-                                maxLength: 50,
+                                maxLength: 60,
                         })}></input> 
 
-                    <CustomizedErrorMsg errObject={errors} fieldName="title" fieldLabel="Title" minVal="5" maxVal="30"></CustomizedErrorMsg>
+                    <CustomizedErrorMsg errObject={errors} fieldName="title" fieldLabel="Title" minVal="5" maxVal="60"></CustomizedErrorMsg>
                     {/* {errors.title && errors.title.type 
                          && "Type: " + (errors.title.type) + "  Message: " + (errors.title.message)} */}
                     

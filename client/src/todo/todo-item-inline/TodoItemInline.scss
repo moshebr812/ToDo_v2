@@ -10,6 +10,11 @@ $inline-button-left-margin: 12px;
     position: relative;
 }
 
+label {
+    color: black !important;
+    border: none !important;
+    background-color: transparent !important;
+}
 .highlightnedLine {
     font-weight: 700; // 400 is normal
 }

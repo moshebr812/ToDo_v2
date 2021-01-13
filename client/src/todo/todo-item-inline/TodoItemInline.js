@@ -9,9 +9,8 @@ import { IconContext } from 'react-icons';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
 //
 import { InputSelect } from '../../general/input-elements/InputSelect';
-//
-import Text from 'react-texty';
-import 'react-texty/styles.css'
+// 
+import { LongtextEllipsisTooltip } from '../../general/longtext-ellipsis-tooltip/LongtextEllipsisTooltip';
 
 
 async function dbDeleteOneTodo (ObjectID) {  
@@ -80,10 +79,22 @@ export function TodoItemInline (props) {
             >
 
         <label className="ellipsisField"> {props.idx}) </label>
+        
         {/* need to put title in a tag so I can apply the ellipse + tooltip feature */}
         {/* <label className="ellipsisField"> {props.item.title}</label> */}
         <label className="ellipsisField">{props.item.title}</label>
-        
+
+
+        {/* <div style={{border: "yellow 3px solid", display: "inline-block", width: "210px", color: "black"}}>
+        <LongtextEllipsisTooltip
+            fullText={props.item.title}
+            textColor="black"
+            // tooltipType="success"
+            displaySettings="inline"
+        >
+        </LongtextEllipsisTooltip>
+        </div> */}
+
         {/* <Text   className="ellipsisField" 
                         tooltip={props.item.title}     // the actual text of the tooltip
                         tagName="strong"

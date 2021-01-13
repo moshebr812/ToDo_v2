@@ -24,8 +24,8 @@ const {TodostatusModel} = require ('../../models/todostatus.models');
 
 // index.js defined the following middleware        myApp.use("/api/todoitems",todoitemsRouter);
 // routerSrv.get ('/api/todoitems', async (request, response) => {
-routerSrv.get ('/', async (request, response) => {
-    console.log( `${'-'.repeat(40)}  .get() PATH = '/api/todoitems'     params = ${JSON.stringify(request.params)}`);
+routerSrv.get ('/', async (request, response, next) => {
+    console.log( `${'-'.repeat(40)}  .get( a.ll ) PATH = '/api/todoitems'     params = ${JSON.stringify(request.params)}`);
    
     const debugInfo = {     "service":  "TodoItems.js",
                             "path":     "/api/todoitems",
@@ -37,12 +37,16 @@ routerSrv.get ('/', async (request, response) => {
     const data = await TodoitemModel
         // .find( seacrhString, 'id  company.name address.street name email username')
         .find()
+        // .populate('gModel')
+        //.lookup({ from: 'tickets', localField: "route_name", foreignField: 'route_name', as: 'ticket' })
+        // .lookup({ from: 'gModel', localField: '_id', foreignField: 'groupId', as: 'info'})
         .collation({ locale: "en", strength: 2 })
         .sort( [['title', 'asc']])
         .exec();
         response.json (data);
     }
     catch (err)  {
+        next (err)
     }
 });
 
@@ -131,7 +135,8 @@ routerSrv.get ('/:id', async (request, response) => {
     
     const todoObjectID = request.params.id;
 
-    console.log( `${'-'.repeat(40)}  .get() PATH = '/api/todoitems/:id'     params = ${JSON.stringify(request.params)}    using _id(ObjectID) :id = ${todoObjectID}`);
+
+    console.log( `${'-'.repeat(40)}  .get(AAA) PATH = '/api/todoitems/:id'     params = ${JSON.stringify(request.params)}    using _id(ObjectID) :id = ${todoObjectID}`);
 
     const debugInfo =   {   "service":  "TodoItems.js",
                             "path":     "/api/todoitems/:id",

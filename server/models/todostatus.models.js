@@ -32,6 +32,7 @@ const todostatusSchema = Schema ({
 
 // Note since the Collection Name is todostatus -->> need here to write Todostatu without "S"
 // It's a Mongoose issue
+// or could have written collection = "todostatus"
 const TodostatusModel = model('Todostatu' , todostatusSchema);
 
 module.exports = {

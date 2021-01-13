@@ -1,10 +1,31 @@
 // PROJECT:     TOTO_V1
 // FILE:        todoitems.models.js
 
+const { TodogroupModel } = require ('./todogroups.models.js');
+
 // Service
 const { Schema, model } = require('mongoose');
 const { ObjectID } = require('mongodb');
 
+///
+const gSchema = Schema ({
+    _id:   {
+        type:       ObjectID,
+        required:   false,
+    },
+    groupName: {
+        type: String,
+        required: true,
+        unique: true,
+    },    
+    frequency:  {
+        type: String,
+        required: false,
+    },
+})
+
+// const gModel = model('Todogroup' , gSchema);
+///
 // In the schema lists the fields you expect to hold in this connection
 const todoitemSchema = Schema ({
     _id:   {
@@ -46,6 +67,16 @@ const todoitemSchema = Schema ({
     },
     insertDate: Date,
     required:   false,
+    groupId:    { 
+        type: Schema.Types.ObjectId, 
+        required: false },
+    groupName: { 
+        type: String, 
+        ref: "gModel",
+        // value: TodogroupModel.groupName,
+        } ,
+    secondGroupId: {type: Schema.Types.ObjectId, ref: "TodogroupModel"},    
+    // tester: value:'AAAA'
 })
 
 

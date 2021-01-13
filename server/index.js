@@ -11,9 +11,11 @@ const path = require('path');
 // Connect to the DB via Mongoose service
 dbConnectViaMongoose();
 // router services per each Module
+const todogroupRouter = require ('./routers/Todo/TodoGroup');
 const todoitemsRouter = require ('./routers/Todo/TodoItems');
 const todostatusRouter = require ('./routers/Todo/TodoStatus');
-
+const authorsEg1Router = require ('./routers/Examples/AuthorsEg1');
+// const  = require ('./routers/Examples/AuthorsEg1')
 
 // Enable to show in the About Client Screen if u r running locally or via Heroku
 let connectionInfo = {   "hostingServer":"unknown", 
@@ -34,8 +36,12 @@ console.log(`${"x".repeat(30)}\nfile:  index.js  .... STARTING  SERVER  ......\n
 // middleware       - standard
 myApp.use(expressSrv.json());   // convert valid JSON structures to JS Objects
 // middleware       - Set the list of Business Routers as middleware
+myApp.use("/api/todogroups", todogroupRouter);
 myApp.use("/api/todoitems", todoitemsRouter);
 myApp.use("/api/todostatus", todostatusRouter);
+// Examples
+myApp.use("/api/examples/authorEg1",authorsEg1Router)
+
 myApp.get ('/api/todoServerParameters' ,  async (request, response) => {
     response.json  ( connectionInfo );
 })

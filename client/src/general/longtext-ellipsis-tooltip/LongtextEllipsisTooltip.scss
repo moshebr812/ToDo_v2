@@ -1,0 +1,24 @@
+.divType2 {
+    // color: purple;
+
+    // display: inline;
+    // width: 200px;
+    // min-width: 200px;
+    // border: 2px dotted red;
+
+    display: inline;
+    border: none;
+    color: black;
+    width: 540px;
+
+    div {
+      color: black !important;
+    }
+
+    label * {
+      color: black !important;
+    }
+     p {
+       color: black !important;
+     }
+  }

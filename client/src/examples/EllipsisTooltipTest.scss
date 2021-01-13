@@ -1,0 +1,47 @@
+.testEllipsisTooltip {
+    width: 100vh;
+    height: 100%;
+    border: 2px red solid;
+    background-color: white;
+
+    h3 {
+        color: darkred;
+    }
+    h4 {
+        color: purple;
+        font-size: 15px;
+    }
+}
+.longText3Dots {
+    // color: purple;
+    // border: 2px black solid;
+    width: 50px;
+    display: inline-block;
+    margin-top: 20px;
+    //
+    text-overflow: ">>>";
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ellipseTooltip {
+    border: 2px solid darkgray;  
+    background: pink;
+    color: red;
+  }
+  
+  .divType2 {
+    color: blue;
+    display: inline;
+    width: 120px;
+  }
+
+  .btnForTooltip {
+      color: magenta;
+      margin-left: 10px;
+  }
+
+  .labelForLongTest {
+      max-width: 120px;
+      color: black;
+  }
