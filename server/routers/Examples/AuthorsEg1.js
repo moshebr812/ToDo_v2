@@ -1,11 +1,11 @@
-// const { request, response } = require("express")
-
 const expressSrv = require ('express');
 const authorsEg1Router = expressSrv.Router();
 const {ObjectID} = require('mongodb');
 
 // DB Schema to access collection todogroups
 const {AuthorModel} = require ('../../models/authors-eg1.models');
+
+// I do not need the schema of the Stories: it is handled via the pointer in Authors Schema
 const {StoryModule} = require ('../../models/stories-eg1.models');
 
 
@@ -30,36 +30,5 @@ authorsEg1Router.get ('/', async (request, response, next) => {
     }
 });
 
-
-authorsEg1Router.get ('/storyEg1', async (request, response, next) => {
-    console.log (`=====>>>>>>>   Server: examples: authorsRouter.get ('/storyEg1')`);
-
-    try {
-        const data = await StoryModule
-            .find()
-            .exec()
-        response.json (data);
-    } 
-    catch (e) {
-        console.log (`error at authorsRouter.get('/')` );
-        next(e);
-    }
-});
-
-authorsEg1Router.get ('/storyEg1/:_id', async (request, response, next) => {
-    const story_id = ObjectID (request.params._id);
-    console.log (`=====>>>>>>>   Server: examples: authorsRouter.get ('/storyEg1/_id')  _id=${story_id}`);
-
-    try {
-        const data = await StoryModule
-            .find({_id: story_id})
-            .exec()
-        response.json (data);
-    } 
-    catch (e) {
-        console.log (`error at authorsRouter.get('/')` );
-        next(e);
-    }
-});
-
+// get by name
 module.exports = authorsEg1Router; 

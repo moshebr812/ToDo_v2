@@ -5,6 +5,8 @@ import React, {createRef, useContext} from 'react';
 import './About.scss';
 import styled from 'styled-components';
 import { AppContextTodo} from '../AppContext';
+import Popup from 'reactjs-popup';
+
 
 const DivAbout = styled.div`
   background-color:  rgb(238, 255, 0);
@@ -30,6 +32,12 @@ const MyP2 = styled.p`
   color: blue;
   font-size: 20px;
   font-style: italic;
+`
+const AboutButtons =styled.button `
+  margin: 20px;
+  height: 30px;
+  width: 120px;
+  color: darkred;
 `
 
 export function About (props) {
@@ -74,7 +82,7 @@ export function About (props) {
             kidsArray(tree.name, tree.children);
         }
     }
-
+ 
     return <DivAbout>
         <br></br>
         
@@ -95,6 +103,12 @@ export function About (props) {
 
         <MyP2>This about screen was cretaed using "styled-components" </MyP2>
          <hr></hr>
-        <button onClick={ () => {checkFamily(Roy)}}>Check Names</button>
+         {/* <AboutButtons>
+            <button className="aboutButtons" onClick={ () => {checkFamily(Roy)}}>Check Names</button>
+          </AboutButtons> */}
+
+          {/* I write the properties of the button inside my styled object */}
+          <AboutButtons onClick={()=>{alert('This page is using styled-componenets rather than CSS ')}}>styled option</AboutButtons>
+
     </DivAbout>
 }

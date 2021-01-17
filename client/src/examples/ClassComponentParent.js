@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './ClassComponentParent.scss';
 import { ClassComponentSon } from './ClassComponentSon';
+import Popup from 'reactjs-popup'; 
 
 export class ClassComponentParent extends Component {
 
@@ -43,6 +44,9 @@ export class ClassComponentParent extends Component {
               <h4> ______(2) id typed in Child is: {this.state.childId}</h4>
               <h4> ______(3) selected pat code (value): {this.state.selectedPat}</h4>
               <strong> Parent End</strong>
+
+              <button>Test Popup </button>
+              <Popup>Test 123</Popup>
 
               <ClassComponentSon 
                   id={this.state.childId} value={this.state.childValue}

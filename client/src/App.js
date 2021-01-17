@@ -23,8 +23,8 @@ async function getServerInfo() {
 }
 
 export function App() {
-  const versionInfo = { "versionNumber": "1.3.31",     // update this before every Deploy
-                        "releasedDate": "26-Dec-2020 23:00"};
+  const versionInfo = { "versionNumber": "1.3.40",     // update this before every Deploy
+                        "releasedDate": "17-Jan-2021 07:00"};
 
   let debugInit = { "showComponentUsage": false,
                     "showFileName": false,

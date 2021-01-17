@@ -10,18 +10,18 @@ const path = require('path');
 
 // Connect to the DB via Mongoose service
 dbConnectViaMongoose();
-// router services per each Module
+// router services per each Module - Todo Project
 const todogroupRouter = require ('./routers/Todo/TodoGroup');
 const todoitemsRouter = require ('./routers/Todo/TodoItems');
 const todostatusRouter = require ('./routers/Todo/TodoStatus');
+// Learning Examples
 const authorsEg1Router = require ('./routers/Examples/AuthorsEg1');
-// const  = require ('./routers/Examples/AuthorsEg1')
+const stroiesEg1Router = require ('./routers/Examples/StoriesEg1');
 
 // Enable to show in the About Client Screen if u r running locally or via Heroku
 let connectionInfo = {   "hostingServer":"unknown", 
                         "hostingPort":"unknown",
                         "envLanguage":"pending local read"};
-
 
 // Variables & settings
 let port = 3002;
@@ -40,7 +40,8 @@ myApp.use("/api/todogroups", todogroupRouter);
 myApp.use("/api/todoitems", todoitemsRouter);
 myApp.use("/api/todostatus", todostatusRouter);
 // Examples
-myApp.use("/api/examples/authorEg1",authorsEg1Router)
+myApp.use("/api/examples/authorEg1",authorsEg1Router);
+myApp.use("/api/examples/storyEg1",stroiesEg1Router);
 
 myApp.get ('/api/todoServerParameters' ,  async (request, response) => {
     response.json  ( connectionInfo );
