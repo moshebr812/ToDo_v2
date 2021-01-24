@@ -8,10 +8,8 @@ import { statusOptions, priorityOptions } from '../../general/input-elements/Sel
 import { IconContext } from 'react-icons';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
 //
-import { InputSelect } from '../../general/input-elements/InputSelect';
-// 
 import { LongtextEllipsisTooltip } from '../../general/longtext-ellipsis-tooltip/LongtextEllipsisTooltip';
-
+import { BtnWithReactIcon } from '../../general/btn-with-react-icon/BtnWithReactIcon';
 
 async function dbDeleteOneTodo (ObjectID) {  
     try {
@@ -116,12 +114,6 @@ export function TodoItemInline (props) {
             })}
         </select>    
 
-        {/* <InputSelect fieldLabel="" optionsArray={statusOptions} selectedValue={props.item.status} 
-                                 id="status" fieldName="status" disabled usageMode="READ" backgroundColor="transparent" width="8px"
-                                 ></InputSelect> */}
-
-        
-
         <select className="priorityLabel" name="priority" id="priority" disabled value={props.item.priority}>
             {priorityOptions.map ( (element, idx) => {
                 return <option key={idx} value={element.value}>{element.text}</option>
@@ -175,7 +167,17 @@ export function TodoItemInline (props) {
             <RiDeleteBin6Line></RiDeleteBin6Line>
         </IconContext.Provider>    
         </button>
-        
+
+        {/* <button>Check</button>    */}
+        {/* <BtnWithReactIcon className="btnInline btnDelete" title="Warning - this will Delete all information related to this todo item" 
+                actionType='DELETE' 
+                tooltip="Careful: deleting task and all its history permanently"
+                textColor="red"
+                fontSize="16px"
+                onClick={(parms) => {deleteTodo(contextTodo, props.item._id,  props.item.title)}}
+            >
+            </BtnWithReactIcon> */}
+
         {/* this info will be added under the line of the main item */}
         <div className={isOpen? "itemFullInLineSectionOpened" : "itemFullInLineSectionClosed"}>
             <TodoItemFull closeText='Close' openText='Details' item={props.item}></TodoItemFull>

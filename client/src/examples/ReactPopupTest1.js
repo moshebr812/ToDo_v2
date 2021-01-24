@@ -14,9 +14,6 @@ export class ReactPopupTest1 extends Component {
         isPopupOpen: false,
       };
     }
-    // let [isPopupOpen, setIsPopupOpen] = useState(false);
-    // let [tooltipType, setTooltipType]  = useState ('info')
-
     render() {
       return ( <div>
                 <h2> Using reactjs-popup </h2>
@@ -28,10 +25,11 @@ export class ReactPopupTest1 extends Component {
                     // the "open" is a boolean stating if Modal is Opened / Closed !!!! it is NOT a function
                     // If I need to do something upon Modal Open, see ReactPopupModalContent.js
                     trigger={open => (<button>Popup Using additional Component - {open?'Opened':'Closed'}</button>)}
+                    // position="center center"
                     position="center center"
                 >
                     {/* put here the Component u want to open upon click */}
-                    {close => <ModalContent close={close} modalTitle="Tutorial Session"/>}
+                    {close => <ModalContent close={close} modalTitle="Tutorial Session" closeOnDocumentClick={false}  shouldCloseOnOverlayClick={false}/>}
                 </Popup>
 
                 <br></br>
@@ -44,9 +42,7 @@ export class ReactPopupTest1 extends Component {
                   arrow="false"
                   closeOnEscape="false"
                 >
-
               {/* the text / Object to show when opened */}
-
               { close =>    ( 
                     <div className="popupWhenOpenTest1">
                       <h3>Popup content here when open!!</h3>

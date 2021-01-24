@@ -1,0 +1,75 @@
+.modal {
+  font-size: 12px;
+  // border: ;
+  // background-color: rgba(18, 214, 188, 0.973);
+  background-color: black;
+  width: 650px;
+
+  .modalHeader {
+    display: flex;
+    width: 100%;
+    color: white;
+    font-size: 22px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .modalMainText {
+    display: flex;
+    width: 100%;
+    color: rgb(252, 248, 16);
+    font-size: 30px;
+    text-align: center;
+    justify-content: center;
+  }
+  .divForButtons {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .divForButtons > button {
+    padding: 0 10px 0; // hosrizontal 10px
+    margin: 0 10px 15px; // hosrizontal 10px
+    border: 2px white solid;
+    color: white;
+    background-color: transparent;
+    border-radius: 2px;
+    height: 30px;
+    width: 80px;
+  }
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  margin: 7px;
+  padding-bottom: 10px;
+  padding-left: 8px;
+  height: 14px;
+  width: 16px;
+  line-height: 20px;
+  right: 20px; // was -10px
+  top: 20px; // was -60px
+  font-size: 18px;
+  border-radius: 21px;
+  border: 2px solid white;
+  color: white;
+}
+
+
+.btnAction {
+  margin-bottom: 15px;
+}
+// .close:hover, .divForButtons .btnAction:hover {
+// .close:hover, .btnAction[disabled='false']:hover {
+.close:hover, .btnAction:hover {
+  background-color: yellow;
+  color: red;
+}
+
+.btnFeedbackStar {
+  border: none;
+  background-color: transparent;
+}

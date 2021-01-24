@@ -1,7 +1,3 @@
-// PROJECT:     TOTO_V1
-// FILE:        TodoStatus.js
-
-
 const expressSrv = require('express');
 const routerSrvStatus = expressSrv.Router();  // as we did myApp = expressSrv();
 const {ObjectID} = require('mongodb');

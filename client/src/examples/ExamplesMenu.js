@@ -1,6 +1,7 @@
 import './ExamplesMenu.scss';
 import { useContext } from 'react';
 import { AppContextTodo } from '../AppContext';
+import { FeedbackButton } from '../general/feedback/FeedbackButton';
 import { ClassComponentParent } from './ClassComponentParent';
 import { FunctionComponentParent } from './FunctionComponentParent';
 import { HostHook } from './HostHook';
@@ -26,7 +27,7 @@ export function ExamplesMenu (props)  {
         
         <BrowserRouter>
             <div>
-                <h3> Code Examples </h3> 
+                <h3> Code Examples <FeedbackButton moduleTopic="Examples" modalTitle="Code Examples" modalPosition="bottom left"></FeedbackButton> </h3>
                 <Link to="/" className="exampleLink">None</Link> <br></br> <hr></hr>
                 <Link to="/examples/classComponentParent" className="exampleLink"> Parent Son: pass values using Class</Link> <br></br> <hr></hr>
                 <Link to="/examples/functionComponentParent" className="exampleLink"> Parent Son: pass values using Function</Link>  <br></br> <hr></hr>
@@ -55,15 +56,15 @@ export function ExamplesMenu (props)  {
                                                                         "showFlagsState": contextTodo.debugOptions['showFlagsState']}))}></input>
                     <label style={{color: "black"}}>(set dotted border around Function Components re-use )</label> <br></br>
 
-                    <label>Show File Name:</label> 
-                    <input type="checkbox"></input><label style={{color: "black"}}>(not yet implemented)</label> <br></br>
+                    {/* <label>Show File Name:</label> 
+                    <input type="checkbox"></input><label style={{color: "black"}}>(not yet implemented)</label> <br></br> */}
                     
 
-                    <label>Show Flags State:</label> 
+                    {/* <label>Show Flags State:</label> 
                     <input type="checkbox" checked={contextTodo.debugOptions['showFlagsState']} 
                         onChange={((e) => contextTodo.setDebugOptions({ "showComponentUsage": contextTodo.debugOptions['showComponentUsage'],
                                                                         "showFlagsState": e.target.checked}))}></input> 
-                    <label style={{color: "black"}}>(show additional flags that present a status/action )</label> <br></br>
+                    <label style={{color: "black"}}>(show additional flags that present a status/action )</label> <br></br> */}
 
                 </fieldset>
 

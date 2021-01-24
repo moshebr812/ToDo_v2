@@ -23,8 +23,8 @@ async function getServerInfo() {
 }
 
 export function App() {
-  const versionInfo = { "versionNumber": "1.3.40",     // update this before every Deploy
-                        "releasedDate": "17-Jan-2021 07:00"};
+  const versionInfo = { "versionNumber": "1.3.55",     // update this before every Deploy
+                        "releasedDate": "24-Jan-2021 23:00"};
 
   let debugInit = { "showComponentUsage": false,
                     "showFileName": false,
@@ -40,6 +40,8 @@ export function App() {
   let [envInfo, setEnvInfo]  = useState ({ "hostingServer": "srv-PendingCheck",
                                            "hostingPort": "port-PendingCheck",
                                            "envLanguage": "???"});
+  let [userInfo, setUserInfo] = useState ({"userId": "unknown", "loginName": "unknown"});
+
    useEffect ( () => {
      const dummyFunction = async () => {
         const data = await getServerInfo();
@@ -58,7 +60,9 @@ export function App() {
       //
       sortedByColumn, setSortedByColumn,
       //
-      debugOptions, setDebugOptions
+      debugOptions, setDebugOptions,
+      //
+      userInfo, setUserInfo,
    }
 
     return ( <AppContextTodo.Provider value={contextTodo}>

@@ -7,25 +7,6 @@ const { TodogroupModel } = require ('./todogroups.models.js');
 const { Schema, model } = require('mongoose');
 const { ObjectID } = require('mongodb');
 
-///
-const gSchema = Schema ({
-    _id:   {
-        type:       ObjectID,
-        required:   false,
-    },
-    groupName: {
-        type: String,
-        required: true,
-        unique: true,
-    },    
-    frequency:  {
-        type: String,
-        required: false,
-    },
-})
-
-// const gModel = model('Todogroup' , gSchema);
-///
 // In the schema lists the fields you expect to hold in this connection
 const todoitemSchema = Schema ({
     _id:   {

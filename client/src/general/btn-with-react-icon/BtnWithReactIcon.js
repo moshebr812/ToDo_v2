@@ -3,6 +3,10 @@ import './BtnWithReactIcon.scss';
 // it works on "/fa", but not on "/gr" (for example)
 import { IconContext } from 'react-icons';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
+import { FaStar, FaRegStar } from 'react-icons/fa';
+// 
+import { useContext } from 'react';
+import { AppContextTodo } from '../../AppContext';
 
 // in this link to can find all icons 
 // https://react-icons.github.io/react-icons/search?q=help
@@ -22,9 +26,9 @@ import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } f
 // TiEyeOutline
 // RiInformationLine / RiInformationFill
 
-
-
 export function BtnWithReactIcon (props) {
+    
+    let contextObject = useContext (AppContextTodo);
 
     const getIconTag = (iconFor) => {
       switch (iconFor) {
@@ -38,7 +42,12 @@ export function BtnWithReactIcon (props) {
             
         case 'INFO':    
             return <RiInformationLine></RiInformationLine>
-            
+        
+        case 'STAR-FULL':
+            return <FaStar></FaStar>
+
+        case 'STAR-EMPTY':
+            return <FaRegStar></FaRegStar>
         default:
             alert(`invalid icon in ReactIconsLib.getIconTag(${iconFor})`);
             console.log ();
@@ -52,13 +61,14 @@ export function BtnWithReactIcon (props) {
                 <FaTwitter onClick={()=> alert ('on click can work. Consider though to wrap with "Button Tag"')}></FaTwitter>
             </IconContext.Provider> */}
             
-            <button className="btnForInline btnDelete" title={props.tooltip} 
+            <button 
+                className={props.className?props.className:""} 
+                title={props.tooltip} 
+                style = { {border: contextObject.debugOptions['showComponentUsage']?"2px dashed pink":props.border} }
                 onClick={props.onClick}>
                 {/* onClick={()=> alert (`Test onClick for ${props.actionType}`)}> */}
                     
-                    <IconContext.Provider value={{style: {color: props.textColor, fontSize: props.fontSize, padding: "0", margin: "0"}}}>
-                    {/* <IconContext.Provider value={{style: {color: (props.actionType==="DELETE"?"red":"blud"), fontSize: props.fontSize, padding: "0", margin: "0"}}}> */}
-
+                    <IconContext.Provider value={{style: {color: props.textColor, fontSize: props.fontSize, padding: "0", margin: "0" }}}>
                        {getIconTag(props.actionType)}
                         
                     </IconContext.Provider>

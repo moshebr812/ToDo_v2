@@ -13,7 +13,11 @@ dbConnectViaMongoose();
 // router services per each Module - Todo Project
 const todogroupRouter = require ('./routers/Todo/TodoGroup');
 const todoitemsRouter = require ('./routers/Todo/TodoItems');
+// routerSrvStatus
 const todostatusRouter = require ('./routers/Todo/TodoStatus');
+// Users & Feedback from Users
+const usersRouter = require ('./routers/User/User');
+const userFeedbackRouter = require ('./routers/UserFeedback/UserFeedback');
 // Learning Examples
 const authorsEg1Router = require ('./routers/Examples/AuthorsEg1');
 const stroiesEg1Router = require ('./routers/Examples/StoriesEg1');
@@ -39,6 +43,9 @@ myApp.use(expressSrv.json());   // convert valid JSON structures to JS Objects
 myApp.use("/api/todogroups", todogroupRouter);
 myApp.use("/api/todoitems", todoitemsRouter);
 myApp.use("/api/todostatus", todostatusRouter);
+// Users & Users Feedback
+myApp.use("/api/users",usersRouter);
+myApp.use("/api/userfeedback",userFeedbackRouter);
 // Examples
 myApp.use("/api/examples/authorEg1",authorsEg1Router);
 myApp.use("/api/examples/storyEg1",stroiesEg1Router);

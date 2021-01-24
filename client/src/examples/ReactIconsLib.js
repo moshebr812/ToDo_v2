@@ -4,6 +4,7 @@ import './ReactIconsLib.scss';
 import { IconContext } from 'react-icons';
 import { FaTwitter } from 'react-icons/fa';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine } from 'react-icons/ri';
+import { FaStar, FaRegStar } from 'react-icons/fa';
 import { BtnWithReactIcon } from '../general/btn-with-react-icon/BtnWithReactIcon';
 
 // in this link to can find all icons 
@@ -37,6 +38,10 @@ export function ReactIconsLib (props) {
             return <RiEdit2Line></RiEdit2Line>
         case 'INFO':    
             return <RiInformationLine></RiInformationLine>
+        case 'STAR-FULL':
+            return <FaStar></FaStar>
+        case 'STAR-EMPTY':
+            return <FaRegStar></FaRegStar>
         default:
             alert(`invalid icon in ReactIconsLib.getIconTag(${iconFor})`);
             console.log ();
@@ -116,5 +121,19 @@ export function ReactIconsLib (props) {
                 onClick={deleteOnContainer}
             >
             </BtnWithReactIcon>
+
+            <BtnWithReactIcon 
+                actionType='STAR-FULL' 
+                tooltip="Star that is full inside"
+                textColor="purple"
+                fontSize="18px"
+            ></BtnWithReactIcon>
+
+<BtnWithReactIcon 
+                actionType='STAR-EMPTY' 
+                tooltip="Star that is empty inside, border only"
+                textColor="purple"
+                fontSize="18px"
+            ></BtnWithReactIcon>
     </div>
 }

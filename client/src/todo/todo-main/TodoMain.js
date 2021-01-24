@@ -2,6 +2,7 @@ import {useContext} from 'react';
 // Applciation 
 import './TodoMain.scss';
 import { AppContextTodo } from '../../AppContext';
+import { FeedbackButton } from '../../general/feedback/FeedbackButton';
 import { TodoList } from '../todo-list/TodoList';
 import { TodoReadForm } from '../todo-edit-form/TodoReadForm';
 import { TodoAddForm } from '../todo-edit-form/TodoAddForm';
@@ -24,7 +25,7 @@ return (
    
      <div className="appHeader">
         <h4> Todo Project.   version {contextTodo.versionInfo.versionNumber} </h4> <br></br>
-        <p className="debugInfo"> (TodoMain.js) </p>
+        <p className="debugInfo"> (TodoMain.js) <FeedbackButton moduleTopic="Todo" modalTitle="Todo Project" height="20px" modalPosition="bottom center"></FeedbackButton> </p>
     </div>
 
     <div className="appMain">
