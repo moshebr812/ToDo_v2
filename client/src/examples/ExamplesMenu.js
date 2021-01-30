@@ -10,6 +10,7 @@ import { EllipsisTooltipTest } from './EllipsisTooltipTest';
 import { EllipsisTooltipTestFinal } from './EllipsisTooltipTestFinal';
 import { ReactSearchFieldTest } from './ReactSearchFieldTest';
 import { ReactPopupTest1 } from './ReactPopupTest1';
+import { LoginButton } from '../general/login/LoginButton';
 // routing to examples
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 

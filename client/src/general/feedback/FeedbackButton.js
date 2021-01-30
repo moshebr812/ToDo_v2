@@ -12,7 +12,8 @@ export function FeedbackButton (props) {
 
         //     let [isPopupOpen, setIsPopupOpen] = useState(false);  --> note the usage of "open" replacing this
     return <Popup 
-                     
+                    // do not let a "random click" outside the popup modal close the feedback window
+                    closeOnDocumentClick={false}
                     trigger={open=> (<button 
                                             className="feedbackButton"
                                             title={fullTitle}

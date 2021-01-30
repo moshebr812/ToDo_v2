@@ -1,7 +1,5 @@
-// import React from "react";
-import React, { Component, useContext } from "react";
-import { IconContext } from 'react-icons';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import { AppContextTodo } from "../../AppContext";
 import { BtnWithReactIcon } from '../btn-with-react-icon/BtnWithReactIcon';
 
@@ -50,6 +48,7 @@ async function closeModal (close, isSubmit, modalTitle, closingFlow, openTime, u
 function openModal (modalTitle) {
     // keep this for dbug
     //alert (`About to open Modal for modalTitle = ${modalTitle}`);
+    // window.keyboard.blur();
 }
 // using here the export default exposes the object with the file name
 
@@ -65,6 +64,7 @@ export class FeedbackModal extends Component {
   constructor (props) {
     super(props);
 
+    this.btnCancelPointer = React.createRef();
     console.log ('-------FeedbackModal -------modalTopic:.... ', this.props.moduleTopic);
     this.openTime = new Date();
     this.numOfStars = 3;
@@ -76,41 +76,33 @@ export class FeedbackModal extends Component {
 
     // Building an array on which I can map my objects
     this.numOfStars = 5;
-    this.starsArary = [];
+    this.starsArray = [];
     for (let i=0;i<this.numOfStars;i++) {
-      this.starsArary.push(i+1);
+      this.starsArray.push(i+1);
     }
-    
-    // alert (this.starsArary.toString());
 
-    this.starClicked = ((starID) => {
-        
+    this.starClicked = ( (starID) => {
         // if new Score = Old Score   --> deselect  --> set new score to X-1 (deselect)
         // if new Score > Old Score   --> select    --> select new score and all those below me new X
         // if new Score < Old Score   --> deselect  --> deselect all score above X, and also deselect X
         if ( parseInt(starID) === this.state.selectedScore) {
-          
           this.setState ( { selectedScore: starID - 1 } );
-
         } else  {
-          
           this.setState ( { selectedScore: starID } );
-
         } 
       });
 
-    this.renderStars = ( (num) => {
-      let str="";
-      for (let i=0; i<num; i++) {
-        str += <button>love</button>
-      }
-      return (str);
-    } );
-
-    this.test = ['A', 'B' , 'C']
-    }    
+      // This is fired after DOM was loaded 
+      this.componentDidMount = ( (prevProps, prevState) => {
+        // alert ('from componentDidMount');
+        let height = ReactDOM.findDOMNode(this).offsetHeight;
+        // alert (`height = ${height}`);
+        let A = ReactDOM.activeElement;
+        // A.blur();
+        // this.btnCancelPointer.current.focus();
+      })
+  }//  end constructor
   
-    // return (  <div className="modal" style={{border: "10px solid white", backgroundColor: "black"}}>
   render () {  
 
     //   If I want to do something when the object is render --> call a local function. If needed, declare this.status in constructor 
@@ -120,14 +112,14 @@ export class FeedbackModal extends Component {
 
       {/* divforXCLose required rapper for <a> for the scss to apply on all properties */}
         <div className="divforXClose"> 
-          <a className="close" onClick={()=>{  closeModal ( this.props.close, false, this.props.modalTitle, "xClose", this.openTime, 'N/A' ) }}>
+          <a className="close" id="xToClose" onClick={()=>{  closeModal ( this.props.close, false, this.props.modalTitle, "xClose", this.openTime, 'N/A' ) }}>
           {/* &times; */}
           x
           </a>
         </div>
         <br></br>
         <div className="modalHeader" style={{width: '100%'}}> 
-          How would you rate your user experience <br></br>for module "{this.props.modalTitle}" ? 
+          How would you rate your experience <br></br>for module "{this.props.modalTitle}" ? 
         </div>
         <div className="modalMainText">
           <br/>
@@ -138,10 +130,10 @@ export class FeedbackModal extends Component {
         <br/> 
         
         <div className="divForButtons">
-        {this.starsArary.map ( (element, idx) => {
+        {this.starsArray.map ( (element, idx) => {
             // return <button>{idx} {element} AZS</button>
             return  <BtnWithReactIcon 
-                        tooltip="rate your user experienece by selecting/deselecting the Star at the corresponding value (score 1 of 1-7)"
+                        tooltip={`rate your experienece by selecting/deselecting the Star at the corresponding value (score ${element} of ${element}-${this.starsArray.length})`}
                         onClick={() => this.starClicked (element)}
                         textColor={this.state.selectedScore>=element?"yellow":"white"}
                         fontSize="26px"
@@ -149,6 +141,7 @@ export class FeedbackModal extends Component {
                         // The Icon will change based on the user selection
                         actionType={this.state.selectedScore>=element?"STAR-FULL":"STAR-EMPTY"}
                         className="btnFeedbackStar"
+                        blur="blur"
                       >
                       </BtnWithReactIcon>
             })
@@ -211,7 +204,9 @@ export class FeedbackModal extends Component {
               disabled={this.state.selectedScore<0?true:false}
               // style={{  color: this.state.selectedScore<0?"grey":""}}
             >Submit</button>
+            {/* added ref pointer to btnCancel so I can remove the focus */}
             <button className="btnAction" onClick={()=>{  closeModal ( this.props.close, false, this.props.modalTitle, "Dismiss", this.openTime, 'N/A' ) }}>Dismiss</button>
+            {/* <input type="string" ref={this.btnCancelPointer} style={{backgroundColor: 'yellow'}}></input> */}
         </div>
     </div>
     )       // end return

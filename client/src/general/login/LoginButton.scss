@@ -1,0 +1,70 @@
+.loginButtonOptions {
+    // main div container: login button + div menu items 
+    border: 4px solid rgb(13, 115, 150);
+    background-color: lightblue;
+    border-radius: 12px;
+    width: 250px;
+    height: auto;
+    display: inline-block;
+
+    .dddwBtnSelection {
+        // the button on which apply hover
+        // background-color: #4CAF50;   // green for debug
+        background-color: transparent;
+        color: rgb(7, 79, 104);
+        // padding:   top right bottom left
+        padding: 10px 0px 10px 10px;
+        font-size: 15px;
+        border: none;
+        border-radius: 8px;
+        width: 100%;
+        text-align: left;
+        font-style: italic;
+        font-weight: 700;
+    }
+    
+    hr {
+        margin: 1px; // removed the margin so when I set loginMenuItem background-color it applies to the full "menu height"
+    }
+    .loginMenuItemsContainer {
+        display: inline-block;
+        display: none;
+        border-radius: 15px;
+    }
+    
+    .loginMenuItem:first-child {
+        padding-top: 8px;      // we don't have <hr> line separator
+    }
+    .loginMenuItem:last-child {
+        padding-bottom: 10px;
+        // border-radius: 20px;
+    }
+
+    .loginMenuItem {
+        display: block;
+        // padding:   top right bottom left
+        padding: 5px 0px 5px 20px;
+        background-color: rgb(232,232,232);
+        height:100%;
+        margin: 0;
+        border: none;
+    }
+}
+
+.loginButtonOptions:hover {
+    .dddwBtnSelection {
+        //background-color: rgb(187, 226, 248);
+        background-color:skyblue;
+    }   
+    
+    .loginMenuItemsContainer, .loginMenuItem {
+        display: block;
+        background-color: rgb(232,232,232);
+    }
+
+    .loginMenuItem:hover {
+        background-color: lightgray;
+        color: darkblue;
+        font-weight: 600;
+    }
+}

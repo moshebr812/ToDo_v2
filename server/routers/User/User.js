@@ -22,7 +22,16 @@ routerSrvUsers.get ('/', async (request, response, next) => {
 
 
 routerSrvUsers.get ('/getDataByParm', async (request, response, next) => {
+    let reqParams={};
+    let loginName=request.body.loginName;
+    let userType=request.body.userType;
+    if (loginName==='GUEST' && userType==='GUEST') {
+        request.body.loginName='visitorAsGuest#909';
+    } else if (loginName==='ADMIN' && userType==='ADMIN') {
+        request.body.loginName='visitorAsAdmi#808'
+    }
 
+    
     
     console.log(`====>>>>> Server  usersRouter.get(/getDataByParm)`);
     // console.log(`====>>>>> Server  getDataByParm: I need to check which param qas passed in the query, not in the params)`);
