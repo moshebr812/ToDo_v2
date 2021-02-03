@@ -10,7 +10,6 @@ import { EllipsisTooltipTest } from './EllipsisTooltipTest';
 import { EllipsisTooltipTestFinal } from './EllipsisTooltipTestFinal';
 import { ReactSearchFieldTest } from './ReactSearchFieldTest';
 import { ReactPopupTest1 } from './ReactPopupTest1';
-import { LoginButton } from '../general/login/LoginButton';
 // routing to examples
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 
@@ -37,7 +36,7 @@ export function ExamplesMenu (props)  {
                 <Link to="/examples/ellipsisToolipTests" className="exampleLink"> Ellipsis ... Tooltip</Link> <br></br> <hr></hr>
                 <Link to="/examples/ellipsisToolipTestsFinal" className="exampleLink"> Ellipsis + Tooltip Final</Link> <br></br> <hr></hr>
                 <Link to="/examples/reactSearchFieldTest" className="exampleLink"> React Search Field Test</Link> <br></br> <hr></hr>
-                <Link to="/examples/reactPopupTest1" className="exampleLink"> ReactJS-Popup Test</Link> <br></br> <hr></hr>
+                <Link to="/examples/reactPopupTest1" className="exampleLink"> ReactJS-Popup Test  +  LoginButton</Link> <br></br> <hr></hr>
 
                 
                 <label>Input  </label>

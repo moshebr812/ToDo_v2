@@ -1,32 +1,78 @@
-import react from 'react';
+import {useContext} from 'react';
+import {AppContextTodo} from '../../AppContext';
 import './LoginButton.scss';
 
 export function LoginButton (props) {
 
-    
-    function setLoginUser (e, loginType) {
-            let params={};
-            alert (loginType);
+    let appContext = useContext(AppContextTodo);
 
-            switch (loginType) {
+    async function validateLoginUser (params) {
+        
+        let userInfo={};
+        // fetch ('/api/users/getDataByParams') -->> using post
+        userInfo = await fetch (`/api/users/getDataByParams`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                },
+            body: JSON.stringify(params)
+        });
+        let result = await userInfo.json();
+
+        // console.log( `Debug client after calling validateLoginUser: returned record is: `,temp);
+
+        return result;
+    }
+    
+    async function setLoginUser (e, loginType) {
+            let params={};
+            
+            let data={};
+
+            switch (loginType.toUpperCase()) {
                 case 'GUEST':
                 case 'ADMIN':
                 case 'TECH':
-                    params = { loginName: loginType, userType: loginType };
+                    // 3 generic users that do not require a username + password. User can use a common "pool"
+                    params = { loginName: loginType, userType: loginType }; // no need to pass the password from client
+                    
+                    data = await validateLoginUser(params);
+                    console.log(`Client. After calling Server.fetch(/api/users/getDataByParams).  data ==>>  ${JSON.stringify(data)}`);
                     break;
+
                 case 'SignIn'.toUpperCase():
+                    // if user will write here "GUEST" / "ADMIN" / "TECH" it will fail as in 
+                    alert (`${loginType} not yet supported`);
                     break;
+
                 case 'SignUp'.toUpperCase():
+                    alert (`${loginType} not yet supported`);
                     break;
+
                 default:
                     alert(`invalid value ${loginType} passed to setLoginUser`);
-            // visitorAsGuest#909
-
-            // visitorAsAdmi#808
-
-            // visitorAsTech#707
             }
- 
+        
+            console.log ('setLoginUser: after call to validateLoginUser. data: ', data);
+            /*
+            return object
+                data.userInfo: []
+                data.validUser: boolean
+            */    
+            if (data.validUser && data.userInfo.length>0) {
+                alert (`\n\n${data.userInfo[0].firstName} ${data.userInfo[0].lastName}, thanks for choosing to use "M.B. Todo App"`);
+                appContext.setUserInfo ( {
+                    loginName:  data.userInfo[0].loginName,
+                    userType:   data.userInfo[0].userType,
+                    fullName:   data.userInfo[0].firstName + ' ' + data.userInfo[0].lastName,
+                    validUser:  data.validUser,
+                })
+            } else {
+                appContext.setUserInfo ( {validUser: data.validUser });
+                alert (`Invalid login name "${loginType}". \n\n Please verify user & password.`);
+            }
+            
+            console.log (`setLoginUser: appContext.userInfo =` , appContext.userInfo);
         }   // end setLoginUser
 
     

@@ -8,9 +8,6 @@ import { statusOptions, priorityOptions } from '../../general/input-elements/Sel
 import { IconContext } from 'react-icons';
 import { RiDeleteBin6Line, RiEdit2Line, RiInformationLine, RiCloseCircleLine } from 'react-icons/ri';
 //
-import { LongtextEllipsisTooltip } from '../../general/longtext-ellipsis-tooltip/LongtextEllipsisTooltip';
-import { BtnWithReactIcon } from '../../general/btn-with-react-icon/BtnWithReactIcon';
-
 async function dbDeleteOneTodo (ObjectID) {  
     try {
             const result = await fetch (`/api/todoitems/${ObjectID.toString()}`, {

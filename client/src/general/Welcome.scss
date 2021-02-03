@@ -12,21 +12,23 @@
         color: white;
     }
 
-    // div {
-    //     align-items: center;
-    //     align-content: center;
-    //     justify-items: center;
-    //     justify-content: center;
-    // }
-
+    h3 {
+        margin-top: 3px;
+        margin-bottom: 4px;
+    }
     .welcomeWrapper {
         display: flex;
         flex-direction: column;
         border-radius: 15px;
         border: 20px lime solid;
         width: 50%;
-        height: 50%;
-        align-items: center;        // vertical
-        justify-content: center;    // horizontal
+        height: 60%;
+        align-items: center;        // horizontal
+        justify-content: flex-start;    // vertical
     }
+}
+
+.containerForLogin {
+   
+   margin-top:5%;
 }

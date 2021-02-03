@@ -21,21 +21,25 @@ routerSrvUsers.get ('/', async (request, response, next) => {
 });
 
 
-routerSrvUsers.get ('/getDataByParm', async (request, response, next) => {
+// We use post for read so we can pass the parameters in the body
+routerSrvUsers.post ('/getDataByParams', async (request, response, next) => {
     let reqParams={};
     let loginName=request.body.loginName;
     let userType=request.body.userType;
+
+    // If user will try to signIn with one of these "reserved" loginName-s the request.body will also 
+    // include a password and the find ({}) will thus return 0 rows --> we are protected
     if (loginName==='GUEST' && userType==='GUEST') {
         request.body.loginName='visitorAsGuest#909';
     } else if (loginName==='ADMIN' && userType==='ADMIN') {
-        request.body.loginName='visitorAsAdmi#808'
+        request.body.loginName='visitorAsAdmin#808'
+    } else if (loginName==='TECH' && userType==='TECH') {
+        request.body.loginName='visitorAsTech#707'
     }
-
     
     
-    console.log(`====>>>>> Server  usersRouter.get(/getDataByParm)`);
-    // console.log(`====>>>>> Server  getDataByParm: I need to check which param qas passed in the query, not in the params)`);
-    console.log(`====>>>>> Server  getDataByParm: request.body : )`, request.body);
+    console.log(`====>>>>> Server  usersRouter.post(/getDataByParams) - for validating loginName`);
+    // console.log(`====>>>>> Server  getDataByParamms: request.body : )`, request.body);
 
     // request.params.loginName
     // request.query.loginName
@@ -46,10 +50,10 @@ routerSrvUsers.get ('/getDataByParm', async (request, response, next) => {
             // if I pass in the body the correct field names --> query will return all if body = {} OR apply filet if body has content
             .find( request.body )
             .exec()
-            response.json (userData);
-            console.log (`................Server:   /api/users/getDataByParm documents.Count = ${userData.length}`)
+            response.json ({userInfo: userData, validUser: (userData.length>0?true:false) } );
+            console.log (`................Server:   /api/users/getDataByParams as post documents.Count = ${userData.length}`)
     } catch (err) {
-        console.log(`ERROR Server Side. userRouter.get(/)`)
+        console.log(`ERROR Server Side. userRouter.post(/getDataByParams)`)
         next(err);
     }
 });

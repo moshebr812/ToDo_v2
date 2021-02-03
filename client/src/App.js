@@ -40,7 +40,24 @@ export function App() {
   let [envInfo, setEnvInfo]  = useState ({ "hostingServer": "srv-PendingCheck",
                                            "hostingPort": "port-PendingCheck",
                                            "envLanguage": "???"});
-  let [userInfo, setUserInfo] = useState ({"userId": "unknown", "loginName": "unknown"});
+  let [userInfo, setUserInfo] = useState ({"validUser": false, "userId": "NNNN", "loginName": "unknown", "userType": "unknown", "fullName": "?????"});
+
+  const contextTodo = {
+    versionInfo,   envInfo, // no need to expose setEnvInfo Globally. keep it read only
+    //
+    todoList,       setTodoList,
+    //
+    todoFormMode,   setTodoFormMode,
+    // 
+    todoInFocus,    setTodoInFocus,
+    //
+    sortedByColumn, setSortedByColumn,
+    //
+    debugOptions, setDebugOptions,
+    //
+    userInfo, setUserInfo,
+ }
+
 
    useEffect ( () => {
      const dummyFunction = async () => {
@@ -49,29 +66,21 @@ export function App() {
     }    
     dummyFunction();
 },[]);
-  const contextTodo = {
-      versionInfo,   envInfo, // no need to expose setEnvInfo Globally. keep it read only
-      //
-      todoList,       setTodoList,
-      //
-      todoFormMode,   setTodoFormMode,
-      // 
-      todoInFocus,    setTodoInFocus,
-      //
-      sortedByColumn, setSortedByColumn,
-      //
-      debugOptions, setDebugOptions,
-      //
-      userInfo, setUserInfo,
-   }
+  
+    
+    // if (!contextTodo.userInfo.validUser) {
+    //   return (<Welcome></Welcome>)
+    // }
 
     return ( <AppContextTodo.Provider value={contextTodo}>
       <BrowserRouter>
-        <div className="mainMenu">
+        <div className={ contextTodo.userInfo.validUser ? "mainMenu" : "noMenu"}>
           <Link to="/"                className="linkItemMenu">  Welcome</Link> 
           <Link to="/todoMain"        className="linkItemMenu">  Todo Main</Link>
           <Link to="/examplesMenu"    className="linkItemMenu">  Code Examples</Link>
           <Link to="/about"           className="linkItemMenu">  About</Link>
+          userInfo:  {contextTodo.userInfo.loginName}            
+
         </div>
 
         <Switch>

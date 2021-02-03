@@ -1,8 +1,9 @@
 // PROJECT:   Todo_v1
 // FILE:      Welcome.js
 
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { AppContextTodo } from '../AppContext';
+import { LoginButton } from '../general/login/LoginButton';
 
 import './Welcome.scss';
 
@@ -21,7 +22,13 @@ export function Welcome (props) {
             <h3>Version: {contextTodo.versionInfo.versionNumber} <br></br></h3>
             <h3>Date: {currentDate} <br></br></h3>
             <br></br>
-           <button>Login</button>
+            <div className="containerForLogin">
+            <LoginButton></LoginButton>
+           </div>
+
+           Valid User? {contextTodo.userInfo.validUser?"true":"false"}
+           <br></br>
+           Valid User? {contextTodo.userInfo.loginName?contextTodo.userInfo.loginName:'None'}
         </div>
     </div>
 }
